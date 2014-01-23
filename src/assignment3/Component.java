@@ -12,7 +12,7 @@ import java.util.Date;
  */
 class Component {
     private Date date;
-    private SetOfComponents componentElements;
+    private SetOfElements componentElements;
 
     public Date getDate() {
         return date;
@@ -22,11 +22,11 @@ class Component {
         this.date = date;
     }
     
-    public SetOfComponents getComponentElements() {
+    public SetOfElements getComponentElements() {
         return componentElements;
     }
 
-    public void setComponentElements(SetOfComponents componentElements) {
+    public void SetOfElements(SetOfElements componentElements) {
         this.componentElements = componentElements;
     }
 }
