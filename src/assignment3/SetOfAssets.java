@@ -11,13 +11,14 @@ import java.util.Vector;
  * @author Tim Beale
  */
 class SetOfAssets extends Vector<Asset>{
+    
     public SetOfAssets(){
         super();
     }
-    private void addAsset(Asset aAsset){
+    public void addAsset(Asset aAsset){
         super.add(aAsset);
     }
-    private void removeAsset(Asset aAsset){
+    public void removeAsset(Asset aAsset){
         super.remove(aAsset);
     }
 }
