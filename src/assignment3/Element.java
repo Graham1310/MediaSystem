@@ -10,6 +10,7 @@ package assignment3;
  */
 public class Element {
     private String name;
+    private SetOfAssets setOfAssets;
 
     public String getName() {
         return name;
@@ -18,13 +19,13 @@ public class Element {
     public void setName(String name) {
         this.name = name;
     }
-
-    public SetOfComponents getComponentElements() {
-        return componentElements;
+    
+    public SetOfAssets getSetOfAssets() {
+        return setOfAssets;
     }
-
-    public void setComponentElements(SetOfComponents componentElements) {
-        this.componentElements = componentElements;
+    
+    public void SetOfAssets (SetOfAssets setOfAssets) {
+        this.setOfAssets = setOfAssets;
     }
-    private SetOfComponents componentElements;
+        
 }
