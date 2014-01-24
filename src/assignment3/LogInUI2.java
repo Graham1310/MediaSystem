@@ -185,7 +185,7 @@ public class LogInUI2 extends javax.swing.JFrame {
         });
         
         //Connection String for Tim
-        String fileName = "C:\\Users\\Tim Beale\\Documents\\Uni Work\\Year 3 again\\Case Studies\\Assignment3"; 
+        String fileName = "C:\\Users\\Tim Beale\\Documents\\Uni Work\\Year 3 again\\Case Studies\\Assignment3\\CSSD.mdb"; 
         //Connection String for Graham
         /*String fileName = "C:\\Users\\Tim Beale\\Documents\\Uni Work\\Year 3 again\\Case Studies\\Assignment3"; */
         //Connection String for Marcin
@@ -194,7 +194,7 @@ public class LogInUI2 extends javax.swing.JFrame {
                 
     	try
 		{
-			Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
+			Class.forName("sun.jdbc.odbc.MyDataSource");
 			connection = DriverManager.getConnection(dbString,"","");
 			System.out.println("Server Connected To Database");
 		}
