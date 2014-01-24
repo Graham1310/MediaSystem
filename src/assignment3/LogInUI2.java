@@ -23,20 +23,25 @@ public class LogInUI2 extends javax.swing.JFrame {
      */
       private SetOfUsers allUsers = new SetOfUsers();
       public User UserLoggedIn; 
-    	static Connection connection;
-	static Statement statement;
+      static Connection connection;
+      static Statement statement;
+        
     public LogInUI2() {
         initComponents();
         
-         User user1 = new User("Jane", "Air", "user1", "user1");
-        User user2 = new User("Amir", "Air", "user2", "user2");
-        User user3 = new User("Astrid", "Air", "user3", "user3");
-        User user4 = new User("Andy", "Air", "user4", "user4");
+        //add users via database connection
         
-        allUsers.add(user1);
-        allUsers.add(user2);
-        allUsers.add(user3);
-        allUsers.add(user4);
+            /*
+            User user1 = new User("Jane", "Air", "user1", "user1");
+            User user2 = new User("Amir", "Air", "user2", "user2");
+            User user3 = new User("Astrid", "Air", "user3", "user3");
+            User user4 = new User("Andy", "Air", "user4", "user4");
+
+            allUsers.add(user1);
+            allUsers.add(user2);
+            allUsers.add(user3);
+            allUsers.add(user4);
+            */
     }
 
     /**
@@ -166,7 +171,7 @@ public class LogInUI2 extends javax.swing.JFrame {
         //</editor-fold>
 //variables for use in the program
 		
-		final int PORT = 1234;
+	final int PORT = 1234;
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -174,9 +179,14 @@ public class LogInUI2 extends javax.swing.JFrame {
             }
         });
         
-        String fileName = "C:\\MediaSystem.mdb"; 		
-		String dbString ="jdbc:odbc:Driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=C:/MediaSystem.mdb;}"; //Change back to *mdb for 32bit access  		
-
+        //Connection String for Tim
+        String fileName = "C:\\Users\\Tim Beale\\Documents\\Uni Work\\Year 3 again\\Case Studies\\Assignment3"; 
+        //Connection String for Graham
+        /*String fileName = "C:\\Users\\Tim Beale\\Documents\\Uni Work\\Year 3 again\\Case Studies\\Assignment3"; */
+        //Connection String for Marcin
+        /*String fileName = "C:\\.....\\Assignment3"; 	*/
+            String dbString ="jdbc:odbc:Driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=" + fileName + ";}"; //Change back to *mdb for 32bit access  		
+                
     	try
 		{
 			Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
