@@ -11,6 +11,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -112,36 +114,39 @@ public class LogInUI2 extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void logInBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logInBtnActionPerformed
-       //int num = Integer.parseInt(SearchBookBox.getText());
-                String username = usernameTxt.getText();
-                String password = passTxt.getText();
-                Boolean found = false;
-        for (int i=0;i<allUsers.size();i++)
-        {
-                     //   
+        try {
+            //int num = Integer.parseInt(SearchBookBox.getText());
+                     String username = usernameTxt.getText();
+                     String password = passTxt.getText();
+                     Boolean found = false;
+                     
+                     ResultSet loginResults = null;
+                     Statement statement;
+                     
+                     statement = connection.createStatement();
+                     loginResults = statement.executeQuery( "SELECT * FROM User WHERE username=" + username + " AND password=" + password);
+                     
+                    if (loginResults != null)
+                    {
+                        //int userID = loginResults.getInt("userID");
+                        String firstName = loginResults.getString("firstName");
+                        String surname = loginResults.getString("surname");
+                                            
+                        UserLoggedIn = new User(firstName, surname, username, password);
+                    }
+                     
+                    else
+                    {
+                        JOptionPane.showMessageDialog(null, "Username or password not found. Please see your manager");
+                    }
 
-                if ((allUsers.get(i).getUsername().equals(username)) &&  (allUsers.get(i).getPassword().equals(password) ))
-                {
-                    //searchBooks.addElement(holdings.get(evt.getKeyChar()));
-                    //searchBooks.addElement(holdings.get(i));
-                    JOptionPane.showMessageDialog(null, "Username + password found");
-                    found = true;
-                    UserLoggedIn = allUsers.get(i);
-                   //MainUI.setVisible(true);
-                    break;
-                 }                                          
+        } catch (SQLException ex) {
+            Logger.getLogger(LogInUI2.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        if (found == false)
-        {
-            JOptionPane.showMessageDialog(null, "Password or username not found. Please see your manager");
-        }
-                
-        
-
-        // TODO add your handling code here:
     }//GEN-LAST:event_logInBtnActionPerformed
 
+    
+    
     /**
      * @param args the command line arguments
      * @throws java.sql.SQLException
@@ -185,7 +190,7 @@ public class LogInUI2 extends javax.swing.JFrame {
         /*String fileName = "C:\\Users\\Tim Beale\\Documents\\Uni Work\\Year 3 again\\Case Studies\\Assignment3"; */
         //Connection String for Marcin
         /*String fileName = "C:\\.....\\Assignment3"; 	*/
-            String dbString ="jdbc:odbc:Driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=" + fileName + ";}"; //Change back to *mdb for 32bit access  		
+            String dbString ="jdbc:odbc:Driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=" + fileName + ";DriverID=22;READONLY=false}"; //Change back to *mdb for 32bit access  		
                 
     	try
 		{
@@ -207,6 +212,32 @@ public class LogInUI2 extends javax.swing.JFrame {
         
     }
 
+    
+    
+    
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
