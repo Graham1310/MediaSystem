@@ -124,9 +124,18 @@ public class LogInUI2 extends javax.swing.JFrame {
                      Statement statement;
                      
                      statement = connection.createStatement();
-                     loginResults = statement.executeQuery( "SELECT * FROM User WHERE username=" + username + " AND password=" + password);
+                     loginResults = statement.executeQuery( "SELECT * FROM User WHERE username='" + username + "' AND password='" + password + "'");
                      
-                    if (loginResults != null)
+                     
+                     while (loginResults.next())
+                    {
+                             UserLoggedIn = new User(loginResults.getString("firstName"), loginResults.getString("surname"), loginResults.getString("username"), loginResults.getString("password"));
+
+                    }
+                     
+                     
+                     
+                    if (loginResults.next() )
                     {
                         //int userID = loginResults.getInt("userID");
                         String firstName = loginResults.getString("firstName");
@@ -185,16 +194,16 @@ public class LogInUI2 extends javax.swing.JFrame {
         });
         
         //Connection String for Tim
-        String fileName = "C:\\Users\\Tim Beale\\Documents\\Uni Work\\Year 3 again\\Case Studies\\Assignment3\\CSSD.mdb"; 
+        //String fileName = "C:\\Users\\Tim Beale\\Documents\\Uni Work\\Year 3 again\\Case Studies\\Assignment3\\CSSD.mdb"; 
         //Connection String for Graham
-        /*String fileName = "C:\\Users\\Tim Beale\\Documents\\Uni Work\\Year 3 again\\Case Studies\\Assignment3"; */
+        String fileName = "C:\\Users\\Graham\\Desktop\\CSSD.mdb"; 
         //Connection String for Marcin
         /*String fileName = "C:\\.....\\Assignment3"; 	*/
-            String dbString ="jdbc:odbc:Driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=" + fileName + ";DriverID=22;READONLY=false}"; //Change back to *mdb for 32bit access  		
+        String dbString ="jdbc:odbc:Driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=" + fileName + ";"; //Change back to *mdb for 32bit access  		
                 
     	try
 		{
-			Class.forName("sun.jdbc.odbc.MyDataSource");
+			Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
 			connection = DriverManager.getConnection(dbString,"","");
 			System.out.println("Server Connected To Database");
 		}
