@@ -4,6 +4,8 @@
  */
 package assignment3;
 
+import javax.swing.JFrame;
+
 /**
  *
  * @author Neverborn
@@ -58,8 +60,8 @@ public class testFrame1 extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        //frame = new testFrame2();
-          //      frame..setVisible(true);
+        //JFrame frame = new testFrame2();
+        //frame.setVisible(true);
         new testFrame2().setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
