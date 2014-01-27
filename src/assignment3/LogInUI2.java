@@ -67,8 +67,6 @@ public class LogInUI2 extends javax.swing.JFrame {
 
         jLabel2.setText("Password:");
 
-        passTxt.setText("jPasswordField1");
-
         logInBtn.setText("Log In");
         logInBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -83,16 +81,15 @@ public class LogInUI2 extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(45, 45, 45)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(logInBtn)
-                    .addGroup(layout.createSequentialGroup()
+                    .addComponent(logInBtn, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addComponent(jLabel2))
                         .addGap(56, 56, 56)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(passTxt)
-                            .addComponent(usernameTxt))))
-                .addContainerGap(136, Short.MAX_VALUE))
+                            .addComponent(passTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+                            .addComponent(usernameTxt)))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -195,10 +192,10 @@ public class LogInUI2 extends javax.swing.JFrame {
         
         //Connection String for Tim
         //String fileName = "C:\\Users\\Tim Beale\\Documents\\Uni Work\\Year 3 again\\Case Studies\\Assignment3\\CSSD.mdb"; 
-        //Connection String for Graham
-        String fileName = "C:\\Users\\Graham\\Desktop\\CSSD.mdb"; 
         //Connection String for Marcin
-        /*String fileName = "C:\\.....\\Assignment3"; 	*/
+        String fileName = "C:\\Users\\Neverborn\\Documents\\NetBeansProjects\\MediaSystem\\CSSD.accdb";
+        /*Connction String for Graham */
+        /*String fileName = "C:\\Users\\Graham\\Desktop\\CSSD.mdb" */
         String dbString ="jdbc:odbc:Driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=" + fileName + ";"; //Change back to *mdb for 32bit access  		
                 
     	try
@@ -214,11 +211,7 @@ public class LogInUI2 extends javax.swing.JFrame {
 			JOptionPane.showMessageDialog(null,"* Cannot connect to database! *");
 			System.exit(1);
 		}
-        
-        
-        
-        
-        
+  
     }
 
     
