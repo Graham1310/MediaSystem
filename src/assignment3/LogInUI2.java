@@ -126,25 +126,24 @@ public class LogInUI2 extends javax.swing.JFrame {
                      
                      while (loginResults.next())
                     {
-                             UserLoggedIn = new User(loginResults.getString("firstName"), loginResults.getString("surname"), loginResults.getString("username"), loginResults.getString("password"));
+                        //finds any matching user and puts them into UserLoggedIn
+                        UserLoggedIn = new User(loginResults.getString("firstName"), loginResults.getString("surname"), loginResults.getString("username"), loginResults.getString("password"));
 
                     }
                      
                      
                      
-                    if (loginResults.next() )
+                    if (UserLoggedIn == null )
                     {
-                        //int userID = loginResults.getInt("userID");
-                        String firstName = loginResults.getString("firstName");
-                        String surname = loginResults.getString("surname");
-                                            
-                        UserLoggedIn = new User(firstName, surname, username, password);
+                       JOptionPane.showMessageDialog(null, "Username or password not found. Please see your manager");
                     }
                      
                     else
                     {
-                        JOptionPane.showMessageDialog(null, "Username or password not found. Please see your manager");
+                        JOptionPane.showMessageDialog(null, "You have logged in!");
+                        //insert code here to open mainUI
                     }
+                    
 
         } catch (SQLException ex) {
             Logger.getLogger(LogInUI2.class.getName()).log(Level.SEVERE, null, ex);
@@ -191,9 +190,11 @@ public class LogInUI2 extends javax.swing.JFrame {
         });
         
         //Connection String for Tim
-        //String fileName = "C:\\Users\\Tim Beale\\Documents\\Uni Work\\Year 3 again\\Case Studies\\Assignment3\\CSSD.mdb"; 
+        //String fileName = "C:\\Users\\Tim Beale\\Documents\\Uni Work\\Year 3 again\\Case Studies\\Assignment3\\CSSD.mdb";
+        //Connection String for Tim on Uni PC
+        String fileName = "F:\\MyWork\\Year 3 again\\CSSD\\Assignment 3 - Code\\CSSD.mdb";
         //Connection String for Marcin
-        String fileName = "C:\\Users\\Neverborn\\Documents\\NetBeansProjects\\MediaSystem\\CSSD.accdb";
+        //String fileName = "C:\\Users\\Neverborn\\Documents\\NetBeansProjects\\MediaSystem\\CSSD.accdb";
         /*Connction String for Graham */
         /*String fileName = "C:\\Users\\Graham\\Desktop\\CSSD.mdb" */
         String dbString ="jdbc:odbc:Driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=" + fileName + ";"; //Change back to *mdb for 32bit access  		
