@@ -9,8 +9,8 @@ package assignment3;
  * @author Tim Beale
  */
 public class User {
+    
     private int userID;
-
     private String firstName;
     private String surname;
     private String username;
