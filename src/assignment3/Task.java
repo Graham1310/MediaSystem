@@ -10,9 +10,18 @@ package assignment3;
  */
 class Task {
     private User responsiblePerson;
+    private String taskName;
     private int priority;
-    //reports??
     private String status;
+    //reports??
+    
+    public String getTaskName() {
+        return taskName;
+    }
+
+    public void setTaskName(String taskName) {
+        this.taskName = taskName;
+    }
 
     public User getResponsiblePerson() {
         return responsiblePerson;
