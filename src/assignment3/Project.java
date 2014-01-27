@@ -9,6 +9,7 @@ package assignment3;
  * @author Tim Beale
  */
 public class Project {
+    private int projectID;
     private Component rootComponent;
     private SetOfTasks projectTasks;
     private User teamLeader;
@@ -17,6 +18,15 @@ public class Project {
     private SetOfComponents componentCollection;
     private SetOfQCReports reports;
 
+    
+    public int getProjectID() {
+        return projectID;
+    }
+
+    public void setProjectID(int projectID) {
+        this.projectID = projectID;
+    }
+    
     public SetOfQCReports getReports() {
         return reports;
     }
