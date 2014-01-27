@@ -9,8 +9,21 @@ package assignment3;
  * @author Tim Beale
  */
 public class ClientRep {
+    
+    private int clientRepID;
+    private Client client;
+    private String contactNo;
+    private String email;
     private String representativeName;
 
+    public int getClientRepID() {
+        return clientRepID;
+    }
+
+    public void setClientRepID(int clientRepID) {
+        this.clientRepID = clientRepID;
+    }
+    
     public String getRepresentativeName() {
         return representativeName;
     }
@@ -42,7 +55,4 @@ public class ClientRep {
     public void setEmail(String email) {
         this.email = email;
     }
-    private Client client;
-    private String contactNo;
-    private String email;
 }
