@@ -11,10 +11,19 @@ package assignment3;
  */
 public class QCReport {
     
+    private int qCReportID;
     private SetOfQCComments comments;
     private User reviewer;
     private int overallSeverity;
 
+    public int getqCReportID() {
+        return qCReportID;
+    }
+
+    public void setqCReportID(int qCReportID) {
+        this.qCReportID = qCReportID;
+    }
+    
     public SetOfQCComments getComments() {
         return comments;
     }

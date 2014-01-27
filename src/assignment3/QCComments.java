@@ -10,9 +10,32 @@ import java.util.Date;
  *
  * @author Tim Beale
  */
-class QCComments {
-    private Date date;
 
+class QCComments {
+    
+    private int cQCommentID;
+    private String commentText;
+    private int severityRating;
+    private int faultTimeInSeconds;
+    private Date date;
+    private Asset asset;
+
+    public int getcQCommentID() {
+        return cQCommentID;
+    }
+
+    public void setcQCommentID(int cQCommentID) {
+        this.cQCommentID = cQCommentID;
+    }
+
+    public Asset getAsset() {
+        return asset;
+    }
+
+    public void setAsset(Asset asset) {
+        this.asset = asset;
+    }
+    
     public Date getDate() {
         return date;
     }
@@ -44,7 +67,4 @@ class QCComments {
     public void setFaultTimeInSeconds(int faultTimeInSeconds) {
         this.faultTimeInSeconds = faultTimeInSeconds;
     }
-    private String commentText;
-    private int severityRating;
-    private int faultTimeInSeconds;
 }

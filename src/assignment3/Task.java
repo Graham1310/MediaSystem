@@ -9,10 +9,28 @@ package assignment3;
  * @author Tim Beale
  */
 class Task {
+    private int taskID;
     private User responsiblePerson;
+    private String taskName;
     private int priority;
-    //reports??
     private String status;
+    //reports??
+    
+    public int getTaskID() {
+        return taskID;
+    }
+
+    public void setTaskID(int taskID) {
+        this.taskID = taskID;
+    }
+    
+    public String getTaskName() {
+        return taskName;
+    }
+
+    public void setTaskName(String taskName) {
+        this.taskName = taskName;
+    }
 
     public User getResponsiblePerson() {
         return responsiblePerson;

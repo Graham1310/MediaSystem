@@ -9,6 +9,8 @@ package assignment3;
  * @author Tim Beale
  */
 public class User {
+    
+    private int userID;
     private String firstName;
     private String surname;
     private String username;
@@ -16,13 +18,21 @@ public class User {
     
 
     
-     public User(String aFirstname, String aSurname, String aUsername, String aPassword){
+     public User(int aUserID, String aFirstname, String aSurname, String aUsername, String aPassword){
+     userID = aUserID;
      firstName = aFirstname;
      surname = aSurname;
      username = aUsername;
      password = aPassword;
     }
 
+     public int getUserID() {
+        return userID;
+    }
+
+    public void setUserID(int userID) {
+        this.userID = userID;
+    }
 
     public String getUsername() {
         return username;

@@ -9,9 +9,18 @@ package assignment3;
  * @author Tim Beale
  */
 public class Element {
+    private int elementID;
     private String name;
     private SetOfAssets setOfAssets;
 
+    public int getElementID() {
+        return elementID;
+    }
+
+    public void setElementID(int elementID) {
+        this.elementID = elementID;
+    }
+    
     public String getName() {
         return name;
     }

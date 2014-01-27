@@ -9,9 +9,19 @@ package assignment3;
  * @author Tim Beale
  */
 public class Client {
+    
+    private int clientID;
     private String organisationName;
     private String organisationAddress;
 
+     public int getClientID() {
+        return clientID;
+    }
+
+    public void setClientID(int clientID) {
+        this.clientID = clientID;
+    }
+    
     public String getOrganisationName() {
         return organisationName;
     }

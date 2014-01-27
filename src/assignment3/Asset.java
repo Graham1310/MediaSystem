@@ -9,8 +9,19 @@ package assignment3;
  * @author Tim Beale
  */
 public class Asset {
+    
+    private int assetID;
     private String name;
+    private String type;
 
+    public int getAssetID() {
+        return assetID;
+    }
+
+    public void setAssetID(int assetID) {
+        this.assetID = assetID;
+    }
+    
     public String getName() {
         return name;
     }
@@ -26,5 +37,4 @@ public class Asset {
     public void setType(String type) {
         this.type = type;
     }
-    private String type;
 }

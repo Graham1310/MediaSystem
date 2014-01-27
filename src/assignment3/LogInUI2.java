@@ -115,7 +115,7 @@ public class LogInUI2 extends javax.swing.JFrame {
             //int num = Integer.parseInt(SearchBookBox.getText());
                      String username = usernameTxt.getText();
                      String password = passTxt.getText();
-                     Boolean found = false;
+                     //Boolean found = false;
                      
                      ResultSet loginResults = null;
                      Statement statement;
@@ -127,11 +127,9 @@ public class LogInUI2 extends javax.swing.JFrame {
                      while (loginResults.next())
                     {
                         //finds any matching user and puts them into UserLoggedIn
-                        UserLoggedIn = new User(loginResults.getString("firstName"), loginResults.getString("surname"), loginResults.getString("username"), loginResults.getString("password"));
+                        UserLoggedIn = new User(loginResults.getInt("userID"), loginResults.getString("firstName"), loginResults.getString("surname"), loginResults.getString("username"), loginResults.getString("password"));
 
                     }
-                     
-                     
                      
                     if (UserLoggedIn == null )
                     {
