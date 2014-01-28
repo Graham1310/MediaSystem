@@ -15,14 +15,12 @@ public class ClientRep {
         this.client = client;
         this.contactNo = contactNo;
         this.email = email;
-        this.representativeName = representativeName;
     }
     
     private User clientRepUser;
     private Client client;
     private String contactNo;
     private String email;
-    private String representativeName;
 
     public User getClientRepUser() {
         return clientRepUser;
@@ -30,14 +28,6 @@ public class ClientRep {
 
     public void setClientRepUser(User clientRepUser) {
         this.clientRepUser = clientRepUser;
-    }
-    
-    public String getRepresentativeName() {
-        return representativeName;
-    }
-
-    public void setRepresentativeName(String representativeName) {
-        this.representativeName = representativeName;
     }
 
     public Client getClient() {
