@@ -5,11 +5,13 @@
 package assignment3;
 
 import static assignment3.LogInUI2.connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -25,10 +27,143 @@ public class testFrame3Tim extends javax.swing.JFrame {
     }
 
     private SetOfTasks usersTasks = new SetOfTasks();
+    private SetOfUsers allUsers = new SetOfUsers();
+    private SetOfClients allClients = new SetOfClients();
+    private SetOfClientReps allClientReps = new SetOfClientReps();
+    private SetOfStaff allStaff = new SetOfStaff();
     private SetOfProjects allProjects = new SetOfProjects();
-    public User UserLoggedIn;
+    private User UserLoggedIn;
+    
+    
+    private void loadAllUsers(){//COMPLETE
+        try {        
+            ResultSet dbAllUsers = null;
+            Statement statement;
+            statement = connection.createStatement();
+            dbAllUsers = statement.executeQuery( "SELECT User.userID, User.firstName, User.surname, User.username, User.password FROM [User];");                     
+
+            while(dbAllUsers.next())
+            {
+                User tempUser = new User(dbAllUsers.getInt("userID"), dbAllUsers.getString("firstName"), dbAllUsers.getString("surname"),
+                        dbAllUsers.getString("userName"), dbAllUsers.getString("password"));
+                allUsers.addUser(tempUser);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(testFrame3Tim.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void loadAllClients(){//needs the address fixing
+        try {        
+            ResultSet dbAllClients = null;
+            Statement statement;
+            statement = connection.createStatement();
+            dbAllClients = statement.executeQuery( "SELECT Client.clientID, Client.organizationName, Client.address1, Client.address2, Client.address3, Client.Town, Client.postcode, Client.country FROM Client;");                     
+
+            while(dbAllClients.next())
+            {
+                Client newClient = Client(dbAllClients.getInt("clientID"), dbAllClients.getString("organisationName"), dbAllClients.getString("address1 + address2 + address3 + Town + postcode + country"));
+                allClients.addClient(newClient);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(testFrame3Tim.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void loadAllClientReps(){
+        try {        
+            ResultSet dbAllClientReps = null;
+            Statement statement;
+            statement = connection.createStatement();
+            dbAllClientReps = statement.executeQuery( "SELECT ClientRep.clientRepID, ClientRep.organisationID, ClientRep.contactNo, ClientRep.email FROM ClientRep;");                     
+
+            while(dbAllClientReps.next())
+            {
+                Client tempClient = null;
+                User tempUser = null;
+                for (int i=0; i<allClients.size();i++){
+                    if(allClients.get(i).getClientID()==(dbAllClientReps.getInt("organisationID")))
+                    {
+                        tempClient = (allClients.get(i));
+                    }
+                }
+                for (int i=0; i<allUsers.size();i++){
+                    if(allUsers.get(i).getUserID()==(dbAllClientReps.getInt("clientRepID")))
+                    {
+                        tempUser = (allUsers.get(i));
+                    }
+                }
+                ClientRep tempClientRep = new ClientRep(tempUser, tempClient, dbAllClientReps.getString("contactNo"), dbAllClientReps.getString("email"));
+                allClientReps.addClientRep(tempClientRep);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(testFrame3Tim.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void loadAllStaff(){
+        try {               
+            ResultSet dbAllStaff = null;
+            Statement statement;
+            statement = connection.createStatement();
+            dbAllStaff = statement.executeQuery( "SELECT Staff.staffID, Staff.role FROM Staff;");
+            
+            while(dbAllStaff.next())
+            {
+                User tempUser = null;
+                for (int i=0; i<allUsers.size();i++){
+                        if(allUsers.get(i).getUserID()==(dbAllStaff.getInt("staffID")))
+                        {
+                            tempUser = (allUsers.get(i));
+                        }
+                    }
+                Staff newStaff = new Staff(tempUser, dbAllStaff.getString("role"));
+                allStaff.addStaff(newStaff);
+            }
+            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(testFrame3Tim.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    
+    private void loadAllProjects(){//requires components and QC stuff
+        try {
+            ResultSet dbAllProjects = null;
+            Statement statement;
+            statement = connection.createStatement();
+            dbAllProjects = statement.executeQuery( "SELECT Project.projectID, Project.projectName, Project.rootComponent, Project.teamLeader, "                     
+                    + "Project.clientRep, Project.priority FROM Project;");                     
+
+            while(dbAllProjects.next())
+            {
+                int tempTeamLeaderID = dbAllProjects.getInt("teamLeader");
+                int tempClientRepID = dbAllProjects.getInt("clientRep");
+                User tempTeamLeader = null;
+                User tempClientRep = null;
+                
+                for (int i=0; i<allUsers.size();i++){
+                    if(allUsers.get(i).getUserID()==(tempTeamLeaderID))
+                    {
+                        tempTeamLeader = (allUsers.get(i));
+                    }
+                    if(allUsers.get(i).getUserID()==(tempClientRepID))
+                    {
+                        tempClientRep = (allUsers.get(i));
+                    }
+                }
+                //project should have correct components and QCReports added
+                Project tempProject = new Project(dbAllProjects.getInt("projectID"), null, null, tempTeamLeader, tempClientRep, dbAllProjects.getInt("priority"), null, null);
+                allProjects.addProject(tempProject);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(testFrame3Tim.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
     private void displayUsersTasks(){
+        //find tasks for user logged in
         try {
             Project tempProject = null;
             
@@ -50,10 +185,8 @@ public class testFrame3Tim extends javax.swing.JFrame {
                         tempProject = (allProjects.get(i));
                     }
                 }
-                
-             
                 Task task = new Task(dbUsersTasks.getInt("Task.taskID"), UserLoggedIn, dbUsersTasks.getString("Task.TaskName"), dbUsersTasks.getInt("Task.taskPriority"),
-                        dbUsersTasks.getString("Task.taskStatus"), tempProject);
+                                dbUsersTasks.getString("Task.taskStatus"), tempProject);
                 usersTasks.addTask(task);
                 jList1.setListData(usersTasks);
             }
@@ -169,10 +302,37 @@ public class testFrame3Tim extends javax.swing.JFrame {
                 new testFrame3Tim().setVisible(true);
                 
                 //call functions here
-                
-                
             }
         });
+        
+         //Connection String for Tim
+        //String fileName = "C:\\Users\\Tim Beale\\Documents\\Uni Work\\Year 3 again\\Case Studies\\Assignment3\\CSSD.mdb";
+        //Connection String for Tim on Uni PC
+        String fileName = "F:\\MyWork\\Year 3 again\\CSSD\\Assignment 3 - Code\\CSSD.mdb";
+        //Connection String for Marcin
+        //String fileName = "C:\\Users\\Neverborn\\Documents\\NetBeansProjects\\MediaSystem\\CSSD.accdb";
+        /*Connction String for Graham */
+        //String fileName = "F:\\MyWork\\NetBeansProjects\\JavaApplication1\\CSSD.mdb"; 
+        String dbString ="jdbc:odbc:Driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=" + fileName + ";"; //Change back to *mdb for 32bit access  		
+                
+    	try
+		{
+			Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
+			connection = DriverManager.getConnection(dbString,"","");
+			System.out.println("Server Connected To Database");
+		}
+		
+		catch(ClassNotFoundException | SQLException err)
+		{
+                    System.out.println("ERROR: " + err);
+			JOptionPane.showMessageDialog(null,"* Cannot connect to database! *");
+			System.exit(1);
+		}
+  
+        
+        
+        
+        
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -180,4 +340,8 @@ public class testFrame3Tim extends javax.swing.JFrame {
     private javax.swing.JList jList1;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
+
+    private Client Client(int aInt, String string, String string1) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
