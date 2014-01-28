@@ -104,9 +104,9 @@ public class randomSQLFunctionsReady {
         try {
                     Statement statement;
                     statement = connection.createStatement();
-                    statement.executeUpdate("INSERT INTO Task(projectID, responsiblePerson, taskPriority, status, taskName, assetID) "
-                            + "VALUES (" + projectID + ", " + responsiblePerson + ", " + taskPriority + ", '" + status + "', '" + taskName + "', " + assetID + ")"
-                            + "WHERE taskID= " + taskID + ";");
+                    statement.executeUpdate("UPDATE Task SET [projectID] =" + projectID + ", [responsiblePerson] =" + userID + ", [taskPriority] =" + taskPriority
+                            + ", [status] = '" + status + "', [taskName] ='" + taskName + "', [assetID] =" + assetID + ");");
+                            
                     } catch (SQLException ex) {
                     Logger.getLogger(testFrame2.class.getName()).log(Level.SEVERE, null, ex);
                 }
