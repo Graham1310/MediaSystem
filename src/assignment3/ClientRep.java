@@ -10,7 +10,7 @@ package assignment3;
  */
 public class ClientRep {
 
-    public ClientRep(User clientRepUser, Client client, String contactNo, String email, String representativeName) {
+    public ClientRep(User clientRepUser, Client client, String contactNo, String email) {
         this.clientRepUser = clientRepUser;
         this.client = client;
         this.contactNo = contactNo;
