@@ -9,6 +9,12 @@ package assignment3;
  * @author Tim Beale
  */
 public class Client {
+
+    public Client(int clientID, String organisationName, String organisationAddress) {
+        this.clientID = clientID;
+        this.organisationName = organisationName;
+        this.organisationAddress = organisationAddress;
+    }
     
     private int clientID;
     private String organisationName;
