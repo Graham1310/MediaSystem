@@ -9,17 +9,22 @@ package assignment3;
  * @author Tim Beale
  */
 public class Staff {
-    private int staffID;
+
+    public Staff(User staffUser, String role) {
+        this.staffUser = staffUser;
+        this.role = role;
+    }
+    private User staffUser;
     private String role;
 
-    public int getStaffID() {
-        return staffID;
+    public User getStaffUser() {
+        return staffUser;
     }
 
-    public void setStaffID(int staffID) {
-        this.staffID = staffID;
+    public void setStaffUser(User staffUser) {
+        this.staffUser = staffUser;
     }
-    
+
     public String getRole() {
         return role;
     }
