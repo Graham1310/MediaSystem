@@ -15,11 +15,11 @@ public class SetOfProjects extends Vector<Project>{
         super();
     }
 
-    public void addUser(Project aProject){
+    public void addProject(Project aProject){
         super.add(aProject);
     }
 
-    public void removeUser(Project aProject){
+    public void removeProject(Project aProject){
         super.remove(aProject);
     }
 }
