@@ -31,6 +31,8 @@ public class testFrame3Tim extends javax.swing.JFrame {
     private SetOfClients allClients = new SetOfClients();
     private SetOfClientReps allClientReps = new SetOfClientReps();
     private SetOfStaff allStaff = new SetOfStaff();
+    private SetOfAssets allAssets = new SetOfAssets();
+    private SetOfElements allElements = new SetOfElements();
     private SetOfProjects allProjects = new SetOfProjects();
     private User UserLoggedIn;
     
@@ -70,7 +72,7 @@ public class testFrame3Tim extends javax.swing.JFrame {
         }
     }
     
-    private void loadAllClientReps(){
+    private void loadAllClientReps(){//COMPLETE
         try {        
             ResultSet dbAllClientReps = null;
             Statement statement;
@@ -101,7 +103,7 @@ public class testFrame3Tim extends javax.swing.JFrame {
         }
     }
     
-    private void loadAllStaff(){
+    private void loadAllStaff(){//COMPLETE
         try {               
             ResultSet dbAllStaff = null;
             Statement statement;
@@ -126,6 +128,52 @@ public class testFrame3Tim extends javax.swing.JFrame {
             Logger.getLogger(testFrame3Tim.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    private void loadAllAssets(){//COMPLETE
+        try {        
+            ResultSet dbAllAssets = null;
+            Statement statement;
+            statement = connection.createStatement();
+            dbAllAssets = statement.executeQuery( "SELECT Asset.ID, Asset.assetName, Asset.assetType FROM Asset;");                     
+
+            while(dbAllAssets.next())
+            {
+                Asset tempAsset = new Asset(dbAllAssets.getInt("ID"), dbAllAssets.getString("assetName"), dbAllAssets.getString("type"));
+                allAssets.addAsset(tempAsset);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(testFrame3Tim.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void loadAllElements(){//REALLY NOT SURE IF THIS ONE WILL WORK RIGHT
+        try {
+            ResultSet dbAllElements = null;
+            Statement statement;
+            statement = connection.createStatement();  
+            dbAllElements = statement.executeQuery( "SELECT Element.elementID, Element.elementName, SetOFAssets.assetID" +
+                    "FROM Element INNER JOIN SetOFAssets ON Element.elementID = SetOFAssets.elementID;");
+            while(dbAllElements.next())
+            {
+                SetOfAssets elementAssets = new SetOfAssets();
+                for(int i=0; i< allAssets.getSize() ; i++)
+                {
+                    if(allAssets.get(i).getAssetID() == dbAllElements.getInt("assetID"))
+                    {
+                        elementAssets.addAsset(allAssets.get(i));
+                    }
+                }
+                Element tempElement = new Element(dbAllElements.getInt("elementID"), dbAllElements.getString("elementName"), elementAssets);
+            }
+                  
+            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(testFrame3Tim.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    
     
     
     private void loadAllProjects(){//requires components and QC stuff
