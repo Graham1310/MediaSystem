@@ -9,19 +9,27 @@ package assignment3;
  * @author Tim Beale
  */
 public class ClientRep {
+
+    public ClientRep(User clientRepUser, Client client, String contactNo, String email, String representativeName) {
+        this.clientRepUser = clientRepUser;
+        this.client = client;
+        this.contactNo = contactNo;
+        this.email = email;
+        this.representativeName = representativeName;
+    }
     
-    private int clientRepID;
+    private User clientRepUser;
     private Client client;
     private String contactNo;
     private String email;
     private String representativeName;
 
-    public int getClientRepID() {
-        return clientRepID;
+    public User getClientRepUser() {
+        return clientRepUser;
     }
 
-    public void setClientRepID(int clientRepID) {
-        this.clientRepID = clientRepID;
+    public void setClientRepUser(User clientRepUser) {
+        this.clientRepUser = clientRepUser;
     }
     
     public String getRepresentativeName() {
