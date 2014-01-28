@@ -14,10 +14,10 @@ class SetOfTasks extends Vector<Task>{
     public SetOfTasks(){
         super();
     }
-    private void addTask(Task aTask){
+    public void addTask(Task aTask){
         super.add(aTask);
     }
-    private void removeTask(Task aTask){
+    public void removeTask(Task aTask){
         super.remove(aTask);
     }
 }
