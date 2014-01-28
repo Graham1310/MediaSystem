@@ -15,10 +15,10 @@ class SetOfElements extends Vector<Element>{
     public SetOfElements(){
         super();
     }
-    public void addComponent(Element aElement){
+    public void addElement(Element aElement){
         super.add(aElement);
     }
-    public void removeComponent(Element aElement){
+    public void removeElement(Element aElement){
         super.remove(aElement);
     }
 }
