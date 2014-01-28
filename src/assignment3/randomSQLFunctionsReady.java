@@ -102,6 +102,8 @@ public class randomSQLFunctionsReady {
     private void ChangeTaskStatus(){//edit the task
         //requires IF statement to make sure only appropriate QC Team Member can change the task status
         try {
+            
+            //I think this should be a Update maybe? 
                     Statement statement;
                     statement = connection.createStatement();
                     statement.executeUpdate("INSERT INTO Task(projectID, responsiblePerson, taskPriority, status, taskName, assetID) "

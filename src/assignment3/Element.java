@@ -13,6 +13,15 @@ public class Element {
     private String name;
     private SetOfAssets setOfAssets;
 
+    public Element(String ElName) {
+       name = ElName;
+    }
+
+    public Element(int elID, String ElName) {
+        elementID = elID;
+        name = ElName;       
+    }
+
     public int getElementID() {
         return elementID;
     }

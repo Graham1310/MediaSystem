@@ -14,6 +14,12 @@ public class Asset {
     private String name;
     private String type;
 
+    public Asset(int AssID, String Assname, String Asstype) {
+        assetID = AssID;
+        name = Assname;
+        type = Asstype;        
+    }
+
     public int getAssetID() {
         return assetID;
     }
