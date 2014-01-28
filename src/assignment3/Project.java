@@ -9,6 +9,17 @@ package assignment3;
  * @author Tim Beale
  */
 public class Project {
+
+    public Project(int projectID, Component rootComponent, SetOfTasks projectTasks, User teamLeader, User clientRep, int priority, SetOfComponents componentCollection, SetOfQCReports reports) {
+        this.projectID = projectID;
+        this.rootComponent = rootComponent;
+        this.projectTasks = projectTasks;
+        this.teamLeader = teamLeader;
+        this.clientRep = clientRep;
+        this.priority = priority;
+        this.componentCollection = componentCollection;
+        this.reports = reports;
+    }
     private int projectID;
     private Component rootComponent;
     private SetOfTasks projectTasks;
