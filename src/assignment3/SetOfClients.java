@@ -10,14 +10,16 @@ import java.util.Vector;
  *
  * @author Tim Beale
  */
-class SetOfTasks extends Vector<Task>{
-    public SetOfTasks(){
+public class SetOfClients extends Vector<Client>{
+    public SetOfClients(){
         super();
     }
-    public void addTask(Task aTask){
-        super.add(aTask);
+
+    public void addClient(Client aClient){
+        super.add(aClient);
     }
-    public void removeTask(Task aTask){
-        super.remove(aTask);
+
+    public void removeUser(Client aClient){
+        super.remove(aClient);
     }
 }

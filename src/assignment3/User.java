@@ -18,13 +18,15 @@ public class User {
     
 
     
-     public User(int aUserID, String aFirstname, String aSurname, String aUsername, String aPassword){
+     User(int aUserID, String aFirstname, String aSurname, String aUsername, String aPassword){
      userID = aUserID;
      firstName = aFirstname;
      surname = aSurname;
      username = aUsername;
      password = aPassword;
     }
+
+   
 
      public int getUserID() {
         return userID;

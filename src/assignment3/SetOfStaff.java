@@ -10,14 +10,16 @@ import java.util.Vector;
  *
  * @author Tim Beale
  */
-class SetOfTasks extends Vector<Task>{
-    public SetOfTasks(){
+public class SetOfStaff extends Vector<Staff>{
+    public SetOfStaff(){
         super();
     }
-    public void addTask(Task aTask){
-        super.add(aTask);
+
+    public void addStaff(Staff aStaff){
+        super.add(aStaff);
     }
-    public void removeTask(Task aTask){
-        super.remove(aTask);
+
+    public void removeStaff(Staff aStaff){
+        super.remove(aStaff);
     }
 }
