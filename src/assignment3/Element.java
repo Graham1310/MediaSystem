@@ -9,6 +9,12 @@ package assignment3;
  * @author Tim Beale
  */
 public class Element {
+
+    public Element(int elementID, String name, SetOfAssets setOfAssets) {
+        this.elementID = elementID;
+        this.name = name;
+        this.setOfAssets = setOfAssets;
+    }
     private int elementID;
     private String name;
     private SetOfAssets setOfAssets;
