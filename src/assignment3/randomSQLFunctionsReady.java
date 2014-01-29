@@ -270,4 +270,75 @@ public class randomSQLFunctionsReady {
                     Logger.getLogger(testFrame2.class.getName()).log(Level.SEVERE, null, ex);
                 }
      }
+     
+
+     
+     private void GetComponentsOnProject(){
+         try{
+            
+            //make sure GUI gets the info on userLogged in --OR-- the userID, and looks up the correct userID in the query below          
+                     ResultSet projectResults = null;
+                     Statement statement;
+                     statement = connection.createStatement();
+                     projectResults = statement.executeQuery( "SELECT * FROM SetOfComponenets WHERE projectID =" +projectID + ";");                     
+                     
+                     while (projectResults.next())
+                    {
+                        //add projectResults to SetOfProjects and the GUI
+                    }
+          }catch(Exception e){
+            JOptionPane.showMessageDialog(null,e);
+        }
+         
+         
+     }
+     
+     private void GetTasksOnProject(){
+           try{
+            //THIS NEEDS TO BE CAHNGED, TASKS ARE ASSIGNED TO ASSETS AND ELEMENTS NOT PROJECTS
+            //make sure GUI gets the info on userLogged in --OR-- the userID, and looks up the correct userID in the query below          
+                     ResultSet projectResults = null;
+                     Statement statement;
+                     statement = connection.createStatement();
+                     projectResults = statement.executeQuery( "SELECT * FROM Task WHERE projectID = " + projectID + ";");                     
+                     
+                     while (projectResults.next())
+                    {
+                        //add projectResults to SetOfProjects and the GUI
+                    }
+          }catch(Exception e){
+            JOptionPane.showMessageDialog(null,e);
+        }
+     }
+     
+     private void deleteTask(){
+         try {
+                    ResultSet projectResults = null;
+                    Statement statement;
+                    statement = connection.createStatement();
+                    projectResults = statement.executeQuery( "DELETE FROM Task WHERE projectID = " + projectID + ";");                   
+                    
+                } catch (SQLException ex) {
+                    Logger.getLogger(testFrame2.class.getName()).log(Level.SEVERE, null, ex);
+                }
+         
+     }
+     
+     private void deleteProject(){
+         //NEEDS TO REMOVE ALL DEPENDANCIES
+     }
+     
+     private void removeStafFromProject(){
+           try {
+                    ResultSet projectResults = null;
+                    Statement statement;
+                    statement = connection.createStatement();
+                    projectResults = statement.executeQuery( "DELETE FROM StaffOnProjects WHERE projectID = " + projectID + ";");                   
+                    
+                } catch (SQLException ex) {
+                    Logger.getLogger(testFrame2.class.getName()).log(Level.SEVERE, null, ex);
+                }
+     }
+     
+     
 }
