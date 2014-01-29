@@ -15,15 +15,18 @@ public class User {
     private String surname;
     private String username;
     private String password;
+    private String role;
     
 
     
-     User(int aUserID, String aFirstname, String aSurname, String aUsername, String aPassword){
+     User(int aUserID, String aFirstname, String aSurname, String aUsername, String aPassword, String aRole){
      userID = aUserID;
      firstName = aFirstname;
      surname = aSurname;
      username = aUsername;
      password = aPassword;
+     role= aRole;
+     
     }
 
    
@@ -78,8 +81,13 @@ public class User {
         this.surname = surname;
     }
     
+    public String getRole(){
+        return role;
+    }
     
-    
+    public void setRole(String role){
+        this.role = role;
+    }
     
     public void allocateTask() {
         //allocate to task/set of tasks

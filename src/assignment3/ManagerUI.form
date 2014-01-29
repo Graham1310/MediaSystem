@@ -29,7 +29,7 @@
                   <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Component id="btnCreateProject" alignment="0" max="32767" attributes="0"/>
                   <Component id="jScrollPane1" alignment="0" max="32767" attributes="0"/>
-                  <Component id="jButton4" max="32767" attributes="0"/>
+                  <Component id="btnDeleteProject" max="32767" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="58" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
@@ -41,8 +41,8 @@
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="jTextField2" pref="96" max="32767" attributes="0"/>
-                          <Component id="jTextField3" max="32767" attributes="0"/>
+                          <Component id="txtRootComponent" pref="96" max="32767" attributes="0"/>
+                          <Component id="txtPriority" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
@@ -50,16 +50,16 @@
                       <Group type="102" attributes="0">
                           <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
-                          <Component id="jTextField1" min="-2" pref="96" max="-2" attributes="0"/>
+                          <Component id="txtClientRep" min="-2" pref="96" max="-2" attributes="0"/>
                       </Group>
                       <Group type="103" groupAlignment="1" max="-2" attributes="0">
                           <Component id="jScrollPane2" alignment="0" max="32767" attributes="0"/>
                           <Group type="102" attributes="0">
-                              <Component id="jToggleButton1" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnAddStaffToProject" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jToggleButton2" min="-2" pref="56" max="-2" attributes="0"/>
+                              <Component id="btnEditStaffOnProject" min="-2" pref="56" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnRemoveStaffFromProject" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -69,21 +69,21 @@
                   <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
                   <Component id="jScrollPane3" min="-2" pref="187" max="-2" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="jToggleButton3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnAddComponentsToProject" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jToggleButton4" min="-2" pref="56" max="-2" attributes="0"/>
+                      <Component id="btnEditComponentsOnProject" min="-2" pref="56" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jButton2" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnRemoveComponentsToProject" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Group type="102" attributes="0">
-                      <Component id="jToggleButton5" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnAddTaskToProject" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jToggleButton6" min="-2" pref="56" max="-2" attributes="0"/>
+                      <Component id="btnEditTaskOnProject" min="-2" pref="56" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jButton3" min="-2" max="-2" attributes="0"/>
+                      <Component id="RemoveTaskFromProject" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
                   <Component id="jScrollPane4" alignment="0" max="32767" attributes="0"/>
@@ -107,13 +107,13 @@
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="btnCreateProject" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
-                      <Component id="jButton4" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnDeleteProject" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTextField2" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtRootComponent" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
@@ -122,7 +122,7 @@
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jTextField3" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="txtPriority" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
@@ -137,25 +137,25 @@
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jToggleButton1" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jToggleButton2" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnAddStaffToProject" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnRemoveStaffFromProject" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnEditStaffOnProject" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                      <Component id="jToggleButton3" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jToggleButton4" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jButton2" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnAddComponentsToProject" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnEditComponentsOnProject" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnRemoveComponentsToProject" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                      <Component id="jToggleButton5" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jToggleButton6" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jButton3" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnAddTaskToProject" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnEditTaskOnProject" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="RemoveTaskFromProject" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                  <Component id="jTextField1" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtClientRep" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="143" max="32767" attributes="0"/>
           </Group>
@@ -175,7 +175,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JList" name="jList1">
+        <Component class="javax.swing.JList" name="listProjectsList">
           <Properties>
             <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
               <StringArray count="5">
@@ -187,6 +187,9 @@
               </StringArray>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="valueChanged" listener="javax.swing.event.ListSelectionListener" parameters="javax.swing.event.ListSelectionEvent" handler="listProjectsListValueChanged"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -208,20 +211,14 @@
         <Property name="text" type="java.lang.String" value="Root Component:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField2">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="jTextField2"/>
-      </Properties>
+    <Component class="javax.swing.JTextField" name="txtRootComponent">
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel5">
       <Properties>
         <Property name="text" type="java.lang.String" value="Priority:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField3">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="jTextField3"/>
-      </Properties>
+    <Component class="javax.swing.JTextField" name="txtPriority">
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel6">
       <Properties>
@@ -235,7 +232,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JList" name="jList2">
+        <Component class="javax.swing.JList" name="listStaffOnProject">
           <Properties>
             <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
               <StringArray count="5">
@@ -262,7 +259,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JList" name="jList3">
+        <Component class="javax.swing.JList" name="listComponentList">
           <Properties>
             <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
               <StringArray count="5">
@@ -274,6 +271,9 @@
               </StringArray>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="valueChanged" listener="javax.swing.event.ListSelectionListener" parameters="javax.swing.event.ListSelectionEvent" handler="listComponentListValueChanged"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -289,7 +289,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JList" name="jList4">
+        <Component class="javax.swing.JList" name="listTasksList">
           <Properties>
             <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
               <StringArray count="5">
@@ -304,52 +304,52 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JToggleButton" name="jToggleButton1">
+    <Component class="javax.swing.JToggleButton" name="btnAddStaffToProject">
       <Properties>
         <Property name="text" type="java.lang.String" value="Add"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton1">
+    <Component class="javax.swing.JButton" name="btnRemoveStaffFromProject">
       <Properties>
         <Property name="text" type="java.lang.String" value="Remove"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JToggleButton" name="jToggleButton2">
+    <Component class="javax.swing.JToggleButton" name="btnEditStaffOnProject">
       <Properties>
         <Property name="text" type="java.lang.String" value="Edit"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JToggleButton" name="jToggleButton3">
+    <Component class="javax.swing.JToggleButton" name="btnAddComponentsToProject">
       <Properties>
         <Property name="text" type="java.lang.String" value="Add"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JToggleButton" name="jToggleButton4">
+    <Component class="javax.swing.JToggleButton" name="btnEditComponentsOnProject">
       <Properties>
         <Property name="text" type="java.lang.String" value="Edit"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton2">
+    <Component class="javax.swing.JButton" name="btnRemoveComponentsToProject">
       <Properties>
         <Property name="text" type="java.lang.String" value="Remove"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JToggleButton" name="jToggleButton5">
+    <Component class="javax.swing.JToggleButton" name="btnAddTaskToProject">
       <Properties>
         <Property name="text" type="java.lang.String" value="Add"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JToggleButton" name="jToggleButton6">
+    <Component class="javax.swing.JToggleButton" name="btnEditTaskOnProject">
       <Properties>
         <Property name="text" type="java.lang.String" value="Edit"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton3">
+    <Component class="javax.swing.JButton" name="RemoveTaskFromProject">
       <Properties>
         <Property name="text" type="java.lang.String" value="Remove"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton4">
+    <Component class="javax.swing.JButton" name="btnDeleteProject">
       <Properties>
         <Property name="text" type="java.lang.String" value="Delete Project"/>
       </Properties>
@@ -359,10 +359,7 @@
         <Property name="text" type="java.lang.String" value="Client Rep:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField1">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="jTextField1"/>
-      </Properties>
+    <Component class="javax.swing.JTextField" name="txtClientRep">
     </Component>
   </SubComponents>
 </Form>

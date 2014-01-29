@@ -10,11 +10,18 @@ import java.util.Date;
  *
  * @author Tim Beale
  */
-class Component {
+class ProjectComponent {
     private int componentID;
     private String componentName;
-    private Date date;
+    private Date componentDate;
     private SetOfElements componentElements;
+    
+    public ProjectComponent(int componentID, String componentName, Date componentDate, SetOfElements componentElements){
+        this.componentID = componentID;
+        this.componentName = componentName;
+        this.componentDate = componentDate;
+        this.componentElements = componentElements;
+    }
 
     public int getComponentID() {
         return componentID;
@@ -32,12 +39,12 @@ class Component {
         this.componentName = componentName;
     }
     
-    public Date getDate() {
-        return date;
+    public Date getComponentDate() {
+        return componentDate;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setComponentDate(Date componentDate) {
+        this.componentDate = componentDate;
     }
     
     public SetOfElements getComponentElements() {

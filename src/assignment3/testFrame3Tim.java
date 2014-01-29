@@ -47,7 +47,7 @@ public class testFrame3Tim extends javax.swing.JFrame {
             while(dbAllUsers.next())
             {
                 User tempUser = new User(dbAllUsers.getInt("userID"), dbAllUsers.getString("firstName"), dbAllUsers.getString("surname"),
-                        dbAllUsers.getString("userName"), dbAllUsers.getString("password"));
+                        dbAllUsers.getString("userName"), dbAllUsers.getString("password"), dbAllUsers.getString("role"));
                 allUsers.addUser(tempUser);
             }
         } catch (SQLException ex) {
@@ -156,7 +156,7 @@ public class testFrame3Tim extends javax.swing.JFrame {
             while(dbAllElements.next())
             {
                 SetOfAssets elementAssets = new SetOfAssets();
-                for(int i=0; i< allAssets.getSize() ; i++)
+                for(int i=0; i< allAssets.size() ; i++)
                 {
                     if(allAssets.get(i).getAssetID() == dbAllElements.getInt("assetID"))
                     {
@@ -202,8 +202,8 @@ public class testFrame3Tim extends javax.swing.JFrame {
                     }
                 }
                 //project should have correct components and QCReports added
-                Project tempProject = new Project(dbAllProjects.getInt("projectID"), null, null, tempTeamLeader, tempClientRep, dbAllProjects.getInt("priority"), null, null);
-                allProjects.addProject(tempProject);
+                //Project tempProject = new Project(dbAllProjects.getInt("projectID"), null, null, tempTeamLeader, tempClientRep, dbAllProjects.getInt("priority"), null, null);
+                //allProjects.addProject(tempProject);
             }
         } catch (SQLException ex) {
             Logger.getLogger(testFrame3Tim.class.getName()).log(Level.SEVERE, null, ex);

@@ -25,6 +25,7 @@ public class LogInUI2 extends javax.swing.JFrame {
      */
       private SetOfUsers allUsers = new SetOfUsers();
       public User UserLoggedIn; 
+      public Singleton newInstance = Singleton.getInstance();
       static Connection connection;
       static Statement statement;
         
@@ -89,7 +90,8 @@ public class LogInUI2 extends javax.swing.JFrame {
                         .addGap(56, 56, 56)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(passTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
-                            .addComponent(usernameTxt)))))
+                            .addComponent(usernameTxt))))
+                .addContainerGap(67, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -127,7 +129,7 @@ public class LogInUI2 extends javax.swing.JFrame {
                      while (loginResults.next())
                     {
                         //finds any matching user and puts them into UserLoggedIn
-                        UserLoggedIn = new User(loginResults.getInt("userID"), loginResults.getString("firstName"), loginResults.getString("surname"), loginResults.getString("username"), loginResults.getString("password"));
+                        UserLoggedIn = new User(loginResults.getInt("userID"), loginResults.getString("firstName"), loginResults.getString("surname"), loginResults.getString("username"), loginResults.getString("password"), loginResults.getString("role"));
 
                     }
                      
@@ -138,8 +140,21 @@ public class LogInUI2 extends javax.swing.JFrame {
                      
                     else
                     {
-                        JOptionPane.showMessageDialog(null, "You have logged in!");
-                        //insert code here to open mainUI
+                        newInstance.addUserLogedIn(UserLoggedIn);
+//                        JOptionPane.showMessageDialog(null, "You have logged in!");
+                        switch(UserLoggedIn.getRole()){
+                            case "Manager": new ManagerUI().setVisible(true);
+                                break;
+                            case "QC Team Lead": new MainUI().setVisible(true);
+                                break;
+                            case "QC Member":new MainUI().setVisible(true); //TO DO: add ui or modiffy main ui
+                                break;
+                            case "Product Architect":new MainUI().setVisible(true);//TO DO: add ui
+                                break; 
+                            case "Client Representative":new MainUI().setVisible(true);// TO DO: add ui
+                                break;     
+                        }
+                        this.setVisible(false);
                     }
                     
 
@@ -190,9 +205,9 @@ public class LogInUI2 extends javax.swing.JFrame {
         //Connection String for Tim
         //String fileName = "C:\\Users\\Tim Beale\\Documents\\Uni Work\\Year 3 again\\Case Studies\\Assignment3\\CSSD.mdb";
         //Connection String for Tim on Uni PC
-        String fileName = "F:\\MyWork\\Year 3 again\\CSSD\\Assignment 3 - Code\\CSSD.mdb";
+//        String fileName = "F:\\MyWork\\Year 3 again\\CSSD\\Assignment 3 - Code\\CSSD.mdb";
         //Connection String for Marcin
-        //String fileName = "C:\\Users\\Neverborn\\Documents\\NetBeansProjects\\MediaSystem\\CSSD.accdb";
+        String fileName = "C:\\Users\\Neverborn\\Documents\\NetBeansProjects\\MediaSystem\\CSSD.mdb";
         /*Connction String for Graham */
         /*String fileName = "C:\\Users\\Graham\\Desktop\\CSSD.mdb" */
         String dbString ="jdbc:odbc:Driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=" + fileName + ";"; //Change back to *mdb for 32bit access  		

@@ -277,7 +277,7 @@ public class testFrame2 extends javax.swing.JFrame {
                      while (loginResults.next())
                     {
                         User UserLoggedIn;
-                        UserLoggedIn = new User(loginResults.getInt("userID"), loginResults.getString("firstName"), loginResults.getString("surname"), loginResults.getString("username"), loginResults.getString("password"));
+                        UserLoggedIn = new User(loginResults.getInt("userID"), loginResults.getString("firstName"), loginResults.getString("surname"), loginResults.getString("username"), loginResults.getString("password"), loginResults.getString("role"));
 
                         //String name = loginResults.getString("firstName");
                         UserCbo.addItem(UserLoggedIn);

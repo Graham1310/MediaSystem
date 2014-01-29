@@ -10,15 +10,15 @@ import java.util.Vector;
  *
  * @author Tim Beale
  */
-class SetOfComponents extends Vector<Component>{
+class SetOfComponents extends Vector<ProjectComponent>{
 
     public SetOfComponents(){
         super();
     }
-    public void addComponent(Component aComponent){
+    public void addComponent(ProjectComponent aComponent){
         super.add(aComponent);
     }
-    public void removeComponent(Component aComponent){
+    public void removeComponent(ProjectComponent aComponent){
         super.remove(aComponent);
     }
 }

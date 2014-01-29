@@ -10,8 +10,9 @@ package assignment3;
  */
 public class Project {
 
-    public Project(int projectID, Component rootComponent, SetOfTasks projectTasks, User teamLeader, User clientRep, int priority, SetOfComponents componentCollection, SetOfQCReports reports) {
+    public Project(int projectID, String projectName, ProjectComponent rootComponent, SetOfTasks projectTasks, User teamLeader, User clientRep, int priority, SetOfComponents componentCollection, SetOfQCReports reports) {
         this.projectID = projectID;
+        this.projectName = projectName;
         this.rootComponent = rootComponent;
         this.projectTasks = projectTasks;
         this.teamLeader = teamLeader;
@@ -21,7 +22,8 @@ public class Project {
         this.reports = reports;
     }
     private int projectID;
-    private Component rootComponent;
+    private String projectName;
+    private ProjectComponent rootComponent;
     private SetOfTasks projectTasks;
     private User teamLeader;
     private User clientRep;
@@ -38,6 +40,14 @@ public class Project {
         this.projectID = projectID;
     }
     
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+    
     public SetOfQCReports getReports() {
         return reports;
     }
@@ -46,11 +56,11 @@ public class Project {
         this.reports = reports;
     }
 
-    public Component getRootComponent() {
+    public ProjectComponent getRootComponent() {
         return rootComponent;
     }
 
-    public void setRootComponent(Component rootComponent) {
+    public void setRootComponent(ProjectComponent rootComponent) {
         this.rootComponent = rootComponent;
     }
 

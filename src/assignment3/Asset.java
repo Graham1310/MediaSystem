@@ -10,12 +10,6 @@ package assignment3;
  */
 public class Asset {
 
-    public Asset(int assetID, String name, String type) {
-        this.assetID = assetID;
-        this.name = name;
-        this.type = type;
-    }
-    
     private int assetID;
     private String name;
     private String type;
