@@ -9,6 +9,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 /**
  *
@@ -20,6 +22,10 @@ public class ManagerUI extends javax.swing.JFrame {
     private SetOfUsers listOfUsers = new SetOfUsers();
     private SetOfComponents listOfComponents = new SetOfComponents();
     private SetOfTasks listOfTasks = new SetOfTasks();
+    private Project selectedProject;
+    private ProjectComponent selectedComponent;
+    private User selectedStaff;
+    private Task selectedTask;
     /**
      * Creates new form ManagerUI
      */
@@ -74,39 +80,49 @@ public class ManagerUI extends javax.swing.JFrame {
     }
     
     private void fillInStaffOnProjectList(int projectID){
-        try{
-            ResultSet staffOnProjectResultSet = null;
-            listOfUsers.clear();
-            Statement staff;
-            
-            staff = connection.createStatement();
-            staffOnProjectResultSet = staff.executeQuery("SELECT * FROM User WHERE userID="+projectID+";"); //TO DO: replace this with proper query
-            
-            
-            int userID;
-            String firstName;
-            String surname;
-            
-            while(staffOnProjectResultSet.next())
-            {
-                userID = staffOnProjectResultSet.getInt("userID");
-                firstName = staffOnProjectResultSet.getString("firstName");
-                surname = staffOnProjectResultSet.getString("surname");
+        listOfUsers.clear();
+        if (projectID >=1)
+        {
+            try{
 
-                //User(int aUserID, String aFirstname, String aSurname, String aUsername, String aPassword, String aRole)
-                User user= new User(userID,firstName,surname, "","","" );
-                listOfUsers.add(user);
-                listStaffOnProject.setListData(listOfUsers);
-                UserListCellRenderer renderer = new UserListCellRenderer();  //custom cell renderer to display property rather than useless object.toString()
-                listStaffOnProject.setCellRenderer(renderer);
-                
-            }
-        }catch(SQLException err)
-		{
-                    System.out.println("ERROR: " + err);
-			JOptionPane.showMessageDialog(null,"* Cannot connect to database! *");
-			System.exit(1);
-		}
+                ResultSet staffOnProjectResultSet = null;
+
+                Statement staff;
+
+                staff = connection.createStatement();
+                staffOnProjectResultSet = staff.executeQuery("SELECT * FROM User WHERE userID="+projectID+";"); //TO DO: replace this with proper query
+
+
+                int userID;
+                String firstName;
+                String surname;
+
+                while(staffOnProjectResultSet.next())
+                {
+                    userID = staffOnProjectResultSet.getInt("userID");
+                    firstName = staffOnProjectResultSet.getString("firstName");
+                    surname = staffOnProjectResultSet.getString("surname");
+
+                    //User(int aUserID, String aFirstname, String aSurname, String aUsername, String aPassword, String aRole)
+                    User user= new User(userID,firstName,surname, "","","" );
+                    listOfUsers.add(user);
+                    listStaffOnProject.setListData(listOfUsers);
+                    UserListCellRenderer renderer = new UserListCellRenderer();  //custom cell renderer to display property rather than useless object.toString()
+                    listStaffOnProject.setCellRenderer(renderer);
+
+                }
+            }catch(SQLException err)
+                    {
+                        System.out.println("ERROR: " + err);
+                            JOptionPane.showMessageDialog(null,"* Cannot connect to database! *");
+                            System.exit(1);
+                    }
+        }
+        else{
+            listOfUsers.clear();
+            listStaffOnProject.setListData(listOfUsers);
+            listStaffOnProject.repaint();
+        }
           
     }
     
@@ -148,49 +164,109 @@ public class ManagerUI extends javax.swing.JFrame {
           
     }
     
-        private void fillInTaskOnComponentsList(int projectComponentID){
-        try{
-            ResultSet taskOnComponentsListResultSet = null;
-            listOfTasks.clear();
-            Statement tasks;
-            
-            tasks = connection.createStatement();
-            taskOnComponentsListResultSet = tasks.executeQuery("SELECT * FROM Task WHERE taskID="+projectComponentID+";"); //TO DO: replace this with proper query
-            
-            
-            int taskID;
-            User responsiblePerson;
-            String taskName;
-            int priority;
-            String status;
-            Project project;
+    private void fillInTaskOnComponentsList(int projectComponentID){
+    try{
+        ResultSet taskOnComponentsListResultSet = null;
+        listOfTasks.clear();
+        listTasksList.repaint();
+        Statement tasks;
 
-            
-            while(taskOnComponentsListResultSet.next())
+        tasks = connection.createStatement();
+        taskOnComponentsListResultSet = tasks.executeQuery("SELECT * FROM Task WHERE taskID="+projectComponentID+";"); //TO DO: replace this with proper query
+
+
+        int taskID;
+        User responsiblePerson;
+        String taskName;
+        int priority;
+        String status;
+        Project project;
+
+
+        while(taskOnComponentsListResultSet.next())
+        {
+            taskID = taskOnComponentsListResultSet.getInt("taskID");
+            taskName = taskOnComponentsListResultSet.getString("taskName");
+            priority = taskOnComponentsListResultSet.getInt("taskPriority");
+            status = taskOnComponentsListResultSet.getString("status");
+
+
+
+            //Task(int taskID, User responsiblePerson, String taskName, int priority, String status, Project project)
+            Task task= new Task(taskID, null, taskName, priority, status, null );
+            listOfTasks.add(task);
+            listTasksList.setListData(listOfTasks);
+            TasksListCellRenderer renderer = new TasksListCellRenderer();  //custom cell renderer to display property rather than useless object.toString()
+            listTasksList.setCellRenderer(renderer);
+
+        }
+    }catch(SQLException err)
             {
-                taskID = taskOnComponentsListResultSet.getInt("taskID");
-                taskName = taskOnComponentsListResultSet.getString("taskName");
-                priority = taskOnComponentsListResultSet.getInt("taskPriority");
-                status = taskOnComponentsListResultSet.getString("status");
-
-
-
-                //Task(int taskID, User responsiblePerson, String taskName, int priority, String status, Project project)
-                Task task= new Task(taskID, null, taskName, priority, status, null );
-                listOfTasks.add(task);
-                listTasksList.setListData(listOfTasks);
-                TasksListCellRenderer renderer = new TasksListCellRenderer();  //custom cell renderer to display property rather than useless object.toString()
-                listTasksList.setCellRenderer(renderer);
-                
+                System.out.println("ERROR: " + err);
+                    JOptionPane.showMessageDialog(null,"* Cannot connect to database! *");
+                    System.exit(1);
             }
-        }catch(SQLException err)
-		{
-                    System.out.println("ERROR: " + err);
-			JOptionPane.showMessageDialog(null,"* Cannot connect to database! *");
-			System.exit(1);
-		}
-          
+
     }
+    
+    private void deleteProject(int projectID){
+            
+        try {  
+            Statement projects;
+            projects = connection.createStatement();
+            
+            projects.executeUpdate("DELETE FROM Project WHERE projectID="+ projectID+";"); //TO DO: replace this with proper query
+            
+            
+        } catch (SQLException err) {
+                System.out.println("ERROR: " + err);
+                    JOptionPane.showMessageDialog(null,"* Cannot connect to database! *");
+                    System.exit(1);
+        }
+    }
+    
+    private void deleteStaffOnProject(int userID) {
+        try {  
+        Statement staff;
+        staff = connection.createStatement();
+
+        staff.executeUpdate("DELETE FROM User WHERE userID="+ userID+";");
+              
+        } catch (SQLException err) {
+                System.out.println("ERROR: " + err);
+                    JOptionPane.showMessageDialog(null,"* Cannot connect to database! *"); //TO DO: replace this with proper query
+                    System.exit(1);
+        }
+    }
+    
+    private void deleteComponentOnProject(int componentID) {
+        try {  
+        Statement component;
+        component = connection.createStatement();
+
+        component.executeUpdate("DELETE FROM Component WHERE componentID="+ componentID+";"); //TO DO: replace this with proper query
+
+        } catch (SQLException err) {
+                System.out.println("ERROR: " + err);
+                    JOptionPane.showMessageDialog(null,"* Cannot connect to database! *");
+                    System.exit(1);
+        }
+    }
+    
+    private void deleteTaskOnComponent(int taskID) {
+        try {  
+        Statement task;
+        task = connection.createStatement();
+
+        task.executeUpdate("DELETE FROM Task WHERE taskID="+ taskID+";"); //TO DO: replace this with proper query
+
+        } catch (SQLException err) {
+                System.out.println("ERROR: " + err);
+                    JOptionPane.showMessageDialog(null,"* Cannot connect to database! *");
+                    System.exit(1);
+        }
+    }
+        
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -226,7 +302,7 @@ public class ManagerUI extends javax.swing.JFrame {
         btnRemoveComponentsToProject = new javax.swing.JButton();
         btnAddTaskToProject = new javax.swing.JToggleButton();
         btnEditTaskOnProject = new javax.swing.JToggleButton();
-        RemoveTaskFromProject = new javax.swing.JButton();
+        btnRemoveTaskFromProject = new javax.swing.JButton();
         btnDeleteProject = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         txtClientRep = new javax.swing.JTextField();
@@ -235,11 +311,7 @@ public class ManagerUI extends javax.swing.JFrame {
 
         jLabel1.setText("List Of Projects:");
 
-        listProjectsList.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
+        listProjectsList.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         listProjectsList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
                 listProjectsListValueChanged(evt);
@@ -262,20 +334,10 @@ public class ManagerUI extends javax.swing.JFrame {
 
         jLabel6.setText("Project Staff:");
 
-        listStaffOnProject.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
         jScrollPane2.setViewportView(listStaffOnProject);
 
         jLabel7.setText("Components:");
 
-        listComponentList.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
         listComponentList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
                 listComponentListValueChanged(evt);
@@ -285,16 +347,16 @@ public class ManagerUI extends javax.swing.JFrame {
 
         jLabel8.setText("Tasks:");
 
-        listTasksList.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
         jScrollPane4.setViewportView(listTasksList);
 
         btnAddStaffToProject.setText("Add");
 
         btnRemoveStaffFromProject.setText("Remove");
+        btnRemoveStaffFromProject.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRemoveStaffFromProjectActionPerformed(evt);
+            }
+        });
 
         btnEditStaffOnProject.setText("Edit");
 
@@ -303,14 +365,29 @@ public class ManagerUI extends javax.swing.JFrame {
         btnEditComponentsOnProject.setText("Edit");
 
         btnRemoveComponentsToProject.setText("Remove");
+        btnRemoveComponentsToProject.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRemoveComponentsToProjectActionPerformed(evt);
+            }
+        });
 
         btnAddTaskToProject.setText("Add");
 
         btnEditTaskOnProject.setText("Edit");
 
-        RemoveTaskFromProject.setText("Remove");
+        btnRemoveTaskFromProject.setText("Remove");
+        btnRemoveTaskFromProject.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRemoveTaskFromProjectActionPerformed(evt);
+            }
+        });
 
         btnDeleteProject.setText("Delete Project");
+        btnDeleteProject.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteProjectActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("Client Rep:");
 
@@ -322,11 +399,11 @@ public class ManagerUI extends javax.swing.JFrame {
                 .addGap(19, 19, 19)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel1)
-                    .addComponent(btnCreateProject, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1)
+                    .addComponent(btnCreateProject, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(btnDeleteProject, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(58, 58, 58)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel3)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -342,15 +419,14 @@ public class ManagerUI extends javax.swing.JFrame {
                             .addComponent(jLabel2)
                             .addGap(41, 41, 41)
                             .addComponent(txtClientRep, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnAddStaffToProject)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnEditStaffOnProject, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnRemoveStaffFromProject)))))
-                .addGap(83, 83, 83)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(btnAddStaffToProject)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(btnEditStaffOnProject, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(btnRemoveStaffFromProject)))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 98, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel7)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -367,7 +443,7 @@ public class ManagerUI extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnEditTaskOnProject, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(RemoveTaskFromProject))
+                        .addComponent(btnRemoveTaskFromProject))
                     .addComponent(jLabel8)
                     .addComponent(jScrollPane4))
                 .addContainerGap())
@@ -419,7 +495,7 @@ public class ManagerUI extends javax.swing.JFrame {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnAddTaskToProject)
                         .addComponent(btnEditTaskOnProject)
-                        .addComponent(RemoveTaskFromProject)))
+                        .addComponent(btnRemoveTaskFromProject)))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
@@ -435,22 +511,80 @@ public class ManagerUI extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCreateProjectActionPerformed
 
     private void listProjectsListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listProjectsListValueChanged
-       Project selectedProject = (Project) listProjectsList.getSelectedValue();
-       txtRootComponent.setText(String.valueOf(selectedProject.getRootComponent()));  
-       txtPriority.setText(String.valueOf(selectedProject.getPriority())); 
-       txtClientRep.setText(String.valueOf(selectedProject.getClientRep()));
+       selectedProject = (Project) listProjectsList.getSelectedValue();
        listOfUsers.clear();
-       fillInStaffOnProjectList(selectedProject.getProjectID());
        listOfComponents.clear();
-       fillInComponentsOnProjectList(selectedProject.getProjectID());
        listOfTasks.clear();
+       if (selectedProject !=null)
+       {
+        txtRootComponent.setText(String.valueOf(selectedProject.getRootComponent()));  
+        txtPriority.setText(String.valueOf(selectedProject.getPriority())); 
+        txtClientRep.setText(String.valueOf(selectedProject.getClientRep()));
+
+        fillInStaffOnProjectList(selectedProject.getProjectID());
+        fillInComponentsOnProjectList(selectedProject.getProjectID());
+       }
+       else
+       {
+        txtRootComponent.setText("");  
+        txtPriority.setText(""); 
+        txtClientRep.setText("");
+        
+        fillInStaffOnProjectList(0);
+        fillInComponentsOnProjectList(0);
+       }
+       listTasksList.repaint();
+       listComponentList.repaint();
+       listStaffOnProject.repaint();
+
+
     }//GEN-LAST:event_listProjectsListValueChanged
 
     private void listComponentListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listComponentListValueChanged
-        ProjectComponent selectedComponent = (ProjectComponent) listComponentList.getSelectedValue();
+        selectedComponent = (ProjectComponent) listComponentList.getSelectedValue();
         if(selectedComponent != null)
             fillInTaskOnComponentsList(selectedComponent.getComponentID());
     }//GEN-LAST:event_listComponentListValueChanged
+
+    private void btnDeleteProjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteProjectActionPerformed
+        if(selectedProject !=null)
+        {
+            selectedProject = (Project) listProjectsList.getSelectedValue();
+            deleteProject(selectedProject.getProjectID());
+            fillInProjectsList();
+            listProjectsList.repaint();
+        }
+    }//GEN-LAST:event_btnDeleteProjectActionPerformed
+
+    private void btnRemoveStaffFromProjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveStaffFromProjectActionPerformed
+        selectedStaff = (User)listStaffOnProject.getSelectedValue();
+        if(selectedStaff !=null && selectedProject !=null)
+        {
+            deleteStaffOnProject(selectedStaff.getUserID());
+            fillInStaffOnProjectList(selectedProject.getProjectID());
+        }
+        listStaffOnProject.repaint();
+    }//GEN-LAST:event_btnRemoveStaffFromProjectActionPerformed
+
+    private void btnRemoveComponentsToProjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveComponentsToProjectActionPerformed
+        selectedComponent = (ProjectComponent)listComponentList.getSelectedValue();
+         if(selectedComponent !=null && selectedProject !=null)
+        {
+            deleteComponentOnProject(selectedComponent.getComponentID());
+            fillInComponentsOnProjectList(selectedProject.getProjectID());
+        }
+        listComponentList.repaint();      
+    }//GEN-LAST:event_btnRemoveComponentsToProjectActionPerformed
+
+    private void btnRemoveTaskFromProjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveTaskFromProjectActionPerformed
+        selectedTask = (Task)listTasksList.getSelectedValue();
+         if(selectedTask !=null && selectedComponent !=null && selectedProject !=null)
+        {
+            deleteTaskOnComponent(selectedTask.getTaskID());
+            fillInTaskOnComponentsList(selectedComponent.getComponentID());
+        }
+        listTasksList.repaint(); 
+    }//GEN-LAST:event_btnRemoveTaskFromProjectActionPerformed
 
     /**
      * @param args the command line arguments
@@ -487,7 +621,6 @@ public class ManagerUI extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton RemoveTaskFromProject;
     private javax.swing.JToggleButton btnAddComponentsToProject;
     private javax.swing.JToggleButton btnAddStaffToProject;
     private javax.swing.JToggleButton btnAddTaskToProject;
@@ -498,6 +631,7 @@ public class ManagerUI extends javax.swing.JFrame {
     private javax.swing.JToggleButton btnEditTaskOnProject;
     private javax.swing.JButton btnRemoveComponentsToProject;
     private javax.swing.JButton btnRemoveStaffFromProject;
+    private javax.swing.JButton btnRemoveTaskFromProject;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -518,4 +652,6 @@ public class ManagerUI extends javax.swing.JFrame {
     private javax.swing.JTextField txtPriority;
     private javax.swing.JTextField txtRootComponent;
     // End of variables declaration//GEN-END:variables
+
+
 }
