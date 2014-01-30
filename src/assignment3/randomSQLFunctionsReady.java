@@ -138,7 +138,7 @@ public class randomSQLFunctionsReady {
     }
     
     
-    private void loadAllUsers(){//COMPLETE
+    public void loadAllUsers(){//COMPLETE
         try {        
             ResultSet dbAllUsers = null;
             Statement statement;
@@ -156,7 +156,7 @@ public class randomSQLFunctionsReady {
         }
     }
     
-    private void loadAllClients(){//needs the address fixing
+    public void loadAllClients(){//needs the address fixing
         try {        
             ResultSet dbAllClients = null;
             Statement statement;
@@ -173,7 +173,7 @@ public class randomSQLFunctionsReady {
         }
     }
     
-    private void loadAllClientReps(){//COMPLETE
+    public void loadAllClientReps(){//COMPLETE
         try {        
             ResultSet dbAllClientReps = null;
             Statement statement;
@@ -204,7 +204,7 @@ public class randomSQLFunctionsReady {
         }
     }
     
-    private void loadAllStaff(){//COMPLETE
+    public void loadAllStaff(){//COMPLETE
         try {               
             ResultSet dbAllStaff = null;
             Statement statement;
@@ -230,7 +230,7 @@ public class randomSQLFunctionsReady {
         }
     }
     
-    private void loadAllAssets(){//COMPLETE
+    public void loadAllAssets(){//COMPLETE
         try {        
             ResultSet dbAllAssets = null;
             Statement statement;
@@ -253,13 +253,7 @@ public class randomSQLFunctionsReady {
         }
     }
     
-    private void loadTaskForAsset(Asset asset){
-        
-        
-        
-    }
-    
-    private void loadAllElements(){//REALLY NOT SURE IF THIS ONE WILL WORK RIGHT
+    public void loadAllElements(){//REALLY NOT SURE IF THIS ONE WILL WORK RIGHT
         try {
             ResultSet dbAllElements = null;
             Statement statement;
@@ -283,7 +277,7 @@ public class randomSQLFunctionsReady {
         }
     }
     
-    private void loadAllQCComments(){
+    public void loadAllQCComments(){
                 try {
                     allComments = null;
                     ResultSet dbAllQCComments = null;
@@ -305,7 +299,7 @@ public class randomSQLFunctionsReady {
                 }
     }
     
-    private void loadAllQCReports(){
+    public void loadAllQCReports(){
                 try {
                     allQCReports = null;
                     ResultSet dbAllQCReports = null;
@@ -339,7 +333,7 @@ public class randomSQLFunctionsReady {
     }
     
     
-    private void loadAllProjects(){
+    public void loadAllProjects(){
         try {
                 //requires components and QC stuff
             
@@ -421,7 +415,7 @@ public class randomSQLFunctionsReady {
 
     }
     
-    private void createNewTask(Project project, User user, int priority, String status, String name, Asset asset){
+    public void createNewTask(Project project, User user, int priority, String status, String name, Asset asset){
                 try {
                     Statement statement;
                         statement = connection.createStatement();
@@ -432,7 +426,7 @@ public class randomSQLFunctionsReady {
                 }
     }
     
-    private void displayUsersTasks(){
+    public void displayUsersTasks(){
         SetOfTasks usersTasks = new SetOfTasks();
         try {
             Project tempProject = null; 
@@ -462,7 +456,7 @@ public class randomSQLFunctionsReady {
             
             
             
-     private void FillCombo(){
+     /*public void FillCombo(){
         try{
                      ResultSet loginResults = null;
                      Statement statement;              
@@ -477,7 +471,7 @@ public class randomSQLFunctionsReady {
         }catch(Exception e){
             JOptionPane.showMessageDialog(null,e);
         }
-    }
+    }*/
     
     /*private void SelectIndividualTask(){
         try{
@@ -499,7 +493,7 @@ public class randomSQLFunctionsReady {
         }
     }*/
     
-    private void CreateNewProject(String projectName, User teamLeader, User clientRep, int priority){//create a new project
+    public void CreateNewProject(String projectName, User teamLeader, User clientRep, int priority){//create a new project
                 try {
                     Statement statement;
                     statement = connection.createStatement();
@@ -510,7 +504,7 @@ public class randomSQLFunctionsReady {
                 }
     }
     
-    private void ChangeTaskStatus(Project project, User responsiblePerson, int priority, String status, String taskName, Asset asset){//edit the task
+    public void ChangeTaskStatus(Project project, User responsiblePerson, int priority, String status, String taskName, Asset asset){//edit the task
         //requires IF statement to make sure only appropriate QC Team Member can change the task status
         try {
             
@@ -526,7 +520,7 @@ public class randomSQLFunctionsReady {
                 }
     }
     
-    private void defineProjectTeam(SetOfUsers projectTeam, Project project){//creates team to work on a project
+    public void defineProjectTeam(SetOfUsers projectTeam, Project project){//creates team to work on a project
                 try {
                     Statement statement;
                     statement = connection.createStatement();
@@ -540,7 +534,7 @@ public class randomSQLFunctionsReady {
                 }
     }
     
-    private void createNewElement(String elementName){
+    public void createNewElement(String elementName){
                 try {
                     Statement statement;
                                 statement = connection.createStatement();
@@ -551,7 +545,7 @@ public class randomSQLFunctionsReady {
                 }
     }
     
-    private void createNewAsset(String assetName, String assetType){
+    public void createNewAsset(String assetName, String assetType){
                 try {
                     Statement statement;
                                 statement = connection.createStatement();
@@ -562,7 +556,7 @@ public class randomSQLFunctionsReady {
                 }
     }
     
-    private void assignAssetsToElement(SetOfAssets elementAssets, Element element){//assigns list of assets to an element
+    public void assignAssetsToElement(SetOfAssets elementAssets, Element element){//assigns list of assets to an element
         try {
                     Statement statement;
                     statement = connection.createStatement();
@@ -576,7 +570,7 @@ public class randomSQLFunctionsReady {
                 }
     }
      
-     private void assignElementsToProject(SetOfElements projectElements, Project project){//assigns list of components to a project
+     public void assignElementsToProject(SetOfElements projectElements, Project project){//assigns list of components to a project
         try {     
                     Statement statement;
                     statement = connection.createStatement();
@@ -589,7 +583,7 @@ public class randomSQLFunctionsReady {
                 }
     }
      
-     private void findStaffOnProject(Project project){//update this when database relationships and place of "role" has been decided
+     public void findStaffOnProject(Project project){//update this when database relationships and place of "role" has been decided
           try{
             
             //make sure GUI gets the info on selected project in the JList, and looks up the correct projectID in the query below          
@@ -616,7 +610,7 @@ public class randomSQLFunctionsReady {
         }
      }
      
-     private void removeStaffFromProject(User user, Project project){
+     public void removeStaffFromProject(User user, Project project){
                 try {
                     project.getSetOfUsers().removeUser(user);
                     user.getWorkingOnProjects().removeProject(project);
@@ -633,7 +627,7 @@ public class randomSQLFunctionsReady {
                 }
      }
      
-     private void findStaffProjects(User user){//displays all projects that the staff is working on
+     public void findStaffProjects(User user){//displays all projects that the staff is working on
      
             
             //make sure GUI gets the info on userLogged in --OR-- the userID, and looks up the correct userID in the query below          
@@ -660,7 +654,7 @@ public class randomSQLFunctionsReady {
                 }
      }
      
-     private void displayManagingProjects(User manager){//displays all projects where user is a team leader
+     public void displayManagingProjects(User manager){//displays all projects where user is a team leader
                 try {
                     ResultSet projectResults = null;
                     Statement statement;
@@ -679,7 +673,7 @@ public class randomSQLFunctionsReady {
      
 
      
-     private void GetElementsOnProject(Project project){
+     public void GetElementsOnProject(Project project){
          try{
             
                      SetOfElements projectElements = new SetOfElements();
@@ -703,7 +697,7 @@ public class randomSQLFunctionsReady {
          
      }
      
-     private void GetTasksOnProject(Project project){
+     public void GetTasksOnProject(Project project){
            try{
                      SetOfTasks projectTasks = new SetOfTasks();
                      ResultSet projectResults = null;
@@ -724,7 +718,7 @@ public class randomSQLFunctionsReady {
         }
      }
      
-     private void deleteTask(Task task){
+     public void deleteTask(Task task){
          try {
                     ResultSet delTaskResults = null;
                     Statement statement;
@@ -737,7 +731,7 @@ public class randomSQLFunctionsReady {
          
      }
      
-     private void deleteProject(Project projectToDelete){
+     public void deleteProject(Project projectToDelete){
                 try {
                     //NEEDS TO REMOVE ALL DEPENDANCIES
                        ResultSet delProjectResults = null;
@@ -746,7 +740,6 @@ public class randomSQLFunctionsReady {
                        delProjectResults = statement.executeQuery( "DELETE FROM Task WHERE projectID = " + projectToDelete.getProjectID() + ";");
                        delProjectResults = statement.executeQuery( "DELETE FROM StaffOnProjects WHERE projectID = " + projectToDelete.getProjectID() + ";");
                        delProjectResults = statement.executeQuery( "DELETE FROM QCReport WHERE projectID = " + projectToDelete.getProjectID() + ";");
-                       //check if we need to remove component and change to element
                        delProjectResults = statement.executeQuery( "DELETE FROM SetOfComponents WHERE projectID = " + projectToDelete.getProjectID() + ";");
                        delProjectResults = statement.executeQuery( "DELETE FROM Project WHERE projectID = " + projectToDelete.getProjectID() + ";");
                        
@@ -756,7 +749,32 @@ public class randomSQLFunctionsReady {
                 }
      }
      
-     private void removeStafFromProject(Project removeFromProject, User usertoRemove){
+     public void removeAssetFromElement(Element element, Asset asset){
+        try {
+            element.getSetOfAssets().removeAsset(asset);
+            ResultSet delProjectResults = null;
+            Statement statement;
+            statement = connection.createStatement();
+            delProjectResults = statement.executeQuery( "DELETE FROM SetOfAssets WHERE assetID = " + asset.getAssetID() + ";");
+        } catch (SQLException ex) {
+            Logger.getLogger(randomSQLFunctionsReady.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         
+     }
+     
+     public void removeTaskFromAsset(Task task, Asset asset){
+         try {
+            asset.getSetOfTasks().removeTask(task);
+            ResultSet delTaskResults = null;
+            Statement statement;
+            statement = connection.createStatement();
+            delTaskResults = statement.executeQuery( "DELETE FROM Tasks WHERE taskID = " + task.getTaskID() + ";");
+        } catch (SQLException ex) {
+            Logger.getLogger(randomSQLFunctionsReady.class.getName()).log(Level.SEVERE, null, ex);
+        }
+     }
+     
+     public void removeStafFromProject(Project removeFromProject, User usertoRemove){
            try {
                     ResultSet projectResults = null;
                     Statement statement;
@@ -768,7 +786,7 @@ public class randomSQLFunctionsReady {
                 }
      }
      
-     private void displayUnassignedAssets(){
+     public void displayUnassignedAssets(){
                 try {
                     SetOfAssets unassignedAssets = new SetOfAssets();
                     ResultSet dbAssetResults = null;
