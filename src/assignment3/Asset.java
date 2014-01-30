@@ -13,13 +13,22 @@ public class Asset {
     private int assetID;
     private String name;
     private String type;
+    private SetOfTasks setOfTasks;
 
-    public Asset(int AssID, String Assname, String Asstype) {
+    public Asset(int AssID, String Assname, String Asstype, SetOfTasks setOfTasks) {
         assetID = AssID;
         name = Assname;
         type = Asstype;        
     }
 
+     public SetOfTasks getSetOfTasks() {
+        return setOfTasks;
+    }
+
+    public void setSetOfTasks(SetOfTasks setOfTasks) {
+        this.setOfTasks = setOfTasks;
+    }
+    
     public int getAssetID() {
         return assetID;
     }
