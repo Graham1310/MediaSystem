@@ -331,6 +331,10 @@ public class randomSQLFunctionsReady {
 
     }
     
+    private void createNewTask(){
+        
+    }
+    
     private void displayUsersTasks(){
         //find tasks for user logged in
         try {
@@ -345,9 +349,17 @@ public class randomSQLFunctionsReady {
 
             while(dbUsersTasks.next())
             {
-                Task task = new Task(dbUsersTasks.getInt("Task.taskID"), UserLoggedIn, dbUsersTasks.getString("Task.TaskName"), dbUsersTasks.getInt("Task.taskPriority"),
-                                dbUsersTasks.getString("Task.taskStatus"), dbUsersTasks.getInt("Task.projectID"));
-                usersTasks.addTask(task);
+                for(int i=0; i<allAssets.size();i++){
+                    if(allAssets.get(i).getAssetID()==dbUsersTasks.getInt("assetID")){
+                        Task task = new Task(dbUsersTasks.getInt("Task.taskID"), UserLoggedIn, dbUsersTasks.getString("Task.TaskName"), dbUsersTasks.getInt("Task.taskPriority"),
+                                dbUsersTasks.getString("Task.taskStatus"), dbUsersTasks.getInt("Task.projectID"), allAssets.get(i));
+                        usersTasks.addTask(task);
+                    }
+                }
+                
+                
+                
+                
                 //jList1.setListData(usersTasks);
             }
             
