@@ -174,6 +174,12 @@ public class randomSQLFunctionsReady {
         }
     }
     
+    private void loadTaskForAsset(Asset asset){
+        
+        
+        
+    }
+    
     private void loadAllElements(){//REALLY NOT SURE IF THIS ONE WILL WORK RIGHT
         try {
             ResultSet dbAllElements = null;
