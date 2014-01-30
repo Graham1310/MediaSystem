@@ -156,11 +156,17 @@ public class randomSQLFunctionsReady {
             ResultSet dbAllAssets = null;
             Statement statement;
             statement = connection.createStatement();
-            dbAllAssets = statement.executeQuery( "SELECT Asset.ID, Asset.assetName, Asset.assetType FROM Asset;");                     
-
+            dbAllAssets = statement.executeQuery( "SELECT Asset.ID, Asset.assetName, Asset.assetType, Task.taskID" +
+                                                    "FROM Asset INNER JOIN Task ON Asset.ID = Task.assetID;");                     
             while(dbAllAssets.next())
             {
-                Asset tempAsset = new Asset(dbAllAssets.getInt("ID"), dbAllAssets.getString("assetName"), dbAllAssets.getString("type"));
+                SetOfTasks assetTasks = new SetOfTasks();
+                for(int i=0; i<allTasks.size();i++){
+                    if(allTasks.get(i).getTaskID()==dbAllAssets.getInt("assetID")){
+                        assetTasks.addTask(allTasks.get(i));
+                    }
+                }
+                Asset tempAsset = new Asset(dbAllAssets.getInt("ID"), dbAllAssets.getString("assetName"), dbAllAssets.getString("type"), assetTasks);
                 allAssets.addAsset(tempAsset);
             }
         } catch (SQLException ex) {
