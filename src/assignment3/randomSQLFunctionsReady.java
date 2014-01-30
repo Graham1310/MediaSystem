@@ -18,7 +18,7 @@ import javax.swing.JOptionPane;
  * @author b0010899
  */
 public class randomSQLFunctionsReady {
-    
+     
             int userID;
             String firstName;
             String surname;
@@ -45,12 +45,269 @@ public class randomSQLFunctionsReady {
             
             int elementID;
             String elementName;
+    
+            SetOfQCComments allComments = new SetOfQCComments();
+            SetOfTasks usersTasks = new SetOfTasks();
+            SetOfTasks allTasks = new SetOfTasks();
+            SetOfUsers allUsers = new SetOfUsers();
+            SetOfClients allClients = new SetOfClients();
+            SetOfClientReps allClientReps = new SetOfClientReps();
+            SetOfStaff allStaff = new SetOfStaff();
+            SetOfAssets allAssets = new SetOfAssets();
+            SetOfElements allElements = new SetOfElements();
+            SetOfProjects allProjects = new SetOfProjects();
+            User UserLoggedIn;
+    
+    
+    private void loadAllUsers(){//COMPLETE
+        try {        
+            ResultSet dbAllUsers = null;
+            Statement statement;
+            statement = connection.createStatement();
+            dbAllUsers = statement.executeQuery( "SELECT User.userID, User.firstName, User.surname, User.username, User.password FROM [User];");                     
+
+            while(dbAllUsers.next())
+            {
+                User tempUser = new User(dbAllUsers.getInt("userID"), dbAllUsers.getString("firstName"), dbAllUsers.getString("surname"),
+                        dbAllUsers.getString("userName"), dbAllUsers.getString("password"), dbAllUsers.getString("role"));
+                allUsers.addUser(tempUser);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(testFrame3Tim.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void loadAllClients(){//needs the address fixing
+        try {        
+            ResultSet dbAllClients = null;
+            Statement statement;
+            statement = connection.createStatement();
+            dbAllClients = statement.executeQuery( "SELECT Client.clientID, Client.organizationName, Client.address1, Client.address2, Client.address3, Client.Town, Client.postcode, Client.country FROM Client;");                     
+
+            while(dbAllClients.next())
+            {
+                Client newClient = new Client(dbAllClients.getInt("clientID"), dbAllClients.getString("organisationName"), dbAllClients.getString("address1 + address2 + address3 + Town + postcode + country"));
+                allClients.addClient(newClient);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(testFrame3Tim.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void loadAllClientReps(){//COMPLETE
+        try {        
+            ResultSet dbAllClientReps = null;
+            Statement statement;
+            statement = connection.createStatement();
+            dbAllClientReps = statement.executeQuery( "SELECT ClientRep.clientRepID, ClientRep.organisationID, ClientRep.contactNo, ClientRep.email FROM ClientRep;");                     
+
+            while(dbAllClientReps.next())
+            {
+                Client tempClient = null;
+                User tempUser = null;
+                for (int i=0; i<allClients.size();i++){
+                    if(allClients.get(i).getClientID()==(dbAllClientReps.getInt("organisationID")))
+                    {
+                        tempClient = (allClients.get(i));
+                    }
+                }
+                for (int i=0; i<allUsers.size();i++){
+                    if(allUsers.get(i).getUserID()==(dbAllClientReps.getInt("clientRepID")))
+                    {
+                        tempUser = (allUsers.get(i));
+                    }
+                }
+                ClientRep tempClientRep = new ClientRep(tempUser, tempClient, dbAllClientReps.getString("contactNo"), dbAllClientReps.getString("email"));
+                allClientReps.addClientRep(tempClientRep);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(testFrame3Tim.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void loadAllStaff(){//COMPLETE
+        try {               
+            ResultSet dbAllStaff = null;
+            Statement statement;
+            statement = connection.createStatement();
+            dbAllStaff = statement.executeQuery( "SELECT Staff.staffID, Staff.role FROM Staff;");
             
-            int componentID;
-            String componentName;
-            Date componentDate;
+            while(dbAllStaff.next())
+            {
+                User tempUser = null;
+                for (int i=0; i<allUsers.size();i++){
+                        if(allUsers.get(i).getUserID()==(dbAllStaff.getInt("staffID")))
+                        {
+                            tempUser = (allUsers.get(i));
+                        }
+                    }
+                Staff newStaff = new Staff(tempUser, dbAllStaff.getString("role"));
+                allStaff.addStaff(newStaff);
+            }
+            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(testFrame3Tim.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void loadAllAssets(){//COMPLETE
+        try {        
+            ResultSet dbAllAssets = null;
+            Statement statement;
+            statement = connection.createStatement();
+            dbAllAssets = statement.executeQuery( "SELECT Asset.ID, Asset.assetName, Asset.assetType FROM Asset;");                     
+
+            while(dbAllAssets.next())
+            {
+                Asset tempAsset = new Asset(dbAllAssets.getInt("ID"), dbAllAssets.getString("assetName"), dbAllAssets.getString("type"));
+                allAssets.addAsset(tempAsset);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(testFrame3Tim.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void loadAllElements(){//REALLY NOT SURE IF THIS ONE WILL WORK RIGHT
+        try {
+            ResultSet dbAllElements = null;
+            Statement statement;
+            statement = connection.createStatement();  
+            dbAllElements = statement.executeQuery( "SELECT Element.elementID, Element.elementName, SetOFAssets.assetID" +
+                    "FROM Element INNER JOIN SetOFAssets ON Element.elementID = SetOFAssets.elementID;");
+            while(dbAllElements.next())
+            {
+                SetOfAssets elementAssets = new SetOfAssets();
+                for(int i=0; i< allAssets.size() ; i++)
+                {
+                    if(allAssets.get(i).getAssetID() == dbAllElements.getInt("assetID"))
+                    {
+                        elementAssets.addAsset(allAssets.get(i));
+                    }
+                }
+                Element tempElement = new Element(dbAllElements.getInt("elementID"), dbAllElements.getString("elementName"), elementAssets);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(testFrame3Tim.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void loadAllQCComments(){
+                try {
+                    allComments = null;
+                    ResultSet dbAllQCComments = null;
+                    Statement statement;
+                    statement = connection.createStatement();
+                    dbAllQCComments = statement.executeQuery( "SELECT QCComment.qCCommentID, QCComment.qCReportID, QCComment.qCDate, "
+                            + "QCComment.qCCommentText, QCComment.qCSeverityRating, QCComment.qCTimeInSeconds, QCComment.assetID FROM QCComment;"); 
+                    
+                    while(dbAllQCComments.next()){
+                        
+                        QCComments newComment = new QCComments(dbAllQCComments.getInt("qCCommentID"),dbAllQCComments.getInt("qCReportID"), dbAllQCComments.getDate("qCDate"),
+                                dbAllQCComments.getString("qCCommentText"), dbAllQCComments.getInt("qCSeverityRating"), dbAllQCComments.getInt("qCTimeInSeconds"),
+                                dbAllQCComments.getInt("assetID"));
+                        allComments.addQCComments(newComment);
+                    }
+                    
+                } catch (SQLException ex) {
+                    Logger.getLogger(randomSQLFunctionsReady.class.getName()).log(Level.SEVERE, null, ex);
+                }
+    }
     
     
+    private void loadAllProjects(){
+        try {
+                //requires components and QC stuff
+            
+                allProjects = null;
+                
+                ResultSet dbAllProjects = null;
+                ResultSet dbAllProjectElements = null;
+                Statement statement;
+                statement = connection.createStatement();
+                dbAllProjects = statement.executeQuery( "SELECT Project.projectID, Project.projectName, Project.rootComponent, Project.teamLeader, "                     
+                        + "Project.clientRep, Project.priority FROM Project;");  
+                dbAllProjectElements = statement.executeQuery("SELECT SetOFElements.ProjectID, SetOFElements.elementID, Element.elementName" +
+                                                            "FROM Element INNER JOIN SetOFElements ON Element.elementID = SetOFElements.elementID;");
+                
+                while(dbAllProjects.next())
+                {
+                    int tempTeamLeaderID = dbAllProjects.getInt("teamLeader");
+                    int tempClientRepID = dbAllProjects.getInt("clientRep");
+                    User tempTeamLeader = null;
+                    User tempClientRep = null;
+                    SetOfElements projectElements = new SetOfElements();
+                    SetOfTasks projectTasks = new SetOfTasks();
+
+                    for (int i=0; i<allUsers.size();i++){  
+                        if(allUsers.get(i).getUserID()==(tempTeamLeaderID))  //adds Team Leader
+                        {
+                            tempTeamLeader = (allUsers.get(i));
+                        }
+                        if(allUsers.get(i).getUserID()==(tempClientRepID))   //adds Client Rep
+                        {
+                            tempClientRep = (allUsers.get(i));
+                        }
+                    }
+                    
+                    for (int i=0;i<allTasks.getSize();i++){
+                        if(allTasks.get(i).getProjectID()==dbAllProjects.getInt("projectID")){  //adds project tasks
+                            projectTasks.addTask(allTasks.get(i));
+                        }
+                    }
+                    
+                    while(dbAllProjectElements.next()){         //adds project elements
+                        if(dbAllProjectElements.getInt("projectID") == dbAllProjects.getInt("projectID")){
+                            for(int i=0;i<allElements.getSize();i++){
+                                if(allElements.get(i).getElementID()==dbAllProjectElements.getInt("elementID")){
+                                    projectElements.addElement(allElements.get(i));
+                                }
+                            }
+                        }
+                    }
+                   
+                    Project newProject = new Project (dbAllProjects.getInt("projectID"), dbAllProjects.getString("projectName"), tempTeamLeader, tempClientRep, dbAllProjects.getInt("priority"), projectTasks, projectElements, SetOfQCReports reports, SetOfStaff setOfStaff)
+                    
+                    
+                }              
+        } catch (SQLException ex) {                  
+            Logger.getLogger(randomSQLFunctionsReady.class.getName()).log(Level.SEVERE, null, ex);                   
+        }
+            
+
+    }
+    
+    private void displayUsersTasks(){
+        //find tasks for user logged in
+        try {
+            Project tempProject = null;
+            
+            ResultSet dbUsersTasks = null;
+            Statement statement;
+            statement = connection.createStatement();
+            dbUsersTasks = statement.executeQuery( "SELECT Staff.staffID, Task.taskID, Task.projectID, Task.responsiblePerson, Task.taskPriority,"
+                    + " Task.status, Task.taskName, Task.assetID FROM Staff INNER JOIN Task ON "
+                    + "Staff.staffID = Task.responsiblePerson WHERE Staff.staffID =" + UserLoggedIn.getUserID() + ";");                     
+
+            while(dbUsersTasks.next())
+            {
+                Task task = new Task(dbUsersTasks.getInt("Task.taskID"), UserLoggedIn, dbUsersTasks.getString("Task.TaskName"), dbUsersTasks.getInt("Task.taskPriority"),
+                                dbUsersTasks.getString("Task.taskStatus"), dbUsersTasks.getInt("Task.projectID"));
+                usersTasks.addTask(task);
+                //jList1.setListData(usersTasks);
+            }
+            
+            
+            
+            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(testFrame3Tim.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+            
+            
+            
      private void FillCombo(){
         try{
                      ResultSet loginResults = null;
@@ -167,52 +424,25 @@ public class randomSQLFunctionsReady {
                     Logger.getLogger(testFrame2.class.getName()).log(Level.SEVERE, null, ex);
                 }
     }
-    
-     private void createNewComponent(){
-         
-         //IMPORTANT: Requires import java.sql.Date;
-         //Consider using timestamp instead of date
-                try {
-                    Statement statement;
-                                statement = connection.createStatement();
-                                statement.executeUpdate(" INSERT INTO Component (componentName, componentDate)"
-                                            + "VALUES ('" + componentName + "', '" + componentDate + "');" );
-                } catch (SQLException ex) {
-                    Logger.getLogger(testFrame2.class.getName()).log(Level.SEVERE, null, ex);
-                }
-    }
      
-     private void assignElementsToComponent(){//assigns list of elements to a component
+     private void assignElementsToProject(){//assigns list of components to a project
         try {
-                    SetOfElements componentElements = new SetOfElements();
-                    //requires code to put each element selected in GUI to be put into "componentElements"
-                    Statement statement;
-                    statement = connection.createStatement();
-                    for (int i=0; i<componentElements.size(); i++){
-                        statement.executeUpdate(" INSERT INTO SetOfElements (elementID, componentID)"
-                                + "VALUES (" + componentElements.get(i).getElementID() + ", " + componentID + ");" );
-                    }
-                } catch (SQLException ex) {
-                    Logger.getLogger(testFrame2.class.getName()).log(Level.SEVERE, null, ex);
-                }
-    }
-     
-     private void assignComponentsToProject(){//assigns list of components to a project
-        try {
-                    SetOfComponents projectComponents = new SetOfComponents();
+                    SetOfElements projectElements = new SetOfElements();
+                    
                     //requires code to put each element selected in GUI to be put into "projectComponents"
+                    
                     Statement statement;
                     statement = connection.createStatement();
-                    for (int i=0; i<projectComponents.size(); i++){
-                        statement.executeUpdate(" INSERT INTO SetOfComponents (componentID, projectID)"
-                                + "VALUES (" + projectComponents.get(i).getComponentID() + ", " + projectID + ");" );
+                    for (int i=0; i<projectElements.size(); i++){
+                        statement.executeUpdate(" INSERT INTO SetOfElements (elementID, projectID)"
+                                + "VALUES (" + projectElements.get(i).getElementID() + ", " + projectID + ");" );
                     }
                 } catch (SQLException ex) {
                     Logger.getLogger(testFrame2.class.getName()).log(Level.SEVERE, null, ex);
                 }
     }
      
-     private void findStaffOnProject(){//displays all staff members for a given project
+     private void findStaffOnProject(){//update this when database relationships and place of "role" has been decided
           try{
             
             //make sure GUI gets the info on selected project in the JList, and looks up the correct projectID in the query below          
@@ -234,24 +464,30 @@ public class randomSQLFunctionsReady {
      }
      
      private void findStaffProjects(){//displays all projects that the staff is working on
-          try{
+     
             
             //make sure GUI gets the info on userLogged in --OR-- the userID, and looks up the correct userID in the query below          
                      ResultSet projectResults = null;
                      Statement statement;
-                     statement = connection.createStatement();
-                     projectResults = statement.executeQuery( "SELECT User.userID, Project.projectID, Project.projectName, Project.rootComponent, "
-                     + "Project.teamLeader, Project.clientRep, Project.priority FROM User INNER JOIN (Staff INNER JOIN (Project INNER JOIN "
-                             + "StaffOnProjects ON Project.projectID = StaffOnProjects.projectID) ON Staff.staffID = StaffOnProjects.staffID)"
-                             + " ON User.userID = Staff.staffID WHERE User.userID=" + userID + ";");                     
-                     
-                     while (projectResults.next())
-                    {
-                        //add projectResults to SetOfProjects and the GUI
-                    }
-        }catch(Exception e){
-            JOptionPane.showMessageDialog(null,e);
-        }
+                try {
+                    statement = connection.createStatement();
+                
+                     SetOfProjects allProjects;
+                     SetOfProjects allStaffProjects;
+
+                  projectResults = statement.executeQuery( "SELECT User.userID, Project.projectID, Project.projectName, Project.rootComponent, "
+                  + "Project.teamLeader, Project.clientRep, Project.priority FROM User INNER JOIN (Staff INNER JOIN (Project INNER JOIN "
+                          + "StaffOnProjects ON Project.projectID = StaffOnProjects.projectID) ON Staff.staffID = StaffOnProjects.staffID)"                     
+                          + " ON User.userID = Staff.staffID WHERE User.userID=" + userID + ";");
+                  while (projectResults.next())
+                 {
+                   // for(int i=0; i<allProjects.g
+                    //}
+
+                 }
+                } catch (SQLException ex) {
+                    Logger.getLogger(randomSQLFunctionsReady.class.getName()).log(Level.SEVERE, null, ex);
+                }
      }
      
      private void displayManagingProjects(){//displays all projects where user is a team leader
@@ -313,10 +549,10 @@ public class randomSQLFunctionsReady {
      
      private void deleteTask(){
          try {
-                    ResultSet projectResults = null;
+                    ResultSet delTaskResults = null;
                     Statement statement;
                     statement = connection.createStatement();
-                    projectResults = statement.executeQuery( "DELETE FROM Task WHERE projectID = " + projectID + ";");                   
+                    delTaskResults = statement.executeQuery( "DELETE FROM Task WHERE projectID = " + projectID + ";");                   
                     
                 } catch (SQLException ex) {
                     Logger.getLogger(testFrame2.class.getName()).log(Level.SEVERE, null, ex);
@@ -324,16 +560,31 @@ public class randomSQLFunctionsReady {
          
      }
      
-     private void deleteProject(){
-         //NEEDS TO REMOVE ALL DEPENDANCIES
+     private void deleteProject(Project projectToDelete){
+                try {
+                    //NEEDS TO REMOVE ALL DEPENDANCIES
+                       ResultSet delProjectResults = null;
+                       Statement statement;
+                       statement = connection.createStatement();   
+                       delProjectResults = statement.executeQuery( "DELETE FROM Task WHERE projectID = " + projectToDelete.getProjectID() + ";");
+                       delProjectResults = statement.executeQuery( "DELETE FROM StaffOnProjects WHERE projectID = " + projectToDelete.getProjectID() + ";");
+                       delProjectResults = statement.executeQuery( "DELETE FROM QCReport WHERE projectID = " + projectToDelete.getProjectID() + ";");
+                       //check if we need to remove component and change to element
+                       delProjectResults = statement.executeQuery( "DELETE FROM SetOfComponents WHERE projectID = " + projectToDelete.getProjectID() + ";");
+                       delProjectResults = statement.executeQuery( "DELETE FROM Project WHERE projectID = " + projectToDelete.getProjectID() + ";");
+                       
+                       
+                } catch (SQLException ex) {
+                    Logger.getLogger(randomSQLFunctionsReady.class.getName()).log(Level.SEVERE, null, ex);
+                }
      }
      
-     private void removeStafFromProject(){
+     private void removeStafFromProject(Project removeFromProject, User usertoRemove){
            try {
                     ResultSet projectResults = null;
                     Statement statement;
                     statement = connection.createStatement();
-                    projectResults = statement.executeQuery( "DELETE FROM StaffOnProjects WHERE projectID = " + projectID + ";");                   
+                    projectResults = statement.executeQuery( "DELETE FROM StaffOnProjects WHERE projectID = " + removeFromProject.getProjectID() + ", AND staffID = " + usertoRemove.getUserID() +  ";");                   
                     
                 } catch (SQLException ex) {
                     Logger.getLogger(testFrame2.class.getName()).log(Level.SEVERE, null, ex);
