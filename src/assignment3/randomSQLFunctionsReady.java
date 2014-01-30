@@ -276,7 +276,7 @@ public class randomSQLFunctionsReady {
                     SetOfElements projectElements = new SetOfElements();
                     SetOfTasks projectTasks = new SetOfTasks();
                     SetOfQCReports projectReports = new SetOfQCReports();
-                    SetOfStaff allProjectStaff = new SetOfStaff();
+                    SetOfUsers allProjectStaff = new SetOfUsers();
 
                     for (int i=0; i<allUsers.size();i++){  
                         if(allUsers.get(i).getUserID()==(tempTeamLeaderID))  //adds Team Leader
@@ -314,8 +314,8 @@ public class randomSQLFunctionsReady {
                     while(dbAllProjectStaff.next()){
                             if(dbAllProjects.getInt("projectID") == dbAllProjectStaff.getInt("projectID")){
                                 for(int i=0;i<allUsers.size();i++){
-                                    if(allUsers.get(i).getUserID() == dbAllProjectStaff.getInt("staffID")){
-                                        allProjectStaff.addStaff(allUsers.get(i));
+                                    if(allUsers.get(i).getUserID() == dbAllProjectStaff.getInt("staffID")){                                       
+                                        allProjectStaff.addUser(allUsers.get(i));
                                     }
                                 }      
                         }
