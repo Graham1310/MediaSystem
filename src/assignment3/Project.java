@@ -11,9 +11,9 @@ package assignment3;
 public class Project {
 
     
-    private int projectID;
+    
 
-    public Project(int projectID, String projectName, User teamLeader, User clientRep, int priority, SetOfTasks projectTasks, SetOfElements elementCollection, SetOfQCReports reports, SetOfStaff setOfStaff) {
+    public Project(int projectID, String projectName, User teamLeader, User clientRep, int priority, SetOfTasks projectTasks, SetOfElements elementCollection, SetOfQCReports reports, SetOfUsers setOfUsers) {
         this.projectID = projectID;
         this.projectName = projectName;
         this.teamLeader = teamLeader;
@@ -22,9 +22,12 @@ public class Project {
         this.projectTasks = projectTasks;
         this.elementCollection = elementCollection;
         this.reports = reports;
-        this.setOfStaff = setOfStaff;
+        this.setOfUsers = setOfUsers;
     }
     
+    
+    private int projectID;
+    private final SetOfUsers setOfUsers;
     private String projectName;
     private User teamLeader;
     private User clientRep;
@@ -98,7 +101,7 @@ public class Project {
         this.priority = priority;
     }
     
-    public SetOfStaff getSetOfStaff() {
+public SetOfStaff getSetOfStaff() {
         return setOfStaff;
     }
 
