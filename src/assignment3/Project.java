@@ -21,6 +21,26 @@ public class Project {
         this.componentCollection = componentCollection;
         this.reports = reports;
     }
+    public Project(String projectName, ProjectComponent rootComponent, SetOfTasks projectTasks, User teamLeader, User clientRep, int priority, SetOfComponents componentCollection, SetOfQCReports reports) {
+        this.projectName = projectName;
+        this.rootComponent = rootComponent;
+        this.projectTasks = projectTasks;
+        this.teamLeader = teamLeader;
+        this.clientRep = clientRep;
+        this.priority = priority;
+        this.componentCollection = componentCollection;
+        this.reports = reports;
+    }
+    
+    //for db dependencies
+    public Project(String projectName, int rootComponentID, int teamLeaderID, int clientRepID, int priority) {
+        this.projectName = projectName;
+        this.rootComponentID = rootComponentID;
+        this.teamLeaderID = teamLeaderID;
+        this.clientRepID = clientRepID;
+        this.priority = priority;
+    }    
+    
     private int projectID;
     private String projectName;
     private ProjectComponent rootComponent;
@@ -30,7 +50,11 @@ public class Project {
     private int priority;
     private SetOfComponents componentCollection;
     private SetOfQCReports reports;
-
+    
+    //for db dependencies
+    int rootComponentID ;
+    int teamLeaderID;
+    int clientRepID;
     
     public int getProjectID() {
         return projectID;
@@ -104,5 +128,28 @@ public class Project {
         this.componentCollection = componentCollection;
     }
     
+    public int getRootComponentID(){
+        return rootComponentID;
+    }
+    
+    public void setRootComponentID(int rootComponentID){
+        this.rootComponentID = rootComponentID;
+    }
+  
+    public int getTeamLeaderID(){
+        return teamLeaderID;
+    }
+    
+    public void setTeamLeaderID(int teamLeaderID){
+        this.teamLeaderID = teamLeaderID;
+    }
+    
+    public int getClientRepID(){
+        return clientRepID;
+    }
+    
+    public void setClientRepID(int clientRepID){
+        this.clientRepID = clientRepID;
+    }    
     
 }

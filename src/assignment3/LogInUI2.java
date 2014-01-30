@@ -112,6 +112,22 @@ public class LogInUI2 extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private String getUserRole(int userID){
+        String role="";
+        try{
+            ResultSet userResults = null;
+            Statement user;
+            
+            user = connection.createStatement();
+            userResults = user.executeQuery("SELECT Staff.role, User.userID FROM [User] INNER JOIN Staff ON User.[userID] = Staff.[staffID] WHERE User.userID="+userID+";");
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(LogInUI2.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return role;
+    }
+    
     private void logInBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logInBtnActionPerformed
         try {
             //int num = Integer.parseInt(SearchBookBox.getText());
@@ -129,7 +145,7 @@ public class LogInUI2 extends javax.swing.JFrame {
                      while (loginResults.next())
                     {
                         //finds any matching user and puts them into UserLoggedIn
-                        UserLoggedIn = new User(loginResults.getInt("userID"), loginResults.getString("firstName"), loginResults.getString("surname"), loginResults.getString("username"), loginResults.getString("password"), loginResults.getString("role"));
+                        UserLoggedIn = new User(loginResults.getInt("userID"), loginResults.getString("firstName"), loginResults.getString("surname"), loginResults.getString("username"), loginResults.getString("password")/*, loginResults.getString("role")*/);
 
                     }
                      
@@ -142,7 +158,11 @@ public class LogInUI2 extends javax.swing.JFrame {
                     {
                         newInstance.addUserLogedIn(UserLoggedIn);
 //                        JOptionPane.showMessageDialog(null, "You have logged in!");
-                        switch(UserLoggedIn.getRole()){
+                        int userID = UserLoggedIn.getUserID();
+                       
+                        String role = getUserRole(userID);
+                        
+                        switch(role){ // load different starting frame depending on role
                             case "Manager": new ManagerUI().setVisible(true);
                                 break;
                             case "QC Team Lead": new MainUI().setVisible(true);
@@ -154,6 +174,7 @@ public class LogInUI2 extends javax.swing.JFrame {
                             case "Client Representative":new MainUI().setVisible(true);// TO DO: add ui
                                 break;     
                         }
+                        new ManagerUI().setVisible(true);
                         this.setVisible(false);
                     }
                     

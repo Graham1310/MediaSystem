@@ -46,9 +46,9 @@ public class testFrame3Tim extends javax.swing.JFrame {
 
             while(dbAllUsers.next())
             {
-                User tempUser = new User(dbAllUsers.getInt("userID"), dbAllUsers.getString("firstName"), dbAllUsers.getString("surname"),
-                        dbAllUsers.getString("userName"), dbAllUsers.getString("password"), dbAllUsers.getString("role"));
-                allUsers.addUser(tempUser);
+//                User tempUser = new User(dbAllUsers.getInt("userID"), dbAllUsers.getString("firstName"), dbAllUsers.getString("surname"),
+//                        dbAllUsers.getString("userName"), dbAllUsers.getString("password"), dbAllUsers.getString("role"));
+//                allUsers.addUser(tempUser);
             }
         } catch (SQLException ex) {
             Logger.getLogger(testFrame3Tim.class.getName()).log(Level.SEVERE, null, ex);

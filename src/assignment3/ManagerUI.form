@@ -23,7 +23,7 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
+          <Group type="102" attributes="0">
               <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -55,8 +55,8 @@
                       <Group type="102" alignment="1" attributes="0">
                           <Component id="btnAddStaffToProject" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="btnEditStaffOnProject" min="-2" pref="56" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="btnEditStaffOnProject" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="btnRemoveStaffFromProject" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -67,9 +67,10 @@
                   <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
                   <Component id="jScrollPane3" min="-2" pref="187" max="-2" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
                       <Component id="btnAddComponentsToProject" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btnEditComponentsOnProject" min="-2" pref="56" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="btnEditComponentsOnProject" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnRemoveComponentsToProject" min="-2" max="-2" attributes="0"/>
                   </Group>
@@ -79,8 +80,8 @@
                   <Group type="102" attributes="0">
                       <Component id="btnAddTaskToProject" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btnEditTaskOnProject" min="-2" pref="56" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="btnEditTaskOnProject" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
                       <Component id="btnRemoveTaskFromProject" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
@@ -134,21 +135,21 @@
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="103" groupAlignment="3" attributes="0">
+                  <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                       <Component id="btnAddStaffToProject" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="btnRemoveStaffFromProject" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btnEditStaffOnProject" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                      <Component id="btnAddComponentsToProject" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="btnEditComponentsOnProject" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="btnRemoveComponentsToProject" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
+                  <Component id="btnRemoveStaffFromProject" min="-2" max="-2" attributes="0"/>
                   <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                       <Component id="btnAddTaskToProject" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btnEditTaskOnProject" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="btnRemoveTaskFromProject" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="btnRemoveComponentsToProject" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnAddComponentsToProject" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnEditComponentsOnProject" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Component id="btnRemoveTaskFromProject" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
@@ -281,11 +282,6 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JToggleButton" name="btnAddStaffToProject">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Add"/>
-      </Properties>
-    </Component>
     <Component class="javax.swing.JButton" name="btnRemoveStaffFromProject">
       <Properties>
         <Property name="text" type="java.lang.String" value="Remove"/>
@@ -294,21 +290,6 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRemoveStaffFromProjectActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JToggleButton" name="btnEditStaffOnProject">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Edit"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JToggleButton" name="btnAddComponentsToProject">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Add"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JToggleButton" name="btnEditComponentsOnProject">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Edit"/>
-      </Properties>
-    </Component>
     <Component class="javax.swing.JButton" name="btnRemoveComponentsToProject">
       <Properties>
         <Property name="text" type="java.lang.String" value="Remove"/>
@@ -316,16 +297,6 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRemoveComponentsToProjectActionPerformed"/>
       </Events>
-    </Component>
-    <Component class="javax.swing.JToggleButton" name="btnAddTaskToProject">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Add"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JToggleButton" name="btnEditTaskOnProject">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Edit"/>
-      </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="btnRemoveTaskFromProject">
       <Properties>
@@ -349,6 +320,36 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtClientRep">
+    </Component>
+    <Component class="javax.swing.JButton" name="btnAddStaffToProject">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Add"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnEditStaffOnProject">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Edit"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnEditComponentsOnProject">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Edit"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnAddComponentsToProject">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Add"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnEditTaskOnProject">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Edit"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnAddTaskToProject">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Add"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>
