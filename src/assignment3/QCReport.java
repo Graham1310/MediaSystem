@@ -10,8 +10,17 @@ package assignment3;
  * @author Tim Beale
  */
 public class QCReport {
+
+    public QCReport(int qCReportID, int ProjectID, SetOfQCComments comments, User reviewer, int overallSeverity) {
+        this.qCReportID = qCReportID;
+        this.ProjectID = ProjectID;
+        this.comments = comments;
+        this.reviewer = reviewer;
+        this.overallSeverity = overallSeverity;
+    }
     
     private int qCReportID;
+    private int ProjectID;
     private SetOfQCComments comments;
     private User reviewer;
     private int overallSeverity;
@@ -22,6 +31,14 @@ public class QCReport {
 
     public void setqCReportID(int qCReportID) {
         this.qCReportID = qCReportID;
+    }
+    
+     public int getProjectID() {
+        return ProjectID;
+    }
+
+    public void setProjectID(int ProjectID) {
+        this.ProjectID = ProjectID;
     }
     
     public SetOfQCComments getComments() {
