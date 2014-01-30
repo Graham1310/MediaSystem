@@ -10,7 +10,7 @@ package assignment3;
  */
 public class Project {
 
-    public Project(int projectID, String projectName, User teamLeader, User clientRep, int priority, SetOfTasks projectTasks, SetOfQCReports reports, SetOfUsers setOfUsers) {
+    public Project(int projectID, String projectName, User teamLeader, User clientRep, int priority, SetOfTasks projectTasks, SetOfQCReports reports, SetOfElements elementCollection, SetOfUsers setOfUsers) {
         this.projectID = projectID;
         this.setOfUsers = setOfUsers;
         this.projectName = projectName;
@@ -18,6 +18,7 @@ public class Project {
         this.clientRep = clientRep;
         this.priority = priority;
         this.projectTasks = projectTasks;
+        this.elementCollection = elementCollection;
         this.reports = reports;
     }
 
