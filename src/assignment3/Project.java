@@ -10,7 +10,7 @@ package assignment3;
  */
 public class Project {
 
-    public Project(int projectID, String projectName, ProjectComponent rootComponent, SetOfTasks projectTasks, User teamLeader, User clientRep, int priority, SetOfComponents componentCollection, SetOfQCReports reports) {
+    public Project(int projectID, String projectName, ProjectComponent rootComponent, SetOfTasks projectTasks, User teamLeader, User clientRep, int priority, SetOfComponents componentCollection, SetOfQCReports reports, SetOfStaff setOfStaff) {
         this.projectID = projectID;
         this.projectName = projectName;
         this.rootComponent = rootComponent;
@@ -20,6 +20,8 @@ public class Project {
         this.priority = priority;
         this.componentCollection = componentCollection;
         this.reports = reports;
+        this.setOfStaff = setOfStaff;
+        
     }
     private int projectID;
     private String projectName;
@@ -30,7 +32,7 @@ public class Project {
     private int priority;
     private SetOfComponents componentCollection;
     private SetOfQCReports reports;
-
+    private SetOfStaff setOfStaff;
     
     public int getProjectID() {
         return projectID;
@@ -104,5 +106,12 @@ public class Project {
         this.componentCollection = componentCollection;
     }
     
+    public SetOfStaff getSetOfStaff() {
+        return setOfStaff;
+    }
+
+    public void setSetOfStaff(SetOfStaff setOfStaff) {
+        this.setOfStaff = setOfStaff;
+    }
     
 }
