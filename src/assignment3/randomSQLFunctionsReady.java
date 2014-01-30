@@ -266,7 +266,7 @@ public class randomSQLFunctionsReady {
                 dbAllProjectElements = statement.executeQuery("SELECT SetOFElements.ProjectID, SetOFElements.elementID, Element.elementName" +
                                                             "FROM Element INNER JOIN SetOFElements ON Element.elementID = SetOFElements.elementID;");
                 dbAllProjectStaff = statement.executeQuery( "SELECT StaffOnProjects.staffID, StaffOnProjects.projectID FROM StaffOnProjects;"); 
-                
+
                 while(dbAllProjects.next())
                 {
                     int tempTeamLeaderID = dbAllProjects.getInt("teamLeader");
@@ -322,6 +322,7 @@ public class randomSQLFunctionsReady {
                     }
                    
                     Project newProject = new Project (dbAllProjects.getInt("projectID"), dbAllProjects.getString("projectName"), tempTeamLeader, tempClientRep, dbAllProjects.getInt("priority"), projectTasks, projectElements, projectReports, allProjectStaff);   
+                    allProjects.addProject(newProject);
                 }              
         } catch (SQLException ex) {                  
             Logger.getLogger(randomSQLFunctionsReady.class.getName()).log(Level.SEVERE, null, ex);                   
