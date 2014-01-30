@@ -18,36 +18,27 @@ import javax.swing.JOptionPane;
  * @author b0010899
  */
 public class randomSQLFunctionsReady {
-     
-            int userID;
-            String firstName;
-            String surname;
-            String username;
-            String password;
-            
-            int passwordID = 2;
-            String projectName;
-            int teamLeader;
-            int clientRep;
-            int priority;
-            
-            int taskID;
-            int projectID;
-            int responsiblePerson;
-            int taskPriority;
-            String status;
-            String taskName;
-            
-            int assetID;
-            String assetName;
-            String assetType;
-            
-            int elementID;
-            String elementName;
-    
+
+    public randomSQLFunctionsReady(User UserLoggedIn, SetOfQCReports allQCReports,  SetOfQCComments allComments,
+            SetOfTasks allTasks, SetOfUsers allUsers, SetOfClients allClients, SetOfClientReps allClientReps,
+            SetOfStaff allStaff, SetOfAssets allAssets, SetOfElements allElements, SetOfProjects allProjects ) {
+        this.UserLoggedIn = UserLoggedIn;
+        this.allAssets = allAssets;
+        this.allClientReps = allClientReps;
+        this.allClients = allClients;
+        this.allComments = allComments;
+        this.allElements = allElements;
+        this.allProjects = allProjects;
+        this.allQCReports = allQCReports;
+        this.allStaff = allStaff;
+        this.allTasks = allTasks;
+        this.allUsers = allUsers;
+    }
+
+
             SetOfQCReports allQCReports = new SetOfQCReports();
             SetOfQCComments allComments = new SetOfQCComments();
-            SetOfTasks usersTasks = new SetOfTasks();
+            //SetOfTasks usersTasks = new SetOfTasks();
             SetOfTasks allTasks = new SetOfTasks();
             SetOfUsers allUsers = new SetOfUsers();
             SetOfClients allClients = new SetOfClients();
@@ -57,6 +48,94 @@ public class randomSQLFunctionsReady {
             SetOfElements allElements = new SetOfElements();
             SetOfProjects allProjects = new SetOfProjects();
             User UserLoggedIn;
+            
+    public SetOfQCReports getAllQCReports() {
+        return allQCReports;
+    }
+
+    public void setAllQCReports(SetOfQCReports allQCReports) {
+        this.allQCReports = allQCReports;
+    }
+
+    public SetOfQCComments getAllComments() {
+        return allComments;
+    }
+
+    public void setAllComments(SetOfQCComments allComments) {
+        this.allComments = allComments;
+    }
+
+    public SetOfTasks getAllTasks() {
+        return allTasks;
+    }
+
+    public void setAllTasks(SetOfTasks allTasks) {
+        this.allTasks = allTasks;
+    }
+
+    public SetOfUsers getAllUsers() {
+        return allUsers;
+    }
+
+    public void setAllUsers(SetOfUsers allUsers) {
+        this.allUsers = allUsers;
+    }
+
+    public SetOfClients getAllClients() {
+        return allClients;
+    }
+
+    public void setAllClients(SetOfClients allClients) {
+        this.allClients = allClients;
+    }
+
+    public SetOfClientReps getAllClientReps() {
+        return allClientReps;
+    }
+
+    public void setAllClientReps(SetOfClientReps allClientReps) {
+        this.allClientReps = allClientReps;
+    }
+
+    public SetOfStaff getAllStaff() {
+        return allStaff;
+    }
+
+    public void setAllStaff(SetOfStaff allStaff) {
+        this.allStaff = allStaff;
+    }
+
+    public SetOfAssets getAllAssets() {
+        return allAssets;
+    }
+
+    public void setAllAssets(SetOfAssets allAssets) {
+        this.allAssets = allAssets;
+    }
+
+    public SetOfElements getAllElements() {
+        return allElements;
+    }
+
+    public void setAllElements(SetOfElements allElements) {
+        this.allElements = allElements;
+    }
+
+    public SetOfProjects getAllProjects() {
+        return allProjects;
+    }
+
+    public void setAllProjects(SetOfProjects allProjects) {
+        this.allProjects = allProjects;
+    }
+
+    public User getUserLoggedIn() {
+        return UserLoggedIn;
+    }
+
+    public void setUserLoggedIn(User UserLoggedIn) {
+        this.UserLoggedIn = UserLoggedIn;
+    }
     
     
     private void loadAllUsers(){//COMPLETE
@@ -354,10 +433,9 @@ public class randomSQLFunctionsReady {
     }
     
     private void displayUsersTasks(){
-        //find tasks for user logged in
+        SetOfTasks usersTasks = new SetOfTasks();
         try {
-            Project tempProject = null;
-            
+            Project tempProject = null; 
             ResultSet dbUsersTasks = null;
             Statement statement;
             statement = connection.createStatement();
@@ -401,7 +479,7 @@ public class randomSQLFunctionsReady {
         }
     }
     
-    private void SelectIndividualTask(){
+    /*private void SelectIndividualTask(){
         try{
             
             //make sure GUI gets the info on selected task in the JList, and looks up the correct task ID in the query below          
@@ -419,7 +497,7 @@ public class randomSQLFunctionsReady {
         }catch(Exception e){
             JOptionPane.showMessageDialog(null,e);
         }
-    }
+    }*/
     
     private void CreateNewProject(String projectName, User teamLeader, User clientRep, int priority){//create a new project
                 try {
@@ -432,38 +510,37 @@ public class randomSQLFunctionsReady {
                 }
     }
     
-    private void ChangeTaskStatus(){//edit the task
+    private void ChangeTaskStatus(Project project, User responsiblePerson, int priority, String status, String taskName, Asset asset){//edit the task
         //requires IF statement to make sure only appropriate QC Team Member can change the task status
         try {
             
             //I think this should be a Update maybe? 
                     Statement statement;
                     statement = connection.createStatement();
-                    statement.executeUpdate("UPDATE Task SET [projectID] =" + projectID + ", [responsiblePerson] =" + userID + ", [taskPriority] =" + taskPriority
-                            + ", [status] = '" + status + "', [taskName] ='" + taskName + "', [assetID] =" + assetID + ");");
+                    statement.executeUpdate("UPDATE Task SET [projectID] =" + project.getProjectID() + ", [responsiblePerson] =" + responsiblePerson.getUserID()
+                                                + ", [taskPriority] =" + priority + ", [status] = '" + status + 
+                                            "', [taskName] ='" + taskName + "', [assetID] =" + asset.getAssetID() + ");");
                             
                     } catch (SQLException ex) {
                     Logger.getLogger(testFrame2.class.getName()).log(Level.SEVERE, null, ex);
                 }
     }
     
-    private void defineProjectTeam(){//creates team to work on a project
+    private void defineProjectTeam(SetOfUsers projectTeam, Project project){//creates team to work on a project
                 try {
-                    SetOfUsers projectTeam = new SetOfUsers();
-                    //requires code to put each person selected in GUI to be put into "projectTeam"
                     Statement statement;
                     statement = connection.createStatement();
                     for (int i=0; i<projectTeam.size(); i++){
                         
                         statement.executeUpdate(" INSERT INTO StaffOnProjects (staffID, projectID)"
-                                + "VALUES (" + projectTeam.get(i).getUserID() + ", " + projectID + ");" );
+                                + "VALUES (" + projectTeam.get(i).getUserID() + ", " + project.getProjectID() + ");" );
                     }
                 } catch (SQLException ex) {
                     Logger.getLogger(testFrame2.class.getName()).log(Level.SEVERE, null, ex);
                 }
     }
     
-    private void createNewElement(){
+    private void createNewElement(String elementName){
                 try {
                     Statement statement;
                                 statement = connection.createStatement();
@@ -474,7 +551,7 @@ public class randomSQLFunctionsReady {
                 }
     }
     
-    private void createNewAsset(){
+    private void createNewAsset(String assetName, String assetType){
                 try {
                     Statement statement;
                                 statement = connection.createStatement();
@@ -492,7 +569,7 @@ public class randomSQLFunctionsReady {
                     for (int i=0; i<elementAssets.size(); i++){
                         
                         statement.executeUpdate(" INSERT INTO SetOfAssets (assetID, elementID)"
-                                + "VALUES (" + elementAssets.get(i).getAssetID() + ", " + elementID + ");" );
+                                + "VALUES (" + elementAssets.get(i).getAssetID() + ", " + element.getElementID() + ");" );
                     }
                 } catch (SQLException ex) {
                     Logger.getLogger(testFrame2.class.getName()).log(Level.SEVERE, null, ex);
@@ -556,7 +633,7 @@ public class randomSQLFunctionsReady {
                 }
      }
      
-     private void findStaffProjects(){//displays all projects that the staff is working on
+     private void findStaffProjects(User user){//displays all projects that the staff is working on
      
             
             //make sure GUI gets the info on userLogged in --OR-- the userID, and looks up the correct userID in the query below          
@@ -571,7 +648,7 @@ public class randomSQLFunctionsReady {
                   projectResults = statement.executeQuery( "SELECT User.userID, Project.projectID, Project.projectName, "
                   + "Project.teamLeader, Project.clientRep, Project.priority FROM User INNER JOIN (Staff INNER JOIN (Project INNER JOIN "
                           + "StaffOnProjects ON Project.projectID = StaffOnProjects.projectID) ON Staff.staffID = StaffOnProjects.staffID)"                     
-                          + " ON User.userID = Staff.staffID WHERE User.userID=" + userID + ";");
+                          + " ON User.userID = Staff.staffID WHERE User.userID=" + user.getUserID() + ";");
                   while (projectResults.next())
                  {
                    // for(int i=0; i<allProjects.g
@@ -583,14 +660,14 @@ public class randomSQLFunctionsReady {
                 }
      }
      
-     private void displayManagingProjects(){//displays all projects where user is a team leader
+     private void displayManagingProjects(User manager){//displays all projects where user is a team leader
                 try {
                     ResultSet projectResults = null;
                     Statement statement;
                     statement = connection.createStatement();
                     projectResults = statement.executeQuery( "SELECT User.userID, Project.*" +
                     "FROM (User INNER JOIN Staff ON User.userID = Staff.staffID) INNER JOIN Project "
-                            + "ON Staff.staffID = Project.teamLeader; WHERE User.userID=" + userID + ";");                     
+                            + "ON Staff.staffID = Project.teamLeader; WHERE User.teamLeader=" + manager.getUserID() + ";");                     
                     while (projectResults.next())
                    {
                        //add projectResults to SetOfProjects and the GUI
@@ -602,18 +679,22 @@ public class randomSQLFunctionsReady {
      
 
      
-     private void GetComponentsOnProject(){
+     private void GetElementsOnProject(Project project){
          try{
             
-            //make sure GUI gets the info on userLogged in --OR-- the userID, and looks up the correct userID in the query below          
+                     SetOfElements projectElements = new SetOfElements();
                      ResultSet projectResults = null;
                      Statement statement;
                      statement = connection.createStatement();
-                     projectResults = statement.executeQuery( "SELECT * FROM SetOfComponenets WHERE projectID =" +projectID + ";");                     
+                     projectResults = statement.executeQuery( "SELECT * FROM SetOfElements WHERE projectID =" + project.getProjectID() + ";");                     
                      
                      while (projectResults.next())
                     {
-                        //add projectResults to SetOfProjects and the GUI
+                        for(int i=0; i<allElements.size();i++){
+                            if(allElements.get(i).getElementID()==projectResults.getInt("elementID")){
+                                projectElements.addElement(allElements.get(i));
+                            }
+                        }
                     }
           }catch(Exception e){
             JOptionPane.showMessageDialog(null,e);
@@ -622,30 +703,33 @@ public class randomSQLFunctionsReady {
          
      }
      
-     private void GetTasksOnProject(){
+     private void GetTasksOnProject(Project project){
            try{
-            //THIS NEEDS TO BE CAHNGED, TASKS ARE ASSIGNED TO ASSETS AND ELEMENTS NOT PROJECTS
-            //make sure GUI gets the info on userLogged in --OR-- the userID, and looks up the correct userID in the query below          
+                     SetOfTasks projectTasks = new SetOfTasks();
                      ResultSet projectResults = null;
                      Statement statement;
                      statement = connection.createStatement();
-                     projectResults = statement.executeQuery( "SELECT * FROM Task WHERE projectID = " + projectID + ";");                     
+                     projectResults = statement.executeQuery( "SELECT * FROM Task WHERE projectID = " + project.getProjectID() + ";");                     
                      
                      while (projectResults.next())
                     {
-                        //add projectResults to SetOfProjects and the GUI
+                        for(int i=0; i<allTasks.size();i++){
+                            if(allTasks.get(i).getTaskID()==projectResults.getInt("taskID")){
+                                projectTasks.addTask(allTasks.get(i));
+                            }
+                        }
                     }
           }catch(Exception e){
             JOptionPane.showMessageDialog(null,e);
         }
      }
      
-     private void deleteTask(){
+     private void deleteTask(Task task){
          try {
                     ResultSet delTaskResults = null;
                     Statement statement;
                     statement = connection.createStatement();
-                    delTaskResults = statement.executeQuery( "DELETE FROM Task WHERE projectID = " + projectID + ";");                   
+                    delTaskResults = statement.executeQuery( "DELETE FROM Task WHERE taskID = " + task.getTaskID() + ";");                   
                     
                 } catch (SQLException ex) {
                     Logger.getLogger(testFrame2.class.getName()).log(Level.SEVERE, null, ex);
