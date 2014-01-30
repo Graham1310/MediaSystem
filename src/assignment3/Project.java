@@ -10,27 +10,35 @@ package assignment3;
  */
 public class Project {
 
-    public Project(int projectID, String projectName, ProjectComponent rootComponent, SetOfTasks projectTasks, User teamLeader, User clientRep, int priority, SetOfComponents componentCollection, SetOfQCReports reports, SetOfStaff setOfStaff) {
+    
+    private int projectID;
+
+    public Project(int projectID, String projectName, User teamLeader, User clientRep, int priority, SetOfTasks projectTasks, SetOfElements elementCollection, SetOfQCReports reports, SetOfStaff setOfStaff) {
         this.projectID = projectID;
         this.projectName = projectName;
-        this.rootComponent = rootComponent;
-        this.projectTasks = projectTasks;
         this.teamLeader = teamLeader;
         this.clientRep = clientRep;
         this.priority = priority;
-        this.componentCollection = componentCollection;
+        this.projectTasks = projectTasks;
+        this.elementCollection = elementCollection;
         this.reports = reports;
         this.setOfStaff = setOfStaff;
-        
     }
-    private int projectID;
+    
     private String projectName;
-    private ProjectComponent rootComponent;
-    private SetOfTasks projectTasks;
     private User teamLeader;
     private User clientRep;
     private int priority;
-    private SetOfComponents componentCollection;
+    private SetOfTasks projectTasks;
+    private SetOfElements elementCollection;
+
+    public SetOfElements getElementCollection() {
+        return elementCollection;
+    }
+
+    public void setElementCollection(SetOfElements elementCollection) {
+        this.elementCollection = elementCollection;
+    }
     private SetOfQCReports reports;
     private SetOfStaff setOfStaff;
     
@@ -56,14 +64,6 @@ public class Project {
 
     public void setReports(SetOfQCReports reports) {
         this.reports = reports;
-    }
-
-    public ProjectComponent getRootComponent() {
-        return rootComponent;
-    }
-
-    public void setRootComponent(ProjectComponent rootComponent) {
-        this.rootComponent = rootComponent;
     }
 
     public SetOfTasks getProjectTasks() {
@@ -96,14 +96,6 @@ public class Project {
 
     public void setPriority(int priority) {
         this.priority = priority;
-    }
-
-    public SetOfComponents getComponentCollection() {
-        return componentCollection;
-    }
-
-    public void setComponentCollection(SetOfComponents componentCollection) {
-        this.componentCollection = componentCollection;
     }
     
     public SetOfStaff getSetOfStaff() {
