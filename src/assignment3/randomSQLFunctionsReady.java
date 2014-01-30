@@ -684,5 +684,26 @@ public class randomSQLFunctionsReady {
                 }
      }
      
+     private void displayUnassignedAssets(){
+                try {
+                    SetOfAssets unassignedAssets = new SetOfAssets();
+                    ResultSet dbAssetResults = null;
+                    Statement statement;
+                    statement = connection.createStatement();
+                    dbAssetResults = statement.executeQuery("SELECT Asset.ID, SetOFAssets.elementID" +
+                                                "FROM Asset LEFT JOIN SetOFAssets ON Asset.ID = SetOFAssets.assetID" +
+                                                "WHERE (((SetOFAssets.elementID) Is Null));");
+                    while(dbAssetResults.next()){
+                        for(int i=0;i<allAssets.size();i++){
+                            if(allAssets.get(i).getAssetID()==dbAssetResults.getInt("assetID")){
+                                unassignedAssets.addAsset(allAssets.get(i));
+                            }
+                        }
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(randomSQLFunctionsReady.class.getName()).log(Level.SEVERE, null, ex);
+                }
+     }
+     
      
 }
