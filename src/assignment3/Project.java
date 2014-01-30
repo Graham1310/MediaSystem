@@ -10,11 +10,9 @@ package assignment3;
  */
 public class Project {
 
-    
-    private int projectID;
-
-    public Project(int projectID, String projectName, User teamLeader, User clientRep, int priority, SetOfTasks projectTasks, SetOfElements elementCollection, SetOfQCReports reports, SetOfStaff setOfStaff) {
+    public Project(int projectID, String projectName, User teamLeader, User clientRep, int priority, SetOfTasks projectTasks, SetOfQCReports reports, SetOfElements elementCollection, SetOfUsers setOfUsers) {
         this.projectID = projectID;
+        this.setOfUsers = setOfUsers;
         this.projectName = projectName;
         this.teamLeader = teamLeader;
         this.clientRep = clientRep;
@@ -22,9 +20,14 @@ public class Project {
         this.projectTasks = projectTasks;
         this.elementCollection = elementCollection;
         this.reports = reports;
-        this.setOfStaff = setOfStaff;
     }
+
     
+    
+
+   
+    private int projectID;
+    private SetOfUsers setOfUsers;
     private String projectName;
     private User teamLeader;
     private User clientRep;
@@ -98,12 +101,12 @@ public class Project {
         this.priority = priority;
     }
     
-    public SetOfStaff getSetOfStaff() {
-        return setOfStaff;
+    public SetOfUsers getSetOfUsers() {
+        return setOfUsers;
     }
 
-    public void setSetOfStaff(SetOfStaff setOfStaff) {
-        this.setOfStaff = setOfStaff;
+    public void setSetOfUsers(SetOfUsers setOfUsers) {
+        this.setOfUsers = setOfUsers;
     }
     
 }

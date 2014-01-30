@@ -226,7 +226,7 @@ public class randomSQLFunctionsReady {
                     
                     while (dbAllQCReports.next()){
                         SetOfQCComments reportComments = new SetOfQCComments();
-                        User reviewer;
+                        User reviewer = null;
                         for(int i=0;i<allComments.size();i++){
                             if(allComments.get(i).getcQCommentID()==dbAllQCReports.getInt("qCReportID")){
                                 reportComments.addQCComments(allComments.get(i));
@@ -240,6 +240,7 @@ public class randomSQLFunctionsReady {
                         
                         QCReport newReport = new QCReport(dbAllQCReports.getInt("qCReportID"),dbAllQCReports.getInt("projectID"),
                                 reportComments, reviewer, dbAllQCReports.getInt("overallSeverityRating"));
+                        allQCReports.addReport(newReport);
                     }
                     
                 } catch (SQLException ex) {
@@ -254,15 +255,18 @@ public class randomSQLFunctionsReady {
             
                 allProjects = null;
                 
+                
                 ResultSet dbAllProjects = null;
                 ResultSet dbAllProjectElements = null;
+                ResultSet dbAllProjectStaff = null;
                 Statement statement;
                 statement = connection.createStatement();
                 dbAllProjects = statement.executeQuery( "SELECT Project.projectID, Project.projectName, Project.rootComponent, Project.teamLeader, "                     
                         + "Project.clientRep, Project.priority FROM Project;");  
                 dbAllProjectElements = statement.executeQuery("SELECT SetOFElements.ProjectID, SetOFElements.elementID, Element.elementName" +
                                                             "FROM Element INNER JOIN SetOFElements ON Element.elementID = SetOFElements.elementID;");
-                
+                dbAllProjectStaff = statement.executeQuery( "SELECT StaffOnProjects.staffID, StaffOnProjects.projectID FROM StaffOnProjects;"); 
+
                 while(dbAllProjects.next())
                 {
                     int tempTeamLeaderID = dbAllProjects.getInt("teamLeader");
@@ -271,6 +275,8 @@ public class randomSQLFunctionsReady {
                     User tempClientRep = null;
                     SetOfElements projectElements = new SetOfElements();
                     SetOfTasks projectTasks = new SetOfTasks();
+                    SetOfQCReports projectReports = new SetOfQCReports();
+                    SetOfUsers allProjectStaff = new SetOfUsers();
 
                     for (int i=0; i<allUsers.size();i++){  
                         if(allUsers.get(i).getUserID()==(tempTeamLeaderID))  //adds Team Leader
@@ -298,16 +304,35 @@ public class randomSQLFunctionsReady {
                             }
                         }
                     }
+                    
+                    for(int i=0; i<allQCReports.size(); i++){   //add project reports
+                        if(allQCReports.get(i).getProjectID()==dbAllProjects.getInt("projectID")){
+                            projectReports.addReport(allQCReports.get(i));
+                        }
+                    }
+                    
+                    while(dbAllProjectStaff.next()){
+                            if(dbAllProjects.getInt("projectID") == dbAllProjectStaff.getInt("projectID")){
+                                for(int i=0;i<allUsers.size();i++){
+                                    if(allUsers.get(i).getUserID() == dbAllProjectStaff.getInt("staffID")){                                       
+                                        allProjectStaff.addUser(allUsers.get(i));
+                                    }
+                                }      
+                        }
+                    }
                    
-                    Project newProject = new Project (dbAllProjects.getInt("projectID"), dbAllProjects.getString("projectName"), tempTeamLeader, tempClientRep, dbAllProjects.getInt("priority"), projectTasks, projectElements, SetOfQCReports reports, SetOfStaff setOfStaff)
-                    
-                    
+                    Project newProject = new Project (dbAllProjects.getInt("projectID"), dbAllProjects.getString("projectName"), tempTeamLeader, tempClientRep, dbAllProjects.getInt("priority"), projectTasks, projectReports, projectElements, allProjectStaff);   
+                    allProjects.addProject(newProject);
                 }              
         } catch (SQLException ex) {                  
             Logger.getLogger(randomSQLFunctionsReady.class.getName()).log(Level.SEVERE, null, ex);                   
         }
             
 
+    }
+    
+    private void createNewTask(){
+        
     }
     
     private void displayUsersTasks(){
@@ -324,9 +349,17 @@ public class randomSQLFunctionsReady {
 
             while(dbUsersTasks.next())
             {
-                Task task = new Task(dbUsersTasks.getInt("Task.taskID"), UserLoggedIn, dbUsersTasks.getString("Task.TaskName"), dbUsersTasks.getInt("Task.taskPriority"),
-                                dbUsersTasks.getString("Task.taskStatus"), dbUsersTasks.getInt("Task.projectID"));
-                usersTasks.addTask(task);
+                for(int i=0; i<allAssets.size();i++){
+                    if(allAssets.get(i).getAssetID()==dbUsersTasks.getInt("assetID")){
+                        Task task = new Task(dbUsersTasks.getInt("Task.taskID"), UserLoggedIn, dbUsersTasks.getString("Task.TaskName"), dbUsersTasks.getInt("Task.taskPriority"),
+                                dbUsersTasks.getString("Task.taskStatus"), dbUsersTasks.getInt("Task.projectID"), allAssets.get(i));
+                        usersTasks.addTask(task);
+                    }
+                }
+                
+                
+                
+                
                 //jList1.setListData(usersTasks);
             }
             
@@ -494,6 +527,23 @@ public class randomSQLFunctionsReady {
         }catch(Exception e){
             JOptionPane.showMessageDialog(null,e);
         }
+     }
+     
+     private void removeStaffFromProject(User user, Project project){
+                try {
+                    project.getSetOfUsers().removeUser(user);
+                    user.getWorkingOnProjects().removeProject(project);
+                    
+                    ResultSet removeStaffFromProject = null;
+                    Statement statement;
+                    statement = connection.createStatement();
+                    
+                    removeStaffFromProject = statement.executeQuery( "DELETE FROM StaffOnProjects WHERE projectID = " + project.getProjectID() 
+                                                                        + " AND staffID = " + user.getUserID() + ";");
+                    
+                } catch (SQLException ex) {
+                    Logger.getLogger(randomSQLFunctionsReady.class.getName()).log(Level.SEVERE, null, ex);
+                }
      }
      
      private void findStaffProjects(){//displays all projects that the staff is working on

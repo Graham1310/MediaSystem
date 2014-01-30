@@ -11,21 +11,28 @@ package assignment3;
 class Task {
     private int taskID;
     private User responsiblePerson;
-    private String taskName;
-    private int priority;
-    private String status;
-    private int projectID;
-    //reports??
 
-   
-
-    public Task(int taskID, User responsiblePerson, String taskName, int priority, String status, int projectID) {
+    public Task(int taskID, User responsiblePerson, String taskName, int priority, String status, int projectID, Asset asset) {
         this.taskID = taskID;
         this.responsiblePerson = responsiblePerson;
         this.taskName = taskName;
         this.priority = priority;
         this.status = status;
         this.projectID = projectID;
+        this.asset = asset;
+    }
+    private String taskName;
+    private int priority;
+    private String status;
+    private int projectID;
+    private Asset asset;
+
+    public Asset getAsset() {
+        return asset;
+    }
+
+    public void setAsset(Asset asset) {
+        this.asset = asset;
     }
 
    public int getProjectID() {
