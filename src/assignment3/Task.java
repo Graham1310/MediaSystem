@@ -21,6 +21,9 @@ class Task {
         this.projectID = projectID;
         this.asset = asset;
     }
+    
+    
+    
     private String taskName;
     private int priority;
     private String status;
