@@ -15,10 +15,10 @@ public class SetOfQCReports extends Vector<QCReport>{
     public SetOfQCReports(){
         super();
     }
-    public void addQCComments(QCReport aQCReport){
+    public void addReport(QCReport aQCReport){
         super.add(aQCReport);
     }
-    public void removeQCComments(QCReport aQCReport){
+    public void removeReport(QCReport aQCReport){
         super.remove(aQCReport);
     }
 }
