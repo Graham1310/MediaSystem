@@ -46,6 +46,7 @@ public class randomSQLFunctionsReady {
             int elementID;
             String elementName;
     
+            SetOfQCReports allQCReports = new SetOfQCReports();
             SetOfQCComments allComments = new SetOfQCComments();
             SetOfTasks usersTasks = new SetOfTasks();
             SetOfTasks allTasks = new SetOfTasks();
@@ -214,6 +215,38 @@ public class randomSQLFunctionsReady {
                 }
     }
     
+    private void loadAllQCReports(){
+                try {
+                    allQCReports = null;
+                    ResultSet dbAllQCReports = null;
+                    Statement statement;
+                    statement = connection.createStatement();
+                    dbAllQCReports = statement.executeQuery("SELECT QCReport.qCReportID, QCReport.projectID, QCReport.reviewer,"
+                                                             + " QCReport.overallSeverityRating FROM QCReport;");
+                    
+                    while (dbAllQCReports.next()){
+                        SetOfQCComments reportComments = new SetOfQCComments();
+                        User reviewer;
+                        for(int i=0;i<allComments.size();i++){
+                            if(allComments.get(i).getcQCommentID()==dbAllQCReports.getInt("qCReportID")){
+                                reportComments.addQCComments(allComments.get(i));
+                            }
+                        }
+                        for(int i=0;i<allUsers.size();i++){
+                            if(allUsers.get(i).getUserID()==dbAllQCReports.getInt("reviewer")){
+                                reviewer = allUsers.get(i);
+                            }
+                        }
+                        
+                        QCReport newReport = new QCReport(dbAllQCReports.getInt("qCReportID"),dbAllQCReports.getInt("projectID"),
+                                reportComments, reviewer, dbAllQCReports.getInt("overallSeverityRating"));
+                    }
+                    
+                } catch (SQLException ex) {
+                    Logger.getLogger(randomSQLFunctionsReady.class.getName()).log(Level.SEVERE, null, ex);
+                }
+    }
+    
     
     private void loadAllProjects(){
         try {
@@ -250,7 +283,7 @@ public class randomSQLFunctionsReady {
                         }
                     }
                     
-                    for (int i=0;i<allTasks.getSize();i++){
+                    for (int i=0;i<allTasks.size();i++){
                         if(allTasks.get(i).getProjectID()==dbAllProjects.getInt("projectID")){  //adds project tasks
                             projectTasks.addTask(allTasks.get(i));
                         }
@@ -258,7 +291,7 @@ public class randomSQLFunctionsReady {
                     
                     while(dbAllProjectElements.next()){         //adds project elements
                         if(dbAllProjectElements.getInt("projectID") == dbAllProjects.getInt("projectID")){
-                            for(int i=0;i<allElements.getSize();i++){
+                            for(int i=0;i<allElements.size();i++){
                                 if(allElements.get(i).getElementID()==dbAllProjectElements.getInt("elementID")){
                                     projectElements.addElement(allElements.get(i));
                                 }
