@@ -15,7 +15,7 @@ class QCComments {
     
     private int cQCommentID;
 
-    public QCComments(int cQCommentID, int QCReportID, Date date, String commentText, int severityRating, int faultTimeInSeconds, int assetID, Asset asset) {
+    public QCComments(int cQCommentID, int QCReportID, Date date, String commentText, int severityRating, int faultTimeInSeconds, int assetID) {
         this.cQCommentID = cQCommentID;
         this.QCReportID = QCReportID;
         this.date = date;
@@ -23,7 +23,6 @@ class QCComments {
         this.severityRating = severityRating;
         this.faultTimeInSeconds = faultTimeInSeconds;
         this.assetID = assetID;
-        this.asset = asset;
     }
     private int QCReportID;
     private Date date;
@@ -31,8 +30,14 @@ class QCComments {
     private int severityRating;
     private int faultTimeInSeconds;
     private int assetID;
-    
-    private Asset asset;
+
+    public int getAssetID() {
+        return assetID;
+    }
+
+    public void setAssetID(int assetID) {
+        this.assetID = assetID;
+    }
 
     public int getcQCommentID() {
         return cQCommentID;
@@ -40,14 +45,6 @@ class QCComments {
 
     public void setcQCommentID(int cQCommentID) {
         this.cQCommentID = cQCommentID;
-    }
-
-    public Asset getAsset() {
-        return asset;
-    }
-
-    public void setAsset(Asset asset) {
-        this.asset = asset;
     }
     
     public Date getDate() {
@@ -88,13 +85,5 @@ class QCComments {
 
     public void setQCReportID(int QCReportID) {
         this.QCReportID = QCReportID;
-    }
-
-    public int getAssetID() {
-        return assetID;
-    }
-
-    public void setAssetID(int assetID) {
-        this.assetID = assetID;
     }
 }
