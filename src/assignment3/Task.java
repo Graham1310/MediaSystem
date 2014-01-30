@@ -14,24 +14,26 @@ class Task {
     private String taskName;
     private int priority;
     private String status;
-    private Project project;
+    private int projectID;
     //reports??
 
-    public Task(int taskID, User responsiblePerson, String taskName, int priority, String status, Project project) {
+   
+
+    public Task(int taskID, User responsiblePerson, String taskName, int priority, String status, int projectID) {
         this.taskID = taskID;
         this.responsiblePerson = responsiblePerson;
         this.taskName = taskName;
         this.priority = priority;
         this.status = status;
-        this.project = project;
+        this.projectID = projectID;
     }
 
-    public Project getProject() {
-        return project;
+   public int getProjectID() {
+        return projectID;
     }
 
-    public void setProject(Project project) {
-        this.project = project;
+    public void setProjectID(int projectID) {
+        this.projectID = projectID;
     }
     
     public int getTaskID() {
