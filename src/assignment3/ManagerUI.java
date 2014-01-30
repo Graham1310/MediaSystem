@@ -61,8 +61,8 @@ public class ManagerUI extends javax.swing.JFrame {
 //                clientRep=;
                 priority = projectsResultSet.getInt("priority");
              
-                project = new Project(projectID, projectName, teamLeader, clientRep, priority, projectTasks, elementCollection, reports, setOfStaff);
-                listOfProjects.add(project);
+                //project = new Project(projectID, projectName, teamLeader, clientRep, priority, projectTasks, elementCollection, reports, setOfStaff);
+                //listOfProjects.add(project);
                 listProjectsList.setListData(listOfProjects);
                 ProjectListCellRenderer renderer = new ProjectListCellRenderer(); //custom cell renderer to display property rather than useless object.toString()
                 listProjectsList.setCellRenderer(renderer);
@@ -189,8 +189,8 @@ public class ManagerUI extends javax.swing.JFrame {
 
 
             //Task(int taskID, User responsiblePerson, String taskName, int priority, String status, Project project)
-            Task task= new Task(taskID, null, taskName, priority, status, null );
-            listOfTasks.add(task);
+            //Task task= new Task(taskID, null, taskName, priority, status, null );
+            //listOfTasks.add(task);
             listTasksList.setListData(listOfTasks);
             TasksListCellRenderer renderer = new TasksListCellRenderer();  //custom cell renderer to display property rather than useless object.toString()
             listTasksList.setCellRenderer(renderer);

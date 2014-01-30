@@ -39,7 +39,7 @@ public class CreateAssetUI extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setText("Asset Name");
 
@@ -108,6 +108,7 @@ public class CreateAssetUI extends javax.swing.JFrame {
                 } catch (SQLException ex) {
                     
                 }
+         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
