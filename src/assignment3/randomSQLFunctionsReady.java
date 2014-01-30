@@ -321,7 +321,7 @@ public class randomSQLFunctionsReady {
                         }
                     }
                    
-                    Project newProject = new Project (dbAllProjects.getInt("projectID"), dbAllProjects.getString("projectName"), tempTeamLeader, tempClientRep, dbAllProjects.getInt("priority"), projectTasks, projectElements, projectReports, allProjectStaff);   
+                    Project newProject = new Project (dbAllProjects.getInt("projectID"), dbAllProjects.getString("projectName"), tempTeamLeader, tempClientRep, dbAllProjects.getInt("priority"), projectTasks, projectReports, projectElements, allProjectStaff);   
                     allProjects.addProject(newProject);
                 }              
         } catch (SQLException ex) {                  
@@ -515,6 +515,23 @@ public class randomSQLFunctionsReady {
         }catch(Exception e){
             JOptionPane.showMessageDialog(null,e);
         }
+     }
+     
+     private void removeStaffFromProject(User user, Project project){
+                try {
+                    project.getSetOfUsers().removeUser(user);
+                    user.getWorkingOnProjects().removeProject(project);
+                    
+                    ResultSet removeStaffFromProject = null;
+                    Statement statement;
+                    statement = connection.createStatement();
+                    
+                    removeStaffFromProject = statement.executeQuery( "DELETE FROM StaffOnProjects WHERE projectID = " + project.getProjectID() 
+                                                                        + " AND staffID = " + user.getUserID() + ";");
+                    
+                } catch (SQLException ex) {
+                    Logger.getLogger(randomSQLFunctionsReady.class.getName()).log(Level.SEVERE, null, ex);
+                }
      }
      
      private void findStaffProjects(){//displays all projects that the staff is working on
