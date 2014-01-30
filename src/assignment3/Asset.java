@@ -18,7 +18,8 @@ public class Asset {
     public Asset(int AssID, String Assname, String Asstype, SetOfTasks setOfTasks) {
         assetID = AssID;
         name = Assname;
-        type = Asstype;        
+        type = Asstype; 
+        setOfTasks = setOfTasks;
     }
 
      public SetOfTasks getSetOfTasks() {
