@@ -11,9 +11,9 @@ package assignment3;
  */
 public class QCReport {
 
-    public QCReport(int qCReportID, int ProjectID, SetOfQCComments comments, User reviewer, int overallSeverity) {
+    public QCReport(int qCReportID, int projectID, SetOfQCComments comments, User reviewer, int overallSeverity) {
         this.qCReportID = qCReportID;
-        this.ProjectID = ProjectID;
+        this.ProjectID = projectID;
         this.comments = comments;
         this.reviewer = reviewer;
         this.overallSeverity = overallSeverity;
