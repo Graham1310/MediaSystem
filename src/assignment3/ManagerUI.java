@@ -60,7 +60,7 @@ public class ManagerUI extends javax.swing.JFrame {
 //                teamLeader=;
 //                clientRep=;
                 priority = projectsResultSet.getInt("priority");
-                
+             
                 project = new Project(projectID, projectName, teamLeader, clientRep, priority, projectTasks, elementCollection, reports, setOfStaff);
                 listOfProjects.add(project);
                 listProjectsList.setListData(listOfProjects);

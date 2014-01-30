@@ -8,6 +8,8 @@ import static assignment3.LogInUI2.connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -15,62 +17,56 @@ import javax.swing.JOptionPane;
  * @author b0025885
  */
 public class AddAssetToElement extends javax.swing.JFrame {
-  public SetOfAssets NewAssets =  new SetOfAssets();
-  private SetOfAssets setOfAssets = new SetOfAssets();
+    
+private int elementID = 0;
+private SetOfAssets setOfAssets = new SetOfAssets();
+
+    AddAssetToElement(int tempElementID) {
+        elementID = tempElementID;
+        initComponents();                    
+        FillAssets();
+    }
       
       
       
     private void FillAssets() {
-        try{
-        ResultSet taskOnComponentsListResultSet = null;
-       
-        //assetList.repaint();
-        Statement tasks;
 
-        tasks = connection.createStatement();
-        taskOnComponentsListResultSet = tasks.executeQuery("SELECT * FROM Asset;"); //TO DO: replace this with proper query
-
-        int assetID;   
-        String assetName;       
-        String assetType;
-
-        while(taskOnComponentsListResultSet.next())
-        {
-            assetID = taskOnComponentsListResultSet.getInt("ID");
-            assetName = taskOnComponentsListResultSet.getString("assetName");
-            assetType = taskOnComponentsListResultSet.getString("assetType");         
-
-
-            //Task(int taskID, User responsiblePerson, String taskName, int priority, String status, Project project)
-            Asset task= new Asset(assetID, assetName, assetType);
-            setOfAssets.add(task);
-            assetList.setListData(setOfAssets);
-            TasksListCellRenderer renderer = new TasksListCellRenderer();  //custom cell renderer to display property rather than useless object.toString()
-            assetList.setCellRenderer(renderer);
-
-        }
-    }catch(SQLException err)
-            {
-                System.out.println("ERROR: " + err);
-                    JOptionPane.showMessageDialog(null,"* Cannot connect to database! *");
-                    System.exit(1);
-            }
-
+  
+        try {          
+                    int assetID;   
+                    String assetName;       
+                    String assetType;
+                    SetOfTasks assetTasks = new SetOfTasks();
+                    SetOfAssets unassignedAssets = new SetOfAssets();
+                    ResultSet dbAssetResults = null;
+                    Statement statement;
+                    statement = connection.createStatement();
+                    dbAssetResults = statement.executeQuery("SELECT Asset.ID, SetOFAssets.elementID" +
+                                                "FROM Asset LEFT JOIN SetOFAssets ON Asset.ID = SetOFAssets.assetID" +
+                                                "WHERE (((SetOFAssets.elementID) Is Null));");
+                    while(dbAssetResults.next()){
+                        assetID = dbAssetResults.getInt("ID");
+                        assetName = dbAssetResults.getString("assetName");
+                        assetType = dbAssetResults.getString("assetType");
+                        
+                        
+                        Asset newAsset = new Asset(assetID, assetName, assetType, assetTasks);
+                        setOfAssets.add(newAsset);
+                        assetList.setListData(setOfAssets);
+                        TasksListCellRenderer renderer = new TasksListCellRenderer();  //custom cell renderer to display property rather than useless object.toString()
+                        assetList.setCellRenderer(renderer);  
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(randomSQLFunctionsReady.class.getName()).log(Level.SEVERE, null, ex);
+                }
         
+
         
     }
-//public Project SelectedProject = null;
-     
-
+   
     public AddAssetToElement() {
-        initComponents();
-    }
-
-   public AddAssetToElement(SetOfAssets NewAssets) {
-       initComponents();
-       FillAssets();
-       NewAssets = NewAssets;
-     
+        initComponents();                    
+        FillAssets();
     }
 
     /**
@@ -130,9 +126,26 @@ public class AddAssetToElement extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void addAssetsToEleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addAssetsToEleActionPerformed
-       //loops through the selected values and adds to the element
-        NewAssets.add((Asset) assetList.getSelectedValue());
-          this.dispose();
+       
+       setOfAssets =  (SetOfAssets) assetList.getSelectedValuesList();    
+       
+       try {
+                    //SetOfAssets elementAssets = new SetOfAssets();
+                    //requires code to put each asset selected in GUI to be put into "elementAssets"
+                    Statement statement;
+                    statement = connection.createStatement();
+                    for (int i=0; i<setOfAssets.size(); i++){
+                        
+                        statement.executeUpdate(" INSERT INTO SetOfAssets (assetID, elementID)"
+                                + "VALUES (" + setOfAssets.get(i).getAssetID() + ", " + elementID + ");" );
+                    }
+                } catch (SQLException ex) {
+                   
+                }
+        
+        
+        
+       this.dispose();
     }//GEN-LAST:event_addAssetsToEleActionPerformed
 
     /**
@@ -168,9 +181,8 @@ public class AddAssetToElement extends javax.swing.JFrame {
                 new AddAssetToElement().setVisible(true);
             }
         });
-        
-        
-          //GET ASSETS FROM DATABASE AND PUT IN LIST
+               
+          
         
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables

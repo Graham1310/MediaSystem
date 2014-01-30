@@ -327,9 +327,9 @@ public class testFrame2 extends javax.swing.JFrame {
                         
                         Asset AddAsset;
                         
-                        AddAsset = new Asset(AssetResults.getInt("ID"),AssetResults.getString("assetName"), AssetResults.getString("assetType"));    
+                        //AddAsset = new Asset(AssetResults.getInt("ID"),AssetResults.getString("assetName"), AssetResults.getString("assetType"));    
                         
-                        AllAssets.addAsset(AddAsset);                    
+                        //AllAssets.addAsset(AddAsset);                    
                     }
                     
                     ElList.setListData(AllElements);

@@ -138,8 +138,8 @@ public class testFrame3Tim extends javax.swing.JFrame {
 
             while(dbAllAssets.next())
             {
-                Asset tempAsset = new Asset(dbAllAssets.getInt("ID"), dbAllAssets.getString("assetName"), dbAllAssets.getString("type"));
-                allAssets.addAsset(tempAsset);
+               // Asset tempAsset = new Asset(dbAllAssets.getInt("ID"), dbAllAssets.getString("assetName"), dbAllAssets.getString("type"));
+                //allAssets.addAsset(tempAsset);
             }
         } catch (SQLException ex) {
             Logger.getLogger(testFrame3Tim.class.getName()).log(Level.SEVERE, null, ex);
@@ -233,9 +233,9 @@ public class testFrame3Tim extends javax.swing.JFrame {
                         tempProject = (allProjects.get(i));
                     }
                 }
-                Task task = new Task(dbUsersTasks.getInt("Task.taskID"), UserLoggedIn, dbUsersTasks.getString("Task.TaskName"), dbUsersTasks.getInt("Task.taskPriority"),
-                                dbUsersTasks.getString("Task.taskStatus"), tempProject);
-                usersTasks.addTask(task);
+                //Task task = new Task(dbUsersTasks.getInt("Task.taskID"), UserLoggedIn, dbUsersTasks.getString("Task.TaskName"), dbUsersTasks.getInt("Task.taskPriority"),
+                                //dbUsersTasks.getString("Task.taskStatus"), tempProject);
+                //usersTasks.addTask(task);
                 jList1.setListData(usersTasks);
             }
             
