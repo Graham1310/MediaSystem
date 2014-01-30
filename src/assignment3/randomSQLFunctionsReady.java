@@ -27,7 +27,6 @@ public class randomSQLFunctionsReady {
             
             int passwordID = 2;
             String projectName;
-            int rootComponent;
             int teamLeader;
             int clientRep;
             int priority;
@@ -261,8 +260,8 @@ public class randomSQLFunctionsReady {
                 ResultSet dbAllProjectStaff = null;
                 Statement statement;
                 statement = connection.createStatement();
-                dbAllProjects = statement.executeQuery( "SELECT Project.projectID, Project.projectName, Project.rootComponent, Project.teamLeader, "                     
-                        + "Project.clientRep, Project.priority FROM Project;");  
+                dbAllProjects = statement.executeQuery( "SELECT Project.projectID, Project.projectName, Project.teamLeader, "                     
+                                                        + "Project.clientRep, Project.priority FROM Project;");  
                 dbAllProjectElements = statement.executeQuery("SELECT SetOFElements.ProjectID, SetOFElements.elementID, Element.elementName" +
                                                             "FROM Element INNER JOIN SetOFElements ON Element.elementID = SetOFElements.elementID;");
                 dbAllProjectStaff = statement.executeQuery( "SELECT StaffOnProjects.staffID, StaffOnProjects.projectID FROM StaffOnProjects;"); 
@@ -331,8 +330,15 @@ public class randomSQLFunctionsReady {
 
     }
     
-    private void createNewTask(){
-        
+    private void createNewTask(Project project, User user, int priority, String status, String name, Asset asset){
+                try {
+                    Statement statement;
+                        statement = connection.createStatement();
+                        statement.executeUpdate( "INSERT INTO Task(projectID, responsiblePerson, taskPriority, status, name, assetID) "
+                                        + "VALUES (" + project.getProjectID() + ", " + user.getUserID() + ", " + priority + ", '" + status + "', '" + name + "', " + asset.getAssetID() + ");");
+                } catch (SQLException ex) {
+                    Logger.getLogger(randomSQLFunctionsReady.class.getName()).log(Level.SEVERE, null, ex);
+                }
     }
     
     private void displayUsersTasks(){
@@ -356,16 +362,8 @@ public class randomSQLFunctionsReady {
                         usersTasks.addTask(task);
                     }
                 }
-                
-                
-                
-                
                 //jList1.setListData(usersTasks);
             }
-            
-            
-            
-            
             
         } catch (SQLException ex) {
             Logger.getLogger(testFrame3Tim.class.getName()).log(Level.SEVERE, null, ex);
@@ -411,12 +409,12 @@ public class randomSQLFunctionsReady {
         }
     }
     
-    private void CreateNewProject(){//create a new project
+    private void CreateNewProject(String projectName, User teamLeader, User clientRep, int priority){//create a new project
                 try {
                     Statement statement;
                     statement = connection.createStatement();
-                    statement.executeUpdate( "INSERT INTO Project(projectName, rootComponent, teamLeader, clientRep, priority) "
-                            + "VALUES ('" + projectName + "', '" + rootComponent + "','" + teamLeader + "', '" + clientRep + "', '" + priority + "');");
+                    statement.executeUpdate( "INSERT INTO Project(projectName, teamLeader, clientRep, priority) "
+                            + "VALUES ('" + projectName + "', '" + teamLeader + "', '" + clientRep + "', '" + priority + "');");
                 } catch (SQLException ex) {
                     Logger.getLogger(testFrame2.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -475,10 +473,8 @@ public class randomSQLFunctionsReady {
                 }
     }
     
-    private void assignAssetsToElement(){//assigns list of assets to an element
+    private void assignAssetsToElement(SetOfAssets elementAssets, Element element){//assigns list of assets to an element
         try {
-                    SetOfAssets elementAssets = new SetOfAssets();
-                    //requires code to put each asset selected in GUI to be put into "elementAssets"
                     Statement statement;
                     statement = connection.createStatement();
                     for (int i=0; i<elementAssets.size(); i++){
@@ -491,38 +487,40 @@ public class randomSQLFunctionsReady {
                 }
     }
      
-     private void assignElementsToProject(){//assigns list of components to a project
-        try {
-                    SetOfElements projectElements = new SetOfElements();
-                    
-                    //requires code to put each element selected in GUI to be put into "projectComponents"
-                    
+     private void assignElementsToProject(SetOfElements projectElements, Project project){//assigns list of components to a project
+        try {     
                     Statement statement;
                     statement = connection.createStatement();
                     for (int i=0; i<projectElements.size(); i++){
                         statement.executeUpdate(" INSERT INTO SetOfElements (elementID, projectID)"
-                                + "VALUES (" + projectElements.get(i).getElementID() + ", " + projectID + ");" );
+                                + "VALUES (" + projectElements.get(i).getElementID() + ", " + project.getProjectID() + ");" );
                     }
                 } catch (SQLException ex) {
                     Logger.getLogger(testFrame2.class.getName()).log(Level.SEVERE, null, ex);
                 }
     }
      
-     private void findStaffOnProject(){//update this when database relationships and place of "role" has been decided
+     private void findStaffOnProject(Project project){//update this when database relationships and place of "role" has been decided
           try{
             
             //make sure GUI gets the info on selected project in the JList, and looks up the correct projectID in the query below          
+                     SetOfUsers staffOnProject = new SetOfUsers();
+              
                      ResultSet staffResults = null;
                      Statement statement;
                      statement = connection.createStatement();
                      staffResults = statement.executeQuery( "SELECT Project.projectID, User.userID, User.firstName, User.surname, Staff.role" +
                     "FROM User INNER JOIN (Staff INNER JOIN (Project INNER JOIN StaffOnProjects ON Project.projectID = StaffOnProjects.projectID)"
                              + " ON Staff.staffID = StaffOnProjects.staffID) ON User.userID = Staff.staffID"
-                             + "WHERE Project.projectID=" + projectID + ";");                     
+                             + "WHERE Project.projectID=" + project.getProjectID() + ";");                     
                      
                      while (staffResults.next())
                     {
-                        //add staffResults to setOFUsers and the GUI
+                        for(int i=0;i<allUsers.size();i++){
+                            if(allUsers.get(i).getUserID()==staffResults.getInt("staffID")){
+                                staffOnProject.addUser(allUsers.get(i));
+                            }
+                        }
                     }
         }catch(Exception e){
             JOptionPane.showMessageDialog(null,e);
@@ -558,7 +556,7 @@ public class randomSQLFunctionsReady {
                      SetOfProjects allProjects;
                      SetOfProjects allStaffProjects;
 
-                  projectResults = statement.executeQuery( "SELECT User.userID, Project.projectID, Project.projectName, Project.rootComponent, "
+                  projectResults = statement.executeQuery( "SELECT User.userID, Project.projectID, Project.projectName, "
                   + "Project.teamLeader, Project.clientRep, Project.priority FROM User INNER JOIN (Staff INNER JOIN (Project INNER JOIN "
                           + "StaffOnProjects ON Project.projectID = StaffOnProjects.projectID) ON Staff.staffID = StaffOnProjects.staffID)"                     
                           + " ON User.userID = Staff.staffID WHERE User.userID=" + userID + ";");
