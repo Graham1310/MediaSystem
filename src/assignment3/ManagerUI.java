@@ -20,10 +20,9 @@ public class ManagerUI extends javax.swing.JFrame {
 
     private SetOfProjects listOfProjects = new SetOfProjects();
     private SetOfUsers listOfUsers = new SetOfUsers();
-    private SetOfComponents listOfComponents = new SetOfComponents();
+    private SetOfElements listOfElements = new SetOfElements();
     private SetOfTasks listOfTasks = new SetOfTasks();
     private Project selectedProject;
-    private ProjectComponent selectedComponent;
     private User selectedStaff;
     private Task selectedTask;
     /**
@@ -46,24 +45,23 @@ public class ManagerUI extends javax.swing.JFrame {
             Project project;
             int projectID;
             String projectName;
-            ProjectComponent rootComponent;
-            SetOfTasks projectTasks;
             User teamLeader;
             User clientRep;
             int priority;
-            SetOfComponents componentCollection;
+            SetOfElements elementCollection;
             SetOfQCReports reports;
+            SetOfStaff setOfStaff;
+            SetOfTasks projectTasks;
             
             while(projectsResultSet.next())
             {
                 projectID = projectsResultSet.getInt("projectId");
                 projectName = projectsResultSet.getString("ProjectName");
-//                rootComponent = projectsResultSet.getInt("rootComponent");
 //                teamLeader=;
 //                clientRep=;
                 priority = projectsResultSet.getInt("priority");
                 
-                project = new Project(projectID,projectName,null,null,null,null,priority,null,null);
+                project = new Project(projectID, projectName, teamLeader, clientRep, priority, projectTasks, elementCollection, reports, setOfStaff);
                 listOfProjects.add(project);
                 listProjectsList.setListData(listOfProjects);
                 ProjectListCellRenderer renderer = new ProjectListCellRenderer(); //custom cell renderer to display property rather than useless object.toString()
@@ -129,7 +127,6 @@ public class ManagerUI extends javax.swing.JFrame {
     private void fillInComponentsOnProjectList(int projectID){
         try{
             ResultSet componentsOnProjectListResultSet = null;
-            listOfComponents.clear();
             Statement projectComponents;
             
             projectComponents = connection.createStatement();
@@ -148,9 +145,8 @@ public class ManagerUI extends javax.swing.JFrame {
 
 
                 //ProjectComponent(int componentID, String componentName, Date componentDate, SetOfElements componentElements)
-                ProjectComponent projectComponent= new ProjectComponent(componentID,componentName,null, null );
-                listOfComponents.add(projectComponent);
-                listComponentList.setListData(listOfComponents);
+                //listOfComponents.add(projectComponent);
+                //listComponentList.setListData(listOfComponents);
                 ProjectComponentsListCellRenderer renderer = new ProjectComponentsListCellRenderer();  //custom cell renderer to display property rather than useless object.toString()
                 listComponentList.setCellRenderer(renderer);
                 
@@ -513,11 +509,10 @@ public class ManagerUI extends javax.swing.JFrame {
     private void listProjectsListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listProjectsListValueChanged
        selectedProject = (Project) listProjectsList.getSelectedValue();
        listOfUsers.clear();
-       listOfComponents.clear();
+       //listOfComponents.clear();
        listOfTasks.clear();
        if (selectedProject !=null)
        {
-        txtRootComponent.setText(String.valueOf(selectedProject.getRootComponent()));  
         txtPriority.setText(String.valueOf(selectedProject.getPriority())); 
         txtClientRep.setText(String.valueOf(selectedProject.getClientRep()));
 
@@ -541,9 +536,9 @@ public class ManagerUI extends javax.swing.JFrame {
     }//GEN-LAST:event_listProjectsListValueChanged
 
     private void listComponentListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listComponentListValueChanged
-        selectedComponent = (ProjectComponent) listComponentList.getSelectedValue();
+       /* selectedComponent = (ProjectComponent) listComponentList.getSelectedValue();
         if(selectedComponent != null)
-            fillInTaskOnComponentsList(selectedComponent.getComponentID());
+            fillInTaskOnComponentsList(selectedComponent.getComponentID());*/
     }//GEN-LAST:event_listComponentListValueChanged
 
     private void btnDeleteProjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteProjectActionPerformed
@@ -567,23 +562,23 @@ public class ManagerUI extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRemoveStaffFromProjectActionPerformed
 
     private void btnRemoveComponentsToProjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveComponentsToProjectActionPerformed
-        selectedComponent = (ProjectComponent)listComponentList.getSelectedValue();
+       /* selectedComponent = (ProjectComponent)listComponentList.getSelectedValue();
          if(selectedComponent !=null && selectedProject !=null)
         {
             deleteComponentOnProject(selectedComponent.getComponentID());
             fillInComponentsOnProjectList(selectedProject.getProjectID());
         }
-        listComponentList.repaint();      
+        listComponentList.repaint();     */ 
     }//GEN-LAST:event_btnRemoveComponentsToProjectActionPerformed
 
     private void btnRemoveTaskFromProjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveTaskFromProjectActionPerformed
-        selectedTask = (Task)listTasksList.getSelectedValue();
+       /* selectedTask = (Task)listTasksList.getSelectedValue();
          if(selectedTask !=null && selectedComponent !=null && selectedProject !=null)
         {
             deleteTaskOnComponent(selectedTask.getTaskID());
             fillInTaskOnComponentsList(selectedComponent.getComponentID());
         }
-        listTasksList.repaint(); 
+        listTasksList.repaint(); */
     }//GEN-LAST:event_btnRemoveTaskFromProjectActionPerformed
 
     /**
