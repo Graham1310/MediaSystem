@@ -22,10 +22,39 @@ public class Project {
         this.reports = reports;
     }
 
-    
-    
+    public Project(String projectName, ProjectComponent rootComponent, SetOfTasks projectTasks, User teamLeader, User clientRep, int priority, SetOfComponents componentCollection, SetOfQCReports reports) {
+        this.projectName = projectName;
+        this.rootComponent = rootComponent;
+        this.projectTasks = projectTasks;
+        this.teamLeader = teamLeader;
+        this.clientRep = clientRep;
+        this.priority = priority;
+        this.componentCollection = componentCollection;
+        this.reports = reports;
+    }
+    public Project(String projectName,int priority, User clientRep) {
+        this.projectName = projectName;
+        this.clientRep = clientRep;
+        this.priority = priority;
 
-   
+    }
+    
+    public Project(int projectID, String projectName,int priority, User clientRep) {
+        this.projectID = projectID;
+        this.projectName = projectName;
+        this.clientRep = clientRep;
+        this.priority = priority;
+
+    } 
+    //for db dependencies
+    public Project(String projectName, int rootComponentID, int teamLeaderID, int clientRepID, int priority) {
+        this.projectName = projectName;
+        this.rootComponentID = rootComponentID;
+        this.teamLeaderID = teamLeaderID;
+        this.clientRepID = clientRepID;
+        this.priority = priority;
+    }    
+    
     private int projectID;
     private SetOfUsers setOfUsers;
     private String projectName;
@@ -34,6 +63,7 @@ public class Project {
     private int priority;
     private SetOfTasks projectTasks;
     private SetOfElements elementCollection;
+    private ProjectComponent rootComponent; // remove?
 
     public SetOfElements getElementCollection() {
         return elementCollection;
@@ -44,6 +74,14 @@ public class Project {
     }
     private SetOfQCReports reports;
     private SetOfStaff setOfStaff;
+
+    private SetOfComponents componentCollection;
+    
+    //for db dependencies
+    int rootComponentID ;
+    int teamLeaderID;
+    int clientRepID;
+
     
     public int getProjectID() {
         return projectID;
@@ -108,5 +146,30 @@ public class Project {
     public void setSetOfUsers(SetOfUsers setOfUsers) {
         this.setOfUsers = setOfUsers;
     }
+
+    public int getRootComponentID(){
+        return rootComponentID;
+    }
+    
+    public void setRootComponentID(int rootComponentID){
+        this.rootComponentID = rootComponentID;
+    }
+  
+    public int getTeamLeaderID(){
+        return teamLeaderID;
+    }
+    
+    public void setTeamLeaderID(int teamLeaderID){
+        this.teamLeaderID = teamLeaderID;
+    }
+    
+    public int getClientRepID(){
+        return clientRepID;
+    }
+    
+    public void setClientRepID(int clientRepID){
+        this.clientRepID = clientRepID;
+    }    
+
     
 }

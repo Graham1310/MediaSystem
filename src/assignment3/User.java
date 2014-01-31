@@ -19,16 +19,23 @@ public class User {
     
 
     
-     User(int aUserID, String aFirstname, String aSurname, String aUsername, String aPassword, String aRole){
+     User(int aUserID, String aFirstname, String aSurname, String aUsername, String aPassword/*, String aRole*/){
      userID = aUserID;
      firstName = aFirstname;
      surname = aSurname;
      username = aUsername;
      password = aPassword;
-     role= aRole;
+     //role= aRole;
      
     }
 
+    User(int aUserID, String aFirstname, String aSurname){
+     userID = aUserID;
+     firstName = aFirstname;
+     surname = aSurname;
+     //role= aRole;
+     
+    }
    
 
      public int getUserID() {
