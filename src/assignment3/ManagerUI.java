@@ -5,6 +5,7 @@
 
 package assignment3;
 import static assignment3.LogInUI2.connection;
+import java.awt.event.WindowListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -41,7 +42,7 @@ public class ManagerUI extends javax.swing.JFrame {
             Statement projects;
             
             projects = connection.createStatement();
-            projectsResultSet = projects.executeQuery("SELECT * FROM Project");
+            projectsResultSet = projects.executeQuery("SELECT Project.projectID, Project.projectName, Project.priority, Project.clientRep, ClientRep.clientRepID, User.userID, User.firstName, User.surname FROM ([User] INNER JOIN ClientRep ON User.[userID] = ClientRep.[clientRepID]) INNER JOIN Project ON ClientRep.[clientRepID] = Project.[clientRep];");
             
             Project project;
             int projectID;
@@ -62,8 +63,12 @@ public class ManagerUI extends javax.swing.JFrame {
 //                teamLeader=;
 //                clientRep=;
                 priority = projectsResultSet.getInt("priority");
+                int clientRepId = projectsResultSet.getInt("userID");;
+                String clientRepFirstName = projectsResultSet.getString("firstName");
+                String clientrepSurname = projectsResultSet.getString("surname");
+                clientRep =  new User(clientRepId,clientRepFirstName,clientrepSurname);
                 
-                project = new Project(projectID,projectName,null,null,null,null,priority,null,null);
+                project = new Project(projectID,projectName,priority,clientRep);
                 listOfProjects.add(project);
                 listProjectsList.setListData(listOfProjects);
                 ProjectListCellRenderer renderer = new ProjectListCellRenderer(); //custom cell renderer to display property rather than useless object.toString()
@@ -90,13 +95,9 @@ public class ManagerUI extends javax.swing.JFrame {
                 Statement staff;
 
                 staff = connection.createStatement();
-//                staffOnProjectResultSet = staff.executeQuery("SELECT Project.projectID, User.userID, User.firstName, User.surname, Staff.role" +
-//                    "FROM User INNER JOIN (Staff INNER JOIN (Project INNER JOIN StaffOnProjects ON Project.projectID = StaffOnProjects.projectID)"
-//                             + " ON Staff.staffID = StaffOnProjects.staffID) ON User.userID = Staff.staffID"
-//                             + "WHERE Project.projectID=" + projectID + ";" ); //TO DO: replace this with proper query
-                
-                                     staffOnProjectResultSet = staff.executeQuery("SELECT Project.projectID, User.userID, User.firstName, User.surname, Staff.role FROM User INNER JOIN (Staff INNER JOIN (Project INNER JOIN StaffOnProjects ON Project.projectID = StaffOnProjects.projectID) ON Staff.staffID = StaffOnProjects.staffID) ON User.userID = Staff.staffID WHERE Project.projectID=" + projectID + ";"); 
-                //"SELECT * FROM User WHERE userID="+projectID+";"
+               
+                staffOnProjectResultSet = staff.executeQuery("SELECT Project.projectID, User.userID, User.firstName, User.surname, Staff.role FROM User INNER JOIN (Staff INNER JOIN (Project INNER JOIN StaffOnProjects ON Project.projectID = StaffOnProjects.projectID) ON Staff.staffID = StaffOnProjects.staffID) ON User.userID = Staff.staffID WHERE Project.projectID=" + projectID + ";"); 
+
 
                 int userID;
                 String firstName;
@@ -219,10 +220,12 @@ public class ManagerUI extends javax.swing.JFrame {
         try {  
             Statement projects;
             projects = connection.createStatement();
-            
-            projects.executeUpdate("DELETE FROM Project WHERE projectID="+ projectID+";"); //TO DO: replace this with proper query
-            
-            
+            projects.executeUpdate("DELETE FROM Task WHERE projectID = " + projectID + ";");            
+            projects.executeUpdate("DELETE FROM Project WHERE projectID="+ projectID+";");
+            projects.executeUpdate("DELETE FROM StaffOnProjects WHERE projectID = " + projectID + ";");
+            projects.executeUpdate("DELETE FROM QCReport WHERE projectID = " + projectID + ";");
+            projects.executeUpdate("DELETE FROM SetOfComponents WHERE projectID = " + projectID + ";");
+              
         } catch (SQLException err) {
                 System.out.println("ERROR: " + err);
                     JOptionPane.showMessageDialog(null,"* Cannot connect to database! *");
@@ -235,7 +238,7 @@ public class ManagerUI extends javax.swing.JFrame {
         Statement staff;
         staff = connection.createStatement();
 
-        staff.executeUpdate("DELETE FROM User WHERE userID="+ userID+";");
+        staff.executeUpdate("DELETE FROM StaffOnProjects WHERE projectID = " + selectedProject.getProjectID() + " AND staffID = " + userID + ";");
               
         } catch (SQLException err) {
                 System.out.println("ERROR: " + err);
@@ -335,7 +338,11 @@ public class ManagerUI extends javax.swing.JFrame {
 
         jLabel4.setText("Root Component:");
 
+        txtRootComponent.setEditable(false);
+
         jLabel5.setText("Priority:");
+
+        txtPriority.setEditable(false);
 
         jLabel6.setText("Project Staff:");
 
@@ -384,7 +391,14 @@ public class ManagerUI extends javax.swing.JFrame {
 
         jLabel2.setText("Client Rep:");
 
+        txtClientRep.setEditable(false);
+
         btnAddStaffToProject.setText("Add");
+        btnAddStaffToProject.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddStaffToProjectActionPerformed(evt);
+            }
+        });
 
         btnEditStaffOnProject.setText("Edit");
 
@@ -525,7 +539,7 @@ public class ManagerUI extends javax.swing.JFrame {
        {
         txtRootComponent.setText(String.valueOf(selectedProject.getRootComponent()));  
         txtPriority.setText(String.valueOf(selectedProject.getPriority())); 
-        txtClientRep.setText(String.valueOf(selectedProject.getClientRep()));
+        txtClientRep.setText(selectedProject.getClientRep().getFirstName() + " " + selectedProject.getClientRep().getSurname());
 
         fillInStaffOnProjectList(selectedProject.getProjectID());
         fillInComponentsOnProjectList(selectedProject.getProjectID());
@@ -591,6 +605,10 @@ public class ManagerUI extends javax.swing.JFrame {
         }
         listTasksList.repaint(); 
     }//GEN-LAST:event_btnRemoveTaskFromProjectActionPerformed
+
+    private void btnAddStaffToProjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddStaffToProjectActionPerformed
+        new AddStaffUI(selectedProject).setVisible(true);
+    }//GEN-LAST:event_btnAddStaffToProjectActionPerformed
 
     /**
      * @param args the command line arguments

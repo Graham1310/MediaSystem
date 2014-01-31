@@ -24,16 +24,9 @@ public class CreateProjectUI extends javax.swing.JFrame {
     private Project project;
     private int projectID;
     private String projectName;
-    private ProjectComponent rootComponent;
-    private SetOfTasks projectTasks = new SetOfTasks();
-    private User teamLeader;
-    private User clientRep;
     private int priority;
-    private SetOfComponents componentCollection = new SetOfComponents();
-    private SetOfQCReports reports = new SetOfQCReports();
-    private SetOfUsers staffOnProject = new SetOfUsers();
-    private User selectedStaff;
-    
+    private SetOfUsers clientRepList = new SetOfUsers();
+    private User clientRep;
     //for db dependencies
     
     int rootComponentID;
@@ -46,7 +39,8 @@ public class CreateProjectUI extends javax.swing.JFrame {
         initComponents();
         insertTempProjectIntoDataBase();
         setLastProjectIDFromDataBase();
-        fillInStaffOnProjectList(tempProjectID);        
+        fillInClientRepList();
+ 
     }
 
     /**
@@ -64,28 +58,10 @@ public class CreateProjectUI extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         cboxPriority = new javax.swing.JComboBox();
-        jLabel5 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        listStaffOnProject = new javax.swing.JList();
-        btnAddStaffOnProject = new javax.swing.JButton();
-        btnRemoveStaffFromProject = new javax.swing.JButton();
-        jLabel6 = new javax.swing.JLabel();
-        cboxTeamLeader = new javax.swing.JComboBox();
-        jLabel7 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        listComponents = new javax.swing.JList();
-        btnAddComponent = new javax.swing.JButton();
-        btnRemoveComponent = new javax.swing.JButton();
-        jLabel8 = new javax.swing.JLabel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        listTasks = new javax.swing.JList();
-        btnAddTask = new javax.swing.JButton();
-        btnRemoveTask = new javax.swing.JButton();
         btnCreateProject = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
-        jLabel9 = new javax.swing.JLabel();
-        cboxSelectRootComponent = new javax.swing.JComboBox();
-        cboxClientRep = new javax.swing.JComboBox();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        listClientRepList = new javax.swing.JList();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -97,55 +73,7 @@ public class CreateProjectUI extends javax.swing.JFrame {
 
         jLabel4.setText("Priority:");
 
-        cboxPriority.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jLabel5.setText("Staff on Project:");
-
-        jScrollPane1.setViewportView(listStaffOnProject);
-
-        btnAddStaffOnProject.setText("Add");
-        btnAddStaffOnProject.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddStaffOnProjectActionPerformed(evt);
-            }
-        });
-
-        btnRemoveStaffFromProject.setText("Remove");
-        btnRemoveStaffFromProject.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRemoveStaffFromProjectActionPerformed(evt);
-            }
-        });
-
-        jLabel6.setText("Select Team Leader:");
-
-        cboxTeamLeader.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jLabel7.setText("Components:");
-
-        listComponents.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane2.setViewportView(listComponents);
-
-        btnAddComponent.setText("Add");
-
-        btnRemoveComponent.setText("Remove");
-
-        jLabel8.setText("Tasks:");
-
-        listTasks.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane3.setViewportView(listTasks);
-
-        btnAddTask.setText("Add");
-
-        btnRemoveTask.setText("Remove");
+        cboxPriority.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5" }));
 
         btnCreateProject.setText("Create Project");
         btnCreateProject.addActionListener(new java.awt.event.ActionListener() {
@@ -161,68 +89,40 @@ public class CreateProjectUI extends javax.swing.JFrame {
             }
         });
 
-        jLabel9.setText("Select Root Component:");
-
-        cboxSelectRootComponent.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        cboxClientRep.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        listClientRepList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        listClientRepList.setPreferredSize(new java.awt.Dimension(200, 150));
+        jScrollPane1.setViewportView(listClientRepList);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addComponent(jLabel6)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(cboxTeamLeader, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel2)
-                                .addComponent(jLabel3)
-                                .addComponent(jLabel4))
-                            .addGap(18, 18, 18)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(txtProjectName, javax.swing.GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE)
-                                .addComponent(cboxPriority, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(cboxClientRep, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnAddStaffOnProject)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnRemoveStaffFromProject)))
-                .addGap(74, 74, 74)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel9)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addGap(97, 97, 97)
-                            .addComponent(btnCreateProject, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(cboxSelectRootComponent, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                    .addComponent(btnAddComponent)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
-                                    .addComponent(btnRemoveComponent)))
-                            .addGap(42, 42, 42)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(btnAddTask)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(btnRemoveTask))
-                                .addComponent(jLabel8)
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(86, Short.MAX_VALUE))
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel2)
+                                            .addComponent(jLabel4))
+                                        .addGap(18, 18, 18))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(jLabel3)
+                                        .addGap(33, 33, 33)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtProjectName)
+                                    .addComponent(cboxPriority, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jScrollPane1)))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addComponent(btnCreateProject, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(45, 45, 45)
+                        .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -232,52 +132,20 @@ public class CreateProjectUI extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(txtProjectName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel8))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(txtProjectName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(42, 42, 42)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(cboxPriority, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(cboxClientRep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(cboxPriority, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnAddStaffOnProject)
-                            .addComponent(btnRemoveStaffFromProject))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6)
-                            .addComponent(cboxTeamLeader, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnCreateProject)
-                            .addComponent(btnCancel)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnRemoveComponent)
-                            .addComponent(btnAddComponent)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(btnAddTask)
-                                .addComponent(btnRemoveTask)))
-                        .addGap(21, 21, 21)
-                        .addComponent(jLabel9)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(cboxSelectRootComponent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnCreateProject)
+                    .addComponent(btnCancel))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         pack();
@@ -285,12 +153,14 @@ public class CreateProjectUI extends javax.swing.JFrame {
 
     private void btnCreateProjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateProjectActionPerformed
         String projectName = txtProjectName.getText();
-        
+        int priority =  Integer.valueOf(cboxPriority.getSelectedItem().toString());
 //        Project(String projectName, int rootComponentID, int teamLeaderID, int clientRepID, int priority)
-        project = new Project(projectName,1,1,4,2);
-        insertProjectIntoDataBase(project);
-        this.dispose();
-        
+        clientRep = (User)listClientRepList.getSelectedValue();
+        if(priority>=1 && clientRep!=null){
+            project = new Project(projectName,priority,clientRep);
+            insertProjectIntoDataBase(project);
+            this.dispose();   
+        }
     }//GEN-LAST:event_btnCreateProjectActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
@@ -298,29 +168,16 @@ public class CreateProjectUI extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnCancelActionPerformed
 
-    private void btnRemoveStaffFromProjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveStaffFromProjectActionPerformed
-        selectedStaff = (User)listStaffOnProject.getSelectedValue();
-        if(selectedStaff !=null && tempProjectID >=1)
-        {
-            deleteStaffOnProject(selectedStaff.getUserID());
-            fillInStaffOnProjectList(tempProjectID);
-        }
-        listStaffOnProject.repaint();        // TODO add your handling code here:
-    }//GEN-LAST:event_btnRemoveStaffFromProjectActionPerformed
-
-    private void btnAddStaffOnProjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddStaffOnProjectActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnAddStaffOnProjectActionPerformed
-
   
     private void insertProjectIntoDataBase(Project project){
         try {
             
             Statement statement;
             statement = connection.createStatement();
+            clientRepID = project.getClientRep().getUserID();
 //            statement.executeUpdate( "INSERT INTO Project(projectName, rootComponent, teamLeader, clientRep, priority) "
 //                    + "VALUES ('" + project.getProjectName() + "', '" + project.getRootComponentID() + "','" + project.getTeamLeaderID() + "', '" + project.getClientRepID() + "', '" + project.getPriority() + "');"); // change to update
-            statement.executeUpdate("UPDATE Project SET projectName='"+project.getProjectName()+"', rootComponent="+project.getRootComponentID()+", teamLeader="+ project.getTeamLeaderID()+", clientRep="+ project.getClientRepID() +", priority="+project.getPriority()+";");
+            statement.executeUpdate("UPDATE Project SET projectName='"+project.getProjectName()+"' , clientRep="+ clientRepID +", priority="+project.getPriority()+" WHERE projectID="+tempProjectID+";");
         } catch (SQLException ex) {
             Logger.getLogger(testFrame2.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -362,87 +219,39 @@ public class CreateProjectUI extends javax.swing.JFrame {
                 Logger.getLogger(testFrame2.class.getName()).log(Level.SEVERE, null, ex);
             }
          }
-    };     
-
-   private void fillInStaffOnProjectList(int projectID){
-        staffOnProject.clear();
-        if (projectID >=1)
-        {
-            try{
-
-                ResultSet staffOnProjectResultSet = null;
-
-                Statement staff;
-
-                staff = connection.createStatement();
-//                staffOnProjectResultSet = staff.executeQuery("SELECT Project.projectID, User.userID, User.firstName, User.surname, Staff.role" +
-//                    "FROM User INNER JOIN (Staff INNER JOIN (Project INNER JOIN StaffOnProjects ON Project.projectID = StaffOnProjects.projectID)"
-//                             + " ON Staff.staffID = StaffOnProjects.staffID) ON User.userID = Staff.staffID"
-//                             + "WHERE Project.projectID=" + projectID + ";" ); //TO DO: replace this with proper query
+    };
+     
+    private void fillInClientRepList(){
+        try{
+            ResultSet clientRepResultSet = null;
+            clientRepList.clear();
+            Statement statement;
+            
+            statement = connection.createStatement();
+            clientRepResultSet = statement.executeQuery("SELECT User.userID, User.firstName, User.surname, ClientRep.clientRepID FROM [User] INNER JOIN ClientRep ON User.[userID] = ClientRep.[clientRepID];");
+            
+            while(clientRepResultSet.next())
+            {
+                int userID = clientRepResultSet.getInt("userID");
+                String firstName = clientRepResultSet.getString("firstName");
+                String surname = clientRepResultSet.getString("surname");
                 
-                                     staffOnProjectResultSet = staff.executeQuery("SELECT Project.projectID, User.userID, User.firstName, User.surname, Staff.role FROM User INNER JOIN (Staff INNER JOIN (Project INNER JOIN StaffOnProjects ON Project.projectID = StaffOnProjects.projectID) ON Staff.staffID = StaffOnProjects.staffID) ON User.userID = Staff.staffID WHERE Project.projectID=" + projectID + ";"); 
-                //"SELECT * FROM User WHERE userID="+projectID+";"
-
-                int userID;
-                String firstName;
-                String surname;
-
-                while(staffOnProjectResultSet.next())
-                {
-                    userID = staffOnProjectResultSet.getInt("userID");
-                    firstName = staffOnProjectResultSet.getString("firstName");
-                    surname = staffOnProjectResultSet.getString("surname");
-
-                    //User(int aUserID, String aFirstname, String aSurname, String aUsername, String aPassword, String aRole)
-                    User user= new User(userID,firstName,surname, "","");
-                    staffOnProject.add(user);
-                    listStaffOnProject.setListData(staffOnProject);
-                    UserListCellRenderer renderer = new UserListCellRenderer();  //custom cell renderer to display property rather than useless object.toString()
-                    listStaffOnProject.setCellRenderer(renderer);
-
-                }
-            }catch(SQLException err)
-                    {
-                        System.out.println("ERROR: " + err);
-                            JOptionPane.showMessageDialog(null,"* Cannot connect to database! *");
-                            System.exit(1);
-                    }
-        }
-        else{
-            staffOnProject.clear();
-            listStaffOnProject.setListData(staffOnProject);
-            listStaffOnProject.repaint();
-        }
+                clientRep = new User(userID,firstName,surname);
+                
+                clientRepList.add(clientRep);
+                listClientRepList.setListData(clientRepList);
+                UserListCellRenderer renderer = new UserListCellRenderer(); //custom cell renderer to display property rather than useless object.toString()
+                listClientRepList.setCellRenderer(renderer);
+                //Project(int projectID, ProjectComponent rootComponent, SetOfTasks projectTasks, User teamLeader, User clientRep, int priority, SetOfComponents componentCollection, SetOfQCReports reports)
+            }
+        }catch(SQLException err)
+		{
+                    System.out.println("ERROR: " + err);
+			JOptionPane.showMessageDialog(null,"* Cannot connect to database! *");
+			System.exit(1);
+		}
           
     }     
-    private void insertStaffOnProjectIntoDatabase(SetOfUsers staffOnProject, int projectID){
-        try {
-            //requires code to put each person selected in GUI to be put into "projectTeam"
-            Statement statement;
-            statement = connection.createStatement();
-            for (int i=0; i<staffOnProject.size(); i++){
-
-                statement.executeUpdate(" INSERT INTO StaffOnProjects (staffID, projectID)"
-                        + "VALUES (" + staffOnProject.get(i).getUserID() + ", " + projectID + ");" );
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(testFrame2.class.getName()).log(Level.SEVERE, null, ex);
-        }        
-    }
-    
-    private void deleteStaffOnProject(int userID) {
-        try {  
-        Statement staff;
-        staff = connection.createStatement();
-
-        staff.executeUpdate("DELETE FROM User WHERE userID="+ userID+";");
-              
-        } catch (SQLException err) {
-                System.out.println("ERROR: " + err);
-                    JOptionPane.showMessageDialog(null,"* Cannot connect to database! *"); //TO DO: replace this with proper query
-                    System.exit(1);
-        }
-    }    
     /**
      * @param args the command line arguments
      */
@@ -478,33 +287,16 @@ public class CreateProjectUI extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAddComponent;
-    private javax.swing.JButton btnAddStaffOnProject;
-    private javax.swing.JButton btnAddTask;
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnCreateProject;
-    private javax.swing.JButton btnRemoveComponent;
-    private javax.swing.JButton btnRemoveStaffFromProject;
-    private javax.swing.JButton btnRemoveTask;
-    private javax.swing.JComboBox cboxClientRep;
     private javax.swing.JComboBox cboxPriority;
-    private javax.swing.JComboBox cboxSelectRootComponent;
-    private javax.swing.JComboBox cboxTeamLeader;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JList listComponents;
-    private javax.swing.JList listStaffOnProject;
-    private javax.swing.JList listTasks;
+    private javax.swing.JList listClientRepList;
     private javax.swing.JTextField txtProjectName;
     // End of variables declaration//GEN-END:variables
+
 }

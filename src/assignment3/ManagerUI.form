@@ -208,6 +208,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtRootComponent">
+      <Properties>
+        <Property name="editable" type="boolean" value="false"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel5">
       <Properties>
@@ -215,6 +218,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtPriority">
+      <Properties>
+        <Property name="editable" type="boolean" value="false"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel6">
       <Properties>
@@ -320,11 +326,17 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtClientRep">
+      <Properties>
+        <Property name="editable" type="boolean" value="false"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="btnAddStaffToProject">
       <Properties>
         <Property name="text" type="java.lang.String" value="Add"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAddStaffToProjectActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnEditStaffOnProject">
       <Properties>

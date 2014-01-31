@@ -31,7 +31,20 @@ public class Project {
         this.componentCollection = componentCollection;
         this.reports = reports;
     }
+    public Project(String projectName,int priority, User clientRep) {
+        this.projectName = projectName;
+        this.clientRep = clientRep;
+        this.priority = priority;
+
+    }
     
+    public Project(int projectID, String projectName,int priority, User clientRep) {
+        this.projectID = projectID;
+        this.projectName = projectName;
+        this.clientRep = clientRep;
+        this.priority = priority;
+
+    } 
     //for db dependencies
     public Project(String projectName, int rootComponentID, int teamLeaderID, int clientRepID, int priority) {
         this.projectName = projectName;

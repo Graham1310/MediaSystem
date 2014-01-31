@@ -29,6 +29,13 @@ public class User {
      
     }
 
+    User(int aUserID, String aFirstname, String aSurname){
+     userID = aUserID;
+     firstName = aFirstname;
+     surname = aSurname;
+     //role= aRole;
+     
+    }
    
 
      public int getUserID() {
