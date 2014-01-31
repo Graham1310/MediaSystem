@@ -24,6 +24,13 @@ public class TasksListCellRenderer extends DefaultListCellRenderer{
             setText(task.getTaskName());
             // setIcon(ingredient.getIcon());
         }
+        
+         if (value instanceof Asset) {
+            Asset task = (Asset)value;
+            setText(task.getName());
+            // setIcon(ingredient.getIcon());
+        }
+        
         return this;
     }    
 }

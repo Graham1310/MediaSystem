@@ -31,7 +31,6 @@ private SetOfAssets setOfAssets = new SetOfAssets();
       
     private void FillAssets() {
 
-  
         try {          
                     int assetID;   
                     String assetName;       
@@ -41,9 +40,9 @@ private SetOfAssets setOfAssets = new SetOfAssets();
                     ResultSet dbAssetResults = null;
                     Statement statement;
                     statement = connection.createStatement();
-                    dbAssetResults = statement.executeQuery("SELECT Asset.ID, SetOFAssets.elementID" +
-                                                "FROM Asset LEFT JOIN SetOFAssets ON Asset.ID = SetOFAssets.assetID" +
-                                                "WHERE (((SetOFAssets.elementID) Is Null));");
+                    dbAssetResults = statement.executeQuery("SELECT Asset.ID,Asset.assetName, Asset.assetType, SetOFAssets.elementID" +
+                                                " FROM Asset LEFT JOIN SetOFAssets ON Asset.ID = SetOFAssets.assetID" +
+                                                " WHERE (((SetOFAssets.elementID) Is NULL ));");
                     while(dbAssetResults.next()){
                         assetID = dbAssetResults.getInt("ID");
                         assetName = dbAssetResults.getString("assetName");
@@ -127,17 +126,17 @@ private SetOfAssets setOfAssets = new SetOfAssets();
 
     private void addAssetsToEleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addAssetsToEleActionPerformed
        
-       setOfAssets =  (SetOfAssets) assetList.getSelectedValuesList();    
+       //setOfAssets =  (SetOfAssets) assetList.getSelectedValuesList();    
        
        try {
                     //SetOfAssets elementAssets = new SetOfAssets();
                     //requires code to put each asset selected in GUI to be put into "elementAssets"
                     Statement statement;
                     statement = connection.createStatement();
-                    for (int i=0; i<setOfAssets.size(); i++){
-                        
+                    for (int i=0; i< assetList.getSelectedValuesList().size(); i++){
+                        Asset asset = (Asset) assetList.getSelectedValuesList().get(i);
                         statement.executeUpdate(" INSERT INTO SetOfAssets (assetID, elementID)"
-                                + "VALUES (" + setOfAssets.get(i).getAssetID() + ", " + elementID + ");" );
+                                + "VALUES (" + asset.getAssetID() + ", " + elementID + ");" );
                     }
                 } catch (SQLException ex) {
                    
