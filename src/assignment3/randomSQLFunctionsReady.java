@@ -48,6 +48,10 @@ public class randomSQLFunctionsReady {
             SetOfElements allElements = new SetOfElements();
             SetOfProjects allProjects = new SetOfProjects();
             User UserLoggedIn;
+
+    randomSQLFunctionsReady() {
+        //throw new UnsupportedOperationException("Not yet implemented");
+    }
             
     public SetOfQCReports getAllQCReports() {
         return allQCReports;
@@ -143,7 +147,7 @@ public class randomSQLFunctionsReady {
             ResultSet dbAllUsers = null;
             Statement statement;
             statement = connection.createStatement();
-            dbAllUsers = statement.executeQuery( "SELECT User.userID, User.firstName, User.surname, User.username, User.password FROM [User];");                     
+            dbAllUsers = statement.executeQuery( "SELECT User.userID, User.firstName, User.surname, User.username, User.password, User.role FROM [User];");                     
 
             while(dbAllUsers.next())
             {
