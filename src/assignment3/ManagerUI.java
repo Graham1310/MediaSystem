@@ -114,7 +114,7 @@ public class ManagerUI extends javax.swing.JFrame {
                     role = staffOnProjectResultSet.getString("role");
 
                     //User(int aUserID, String aFirstname, String aSurname, String aUsername, String aPassword, String aRole)
-                    User user= new User(userID,firstName,surname, "","", role);
+                    User user= new User(userID,firstName,surname, "","");
                     listOfUsers.add(user);
                     listStaffOnProject.setListData(listOfUsers);
                     UserListCellRenderer renderer = new UserListCellRenderer();  //custom cell renderer to display property rather than useless object.toString()
@@ -226,7 +226,7 @@ public class ManagerUI extends javax.swing.JFrame {
             projects.executeUpdate("DELETE FROM Project WHERE projectID="+ projectID+";");
             projects.executeUpdate("DELETE FROM StaffOnProjects WHERE projectID = " + projectID + ";");
             projects.executeUpdate("DELETE FROM QCReport WHERE projectID = " + projectID + ";");
-            projects.executeUpdate("DELETE FROM SetOfComponents WHERE projectID = " + projectID + ";");
+
               
         } catch (SQLException err) {
                 System.out.println("ERROR: " + err);
@@ -317,6 +317,7 @@ public class ManagerUI extends javax.swing.JFrame {
         btnEditTaskOnProject = new javax.swing.JButton();
         btnAddTaskToProject = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        btnRefresh = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -420,6 +421,13 @@ public class ManagerUI extends javax.swing.JFrame {
             }
         });
 
+        btnRefresh.setText("Refresh View");
+        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -430,7 +438,8 @@ public class ManagerUI extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addComponent(btnCreateProject, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(btnDeleteProject, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnDeleteProject, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnRefresh, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel3)
@@ -468,18 +477,16 @@ public class ManagerUI extends javax.swing.JFrame {
                         .addComponent(btnRemoveComponentsToProject)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButton1)
+                    .addComponent(jLabel8)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addGap(0, 171, Short.MAX_VALUE)
                         .addComponent(btnAddTaskToProject)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnEditTaskOnProject)
                         .addGap(11, 11, 11)
                         .addComponent(btnRemoveTaskFromProject))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jLabel8)
-                        .addComponent(jScrollPane4)))
-                .addContainerGap())
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addGap(274, 274, 274))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -533,9 +540,15 @@ public class ManagerUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
                     .addComponent(txtClientRep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
-                .addContainerGap(114, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1)
+                        .addContainerGap(114, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnRefresh)
+                        .addGap(104, 104, 104))))
         );
 
         pack();
@@ -625,8 +638,16 @@ public class ManagerUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btnAddStaffToProjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddStaffToProjectActionPerformed
-        new AddStaffUI(selectedProject).setVisible(true);
+        if(selectedProject !=null)
+            new AddStaffUI(selectedProject).setVisible(true);
     }//GEN-LAST:event_btnAddStaffToProjectActionPerformed
+
+    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
+        fillInProjectsList();
+        fillInStaffOnProjectList(0);
+        listProjectsList.repaint();
+        listStaffOnProject.repaint();
+    }//GEN-LAST:event_btnRefreshActionPerformed
 
     /**
      * @param args the command line arguments
@@ -671,6 +692,7 @@ public class ManagerUI extends javax.swing.JFrame {
     private javax.swing.JButton btnEditComponentsOnProject;
     private javax.swing.JButton btnEditStaffOnProject;
     private javax.swing.JButton btnEditTaskOnProject;
+    private javax.swing.JButton btnRefresh;
     private javax.swing.JButton btnRemoveComponentsToProject;
     private javax.swing.JButton btnRemoveStaffFromProject;
     private javax.swing.JButton btnRemoveTaskFromProject;

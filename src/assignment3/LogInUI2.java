@@ -120,7 +120,11 @@ public class LogInUI2 extends javax.swing.JFrame {
             
             user = connection.createStatement();
             userResults = user.executeQuery("SELECT Staff.role, User.userID FROM [User] INNER JOIN Staff ON User.[userID] = Staff.[staffID] WHERE User.userID="+userID+";");
-            
+           
+            while(userResults.next())
+            {
+                role = userResults.getString("role");
+            }
         } catch (SQLException ex) {
             Logger.getLogger(LogInUI2.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -145,7 +149,7 @@ public class LogInUI2 extends javax.swing.JFrame {
                      while (loginResults.next())
                     {
                         //finds any matching user and puts them into UserLoggedIn
-                        UserLoggedIn = new User(loginResults.getInt("userID"), loginResults.getString("firstName"), loginResults.getString("surname"), loginResults.getString("username"), loginResults.getString("password"), loginResults.getString("role")/*, loginResults.getString("role")*/);
+                        UserLoggedIn = new User(loginResults.getInt("userID"), loginResults.getString("firstName"), loginResults.getString("surname"), loginResults.getString("username"), loginResults.getString("password"));
 
                     }
                      
@@ -186,7 +190,6 @@ public class LogInUI2 extends javax.swing.JFrame {
                             case "Client Representative":new MainUI().setVisible(true);// TO DO: add ui
                                 break;     
                         }
-                        new ManagerUI().setVisible(true);
                         this.setVisible(false);
                     }
                     
@@ -238,7 +241,7 @@ public class LogInUI2 extends javax.swing.JFrame {
         //Connection String for Tim
         //String fileName = "C:\\Users\\Tim Beale\\Documents\\Uni Work\\Year 3 again\\Case Studies\\Assignment 3\\CSSD.mdb";
         //Connection String for Tim on Uni PC
-        String fileName = "F:\\MyWork\\NetBeansProjects\\CSSD\\CSSD.mdb";
+//        String fileName = "F:\\MyWork\\NetBeansProjects\\CSSD\\CSSD.mdb";
         //Connection String for Marcin
         String fileName = "C:\\Users\\Neverborn\\Documents\\NetBeansProjects\\MediaSystem\\CSSD.mdb";
         /*Connction String for Graham */
