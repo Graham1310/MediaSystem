@@ -147,13 +147,13 @@ public class randomSQLFunctionsReady {
             ResultSet dbAllUsers = null;
             Statement statement;
             statement = connection.createStatement();
-            dbAllUsers = statement.executeQuery( "SELECT User.userID, User.firstName, User.surname, User.username, User.password, User.role FROM [User];");                     
+            dbAllUsers = statement.executeQuery( "SELECT User.userID, User.firstName, User.surname, User.username, User.password FROM [User];");                     
 
             while(dbAllUsers.next())
             {
-//                User tempUser = new User(dbAllUsers.getInt("userID"), dbAllUsers.getString("firstName"), dbAllUsers.getString("surname"),
-//                        dbAllUsers.getString("userName"), dbAllUsers.getString("password"), dbAllUsers.getString("role"));
-//               allUsers.addUser(tempUser);
+                User tempUser = new User(dbAllUsers.getInt("userID"), dbAllUsers.getString("firstName"), dbAllUsers.getString("surname"),
+                        dbAllUsers.getString("userName"), dbAllUsers.getString("password"));
+               allUsers.addUser(tempUser);
             }
         } catch (SQLException ex) {
             Logger.getLogger(testFrame3Tim.class.getName()).log(Level.SEVERE, null, ex);

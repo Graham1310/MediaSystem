@@ -16,7 +16,8 @@ import java.util.logging.Logger;
  */
 public class AddTaskUI extends javax.swing.JFrame {
 
-    int assetID = 0;
+    int assetID2 = 0;
+    int selectedProjectID2 = 0;
     /**
      * Creates new form AddTaskUI
      */
@@ -27,6 +28,24 @@ public class AddTaskUI extends javax.swing.JFrame {
     AddTaskUI(int assetID) {
         initComponents();  
         assetID = assetID;
+    }
+    
+        AddTaskUI(int assetID, int selectedProjectID) {
+        initComponents();  
+        assetID2 = assetID;
+        selectedProjectID2 = selectedProjectID;
+        FillStaffCombo();
+        
+        int one = 1;
+        int two = 2;
+        int three = 3;
+        int four = 4;
+        
+        taskPriorityCbo.addItem(one);
+        taskPriorityCbo.addItem(two);
+        taskPriorityCbo.addItem(three);
+        taskPriorityCbo.addItem(four);
+        
     }
 
     /**
@@ -41,8 +60,6 @@ public class AddTaskUI extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         taskNameTxt = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        taskTypeCbo = new javax.swing.JComboBox();
         jLabel4 = new javax.swing.JLabel();
         taskPriorityCbo = new javax.swing.JComboBox();
         jLabel5 = new javax.swing.JLabel();
@@ -50,7 +67,7 @@ public class AddTaskUI extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setText("Add Task:");
 
@@ -58,17 +75,9 @@ public class AddTaskUI extends javax.swing.JFrame {
 
         taskNameTxt.setText("jTextField1");
 
-        jLabel3.setText("Type:");
-
-        taskTypeCbo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         jLabel4.setText("Priority:");
 
-        taskPriorityCbo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         jLabel5.setText("Responsible Person:");
-
-        staffCbo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jButton1.setText("Add");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -91,24 +100,20 @@ public class AddTaskUI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel5)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(taskTypeCbo, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jLabel1)
                         .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel2)
-                                .addComponent(jLabel3)
-                                .addComponent(jLabel4))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGap(89, 89, 89)
-                                    .addComponent(taskNameTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(staffCbo, 0, 114, Short.MAX_VALUE)
-                                        .addComponent(taskPriorityCbo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                            .addComponent(jLabel2)
+                            .addGap(103, 103, 103)
+                            .addComponent(taskNameTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel5)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(staffCbo, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel4)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(taskPriorityCbo, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButton1)
                         .addGap(18, 18, 18)
@@ -126,21 +131,17 @@ public class AddTaskUI extends javax.swing.JFrame {
                     .addComponent(taskNameTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(taskTypeCbo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(taskPriorityCbo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(staffCbo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(46, 46, 46)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
-                .addContainerGap(75, Short.MAX_VALUE))
+                .addContainerGap(134, Short.MAX_VALUE))
         );
 
         pack();
@@ -151,17 +152,17 @@ public class AddTaskUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       taskTypeCbo.getSelectedItem();
+      
       int priority = (int) taskPriorityCbo.getSelectedItem();
       String name = taskNameTxt.getText();
       User selectedStaff = (User) staffCbo.getSelectedItem();
        
-        //NEED TO GET PROJECT ID SOMEHOW
+        
         try {
                     Statement statement;
                         statement = connection.createStatement();
-                        statement.executeUpdate( "INSERT INTO Task(projectID, responsiblePerson, taskPriority, status, name, assetID) "
-                                        + "VALUES (" + "1" + ", " + selectedStaff.getUserID() + ", " + priority + ", '" + "Not Started" + "', '" + name + "', " + assetID + ");");
+                        statement.executeUpdate( "INSERT INTO Task(projectID, responsiblePerson, taskPriority, status, taskName, assetID) "
+                                        + "VALUES (" + selectedProjectID2 + ", " + selectedStaff.getUserID() + ", " + priority + ", '" + "Not Started" + "', '" + name + "', " + assetID2 + ");");
                 } catch (SQLException ex) {
                     Logger.getLogger(randomSQLFunctionsReady.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -206,12 +207,24 @@ public class AddTaskUI extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JComboBox staffCbo;
     private javax.swing.JTextField taskNameTxt;
     private javax.swing.JComboBox taskPriorityCbo;
-    private javax.swing.JComboBox taskTypeCbo;
     // End of variables declaration//GEN-END:variables
+
+    private void FillStaffCombo() {
+       //staffCbo
+             randomSQLFunctionsReady RandSql = new  randomSQLFunctionsReady();
+             RandSql.loadAllUsers();
+             SetOfUsers allusers = new SetOfUsers();
+             allusers = RandSql.allUsers;
+             
+             for (int i = 0; i< allusers.size(); i++)
+             {
+                 staffCbo.addItem(allusers.get(i));
+             }
+        
+    }
 }

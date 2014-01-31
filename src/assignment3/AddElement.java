@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -19,6 +20,7 @@ public class AddElement extends javax.swing.JFrame {
 
     public SetOfAssets NewAssets =  new SetOfAssets();
     public SetOfTasks AssetTasks = new SetOfTasks();
+    private int selectedProjectID = 0;
     private Element element;
     int tempElementID=0; //no need for deletion upon exit when 0 
     /**
@@ -27,7 +29,18 @@ public class AddElement extends javax.swing.JFrame {
     public AddElement() {
         initComponents();
         insertTempElementIntoDataBase();
-        setLastElementIDFromDataBase();      
+        setLastElementIDFromDataBase();   
+        addNewTask.setEnabled(false);
+        removeTaskBtn.setEnabled(false);
+    }
+
+    AddElement(int projectID) {
+        initComponents();
+        insertTempElementIntoDataBase();
+        setLastElementIDFromDataBase();   
+        addNewTask.setEnabled(false);
+        removeTaskBtn.setEnabled(false);
+        selectedProjectID = projectID;
     }
 
     /**
@@ -63,6 +76,11 @@ public class AddElement extends javax.swing.JFrame {
         jLabel2.setText("Assets on Element ");
 
         assetList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        assetList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                assetListValueChanged(evt);
+            }
+        });
         jScrollPane1.setViewportView(assetList);
 
         AddAssetBtn.setText("Add Asset");
@@ -89,6 +107,11 @@ public class AddElement extends javax.swing.JFrame {
         jLabel3.setText("Tasks on Selected Asset");
 
         taskList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        taskList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                taskListValueChanged(evt);
+            }
+        });
         jScrollPane2.setViewportView(taskList);
 
         addNewTask.setText("Add New Task");
@@ -106,6 +129,11 @@ public class AddElement extends javax.swing.JFrame {
         });
 
         saveElementBtn.setText("Save Element");
+        saveElementBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveElementBtnActionPerformed(evt);
+            }
+        });
 
         jButton1.setText("Cancel");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -249,7 +277,7 @@ public class AddElement extends javax.swing.JFrame {
         // ADDS TASK TO SELECTED ASSET, LOADS UP UI.
         //NEEDS TO UPDATE THE LIST
         Asset SelectedAsset = (Asset) assetList.getSelectedValue();
-         new AddTaskUI(SelectedAsset.getAssetID()).setVisible(true);
+         new AddTaskUI(SelectedAsset.getAssetID(), selectedProjectID).setVisible(true);
     }//GEN-LAST:event_addNewTaskActionPerformed
 
     private void removeTaskBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeTaskBtnActionPerformed
@@ -257,38 +285,99 @@ public class AddElement extends javax.swing.JFrame {
     }//GEN-LAST:event_removeTaskBtnActionPerformed
 
     private void saveElementBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveElementBtnActionPerformed
-         
-        element = new Element(elementNameTxt.getText());
+         if (elementNameTxt.getText().equals("")) 
+         {
+             JOptionPane.showMessageDialog(null,"Please give the element a name");
+         }
+         else
+         {
+               element = new Element(elementNameTxt.getText());        
+                //NEEDS TO INSERT IN TO SET OF ELEMENTS
+                insertElementIntoDataBase(element);
+                
+                this.dispose();    // TODO add your handling code here:
+         }
         
-        insertElementIntoDataBase(element);
-        this.dispose();    // TODO add your handling code here:
+      
     }//GEN-LAST:event_saveElementBtnActionPerformed
 
     private void assetListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_assetListValueChanged
         Asset SelectedAsset = (Asset) assetList.getSelectedValue();
-        taskList.setListData(SelectedAsset.getSetOfTasks());        
+        if (SelectedAsset.getSetOfTasks() == null)
+        {
+            taskList.removeAll();
+             addNewTask.setEnabled(true);
+        }
+        else{
+             taskList.setListData(SelectedAsset.getSetOfTasks());  
+              addNewTask.setEnabled(true);
+        }
+             
     }//GEN-LAST:event_assetListValueChanged
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       //remove the fake element
+       //remove the fake element and any assets
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // Refresh assets
         
+        try {          
+                    int assetID;   
+                    String assetName;       
+                    String assetType;
+                    SetOfTasks assetTasks = new SetOfTasks();
+                    SetOfAssets unassignedAssets = new SetOfAssets();
+                    ResultSet dbAssetResults = null;
+                    Statement statement;
+                    statement = connection.createStatement();
+                    dbAssetResults = statement.executeQuery("SELECT Asset.ID,Asset.assetName, Asset.assetType, SetOFAssets.elementID" +
+                                                " FROM Asset LEFT JOIN SetOFAssets ON Asset.ID = SetOFAssets.assetID" +
+                                                " WHERE (((SetOFAssets.elementID) = " + tempElementID  + " ));");
+                    while(dbAssetResults.next()){
+                        assetID = dbAssetResults.getInt("ID");
+                        assetName = dbAssetResults.getString("assetName");
+                        assetType = dbAssetResults.getString("assetType");
+                        
+                        
+                        Asset newAsset = new Asset(assetID, assetName, assetType, assetTasks);
+                        NewAssets.add(newAsset);
+                        assetList.setListData(NewAssets);
+                        TasksListCellRenderer renderer = new TasksListCellRenderer();  //custom cell renderer to display property rather than useless object.toString()
+                        assetList.setCellRenderer(renderer);  
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(randomSQLFunctionsReady.class.getName()).log(Level.SEVERE, null, ex);
+                }
         
+               
         
         
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void taskListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_taskListValueChanged
+       if (taskList.isSelectionEmpty()){
+           //addNewTask.setEnabled(false);
+           removeTaskBtn.setEnabled(false);
+       }
+       else{
+            addNewTask.setEnabled(true);
+           removeTaskBtn.setEnabled(true);
+       }
+           
+    }//GEN-LAST:event_taskListValueChanged
 
      private void insertElementIntoDataBase(Element element){
         try {
             
             Statement statement;
             statement = connection.createStatement();
-//            statement.executeUpdate( "INSERT INTO Project(projectName, rootComponent, teamLeader, clientRep, priority) "
-//                    + "VALUES ('" + project.getProjectName() + "', '" + project.getRootComponentID() + "','" + project.getTeamLeaderID() + "', '" + project.getClientRepID() + "', '" + project.getPriority() + "');"); // change to update
-            statement.executeUpdate("UPDATE Element SET elementName='" + element.getName()+ " WHERE elementID = " + element.getElementID() +";");
+            statement.executeUpdate("UPDATE Element SET elementName='" + element.getName()+ "' WHERE elementID = " + tempElementID +";");
+            
+            statement = connection.createStatement();
+            statement.executeUpdate("INSERT INTO  SetOFElements  elementID=" + element.getElementID()+ ", projectID = " + selectedProjectID + ";");
+            
+            
         } catch (SQLException ex) {
             
         }
