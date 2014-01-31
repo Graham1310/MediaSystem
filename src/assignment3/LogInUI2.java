@@ -145,7 +145,7 @@ public class LogInUI2 extends javax.swing.JFrame {
                      while (loginResults.next())
                     {
                         //finds any matching user and puts them into UserLoggedIn
-                        UserLoggedIn = new User(loginResults.getInt("userID"), loginResults.getString("firstName"), loginResults.getString("surname"), loginResults.getString("username"), loginResults.getString("password")/*, loginResults.getString("role")*/);
+                        UserLoggedIn = new User(loginResults.getInt("userID"), loginResults.getString("firstName"), loginResults.getString("surname"), loginResults.getString("username"), loginResults.getString("password"), loginResults.getString("role")/*, loginResults.getString("role")*/);
 
                     }
                      
@@ -236,9 +236,9 @@ public class LogInUI2 extends javax.swing.JFrame {
         });
         
         //Connection String for Tim
-//        String fileName = "C:\\Users\\Tim Beale\\Documents\\Uni Work\\Year 3 again\\Case Studies\\Assignment 3\\CSSD.mdb";
+        //String fileName = "C:\\Users\\Tim Beale\\Documents\\Uni Work\\Year 3 again\\Case Studies\\Assignment 3\\CSSD.mdb";
         //Connection String for Tim on Uni PC
-//        String fileName = "F:\\MyWork\\Year 3 again\\CSSD\\Assignment 3 - Code\\CSSD.mdb";
+        String fileName = "F:\\MyWork\\NetBeansProjects\\CSSD\\CSSD.mdb";
         //Connection String for Marcin
         String fileName = "C:\\Users\\Neverborn\\Documents\\NetBeansProjects\\MediaSystem\\CSSD.mdb";
         /*Connction String for Graham */

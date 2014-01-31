@@ -22,14 +22,14 @@ public class Project {
         this.reports = reports;
     }
 
-    public Project(String projectName, ProjectComponent rootComponent, SetOfTasks projectTasks, User teamLeader, User clientRep, int priority, SetOfComponents componentCollection, SetOfQCReports reports) {
+    public Project(String projectName, SetOfTasks projectTasks, User teamLeader, User clientRep, int priority, SetOfQCReports reports) {
         this.projectName = projectName;
-        this.rootComponent = rootComponent;
+        //this.rootComponent = rootComponent;
         this.projectTasks = projectTasks;
         this.teamLeader = teamLeader;
         this.clientRep = clientRep;
         this.priority = priority;
-        this.componentCollection = componentCollection;
+        //this.componentCollection = componentCollection;
         this.reports = reports;
     }
     public Project(String projectName,int priority, User clientRep) {
@@ -63,7 +63,7 @@ public class Project {
     private int priority;
     private SetOfTasks projectTasks;
     private SetOfElements elementCollection;
-    private ProjectComponent rootComponent; // remove?
+    //private ProjectComponent rootComponent; // remove?
 
     public SetOfElements getElementCollection() {
         return elementCollection;
@@ -75,7 +75,7 @@ public class Project {
     private SetOfQCReports reports;
     private SetOfStaff setOfStaff;
 
-    private SetOfComponents componentCollection;
+    //private SetOfComponents componentCollection;
     
     //for db dependencies
     int rootComponentID ;

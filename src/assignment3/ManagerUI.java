@@ -104,15 +104,17 @@ public class ManagerUI extends javax.swing.JFrame {
                 int userID;
                 String firstName;
                 String surname;
+                String role;
 
                 while(staffOnProjectResultSet.next())
                 {
                     userID = staffOnProjectResultSet.getInt("userID");
                     firstName = staffOnProjectResultSet.getString("firstName");
                     surname = staffOnProjectResultSet.getString("surname");
+                    role = staffOnProjectResultSet.getString("role");
 
                     //User(int aUserID, String aFirstname, String aSurname, String aUsername, String aPassword, String aRole)
-                    User user= new User(userID,firstName,surname, "","");
+                    User user= new User(userID,firstName,surname, "","", role);
                     listOfUsers.add(user);
                     listStaffOnProject.setListData(listOfUsers);
                     UserListCellRenderer renderer = new UserListCellRenderer();  //custom cell renderer to display property rather than useless object.toString()
@@ -157,8 +159,8 @@ public class ManagerUI extends javax.swing.JFrame {
                 //ProjectComponent(int componentID, String componentName, Date componentDate, SetOfElements componentElements)
                 //listOfComponents.add(projectComponent);
                 //listComponentList.setListData(listOfComponents);
-                ProjectComponentsListCellRenderer renderer = new ProjectComponentsListCellRenderer();  //custom cell renderer to display property rather than useless object.toString()
-                listComponentList.setCellRenderer(renderer);
+//                ProjectComponentsListCellRenderer renderer = new ProjectComponentsListCellRenderer();  //custom cell renderer to display property rather than useless object.toString()
+               // listComponentList.setCellRenderer(renderer);
                 
             }
         }catch(SQLException err)
