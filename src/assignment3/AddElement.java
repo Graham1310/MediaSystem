@@ -374,8 +374,7 @@ public class AddElement extends javax.swing.JFrame {
             statement = connection.createStatement();
             statement.executeUpdate("UPDATE Element SET elementName='" + element.getName()+ "' WHERE elementID = " + tempElementID +";");
             
-            statement = connection.createStatement();
-            statement.executeUpdate("INSERT INTO  SetOFElements  elementID=" + element.getElementID()+ ", projectID = " + selectedProjectID + ";");
+            statement.executeUpdate("INSERT INTO SetOFElements ( elementID, ProjectID ) VALUES(" + tempElementID +","+ selectedProjectID+ ");");
             
             
         } catch (SQLException ex) {

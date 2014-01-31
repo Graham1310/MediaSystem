@@ -136,39 +136,43 @@ public class ManagerUI extends javax.swing.JFrame {
           
     }
     
-    private void fillInComponentsOnProjectList(int projectID){
-        try{
-            ResultSet componentsOnProjectListResultSet = null;
-            Statement projectComponents;
-            
-            projectComponents = connection.createStatement();
-            componentsOnProjectListResultSet = projectComponents.executeQuery("SELECT * FROM Component WHERE componentID="+projectID+";"); //TO DO: replace this with proper query
-            
-            
-            int componentID;
-            String componentName;
-            Date componentDate;
-            SetOfElements componentElements;
-            
-            while(componentsOnProjectListResultSet.next())
-            {
-                componentID = componentsOnProjectListResultSet.getInt("componentID");
-                componentName =componentsOnProjectListResultSet.getString("componentName");
+    private void fillInElementsOnProjectList(int projectID){
+        listOfElements.clear();
+        if (projectID >=1){
+            try{
+                ResultSet elementsOnProjectListResultSet = null;
+                Statement statement;
+
+                statement = connection.createStatement();
+                elementsOnProjectListResultSet = statement.executeQuery("SELECT Element.elementID, Element.elementName, SetOFElements.ProjectID FROM Element INNER JOIN SetOFElements ON Element.[elementID] = SetOFElements.[elementID] WHERE ProjectID="+ projectID +";"); 
 
 
-                //ProjectComponent(int componentID, String componentName, Date componentDate, SetOfElements componentElements)
-                //listOfComponents.add(projectComponent);
-                //listComponentList.setListData(listOfComponents);
-//                ProjectComponentsListCellRenderer renderer = new ProjectComponentsListCellRenderer();  //custom cell renderer to display property rather than useless object.toString()
-               // listComponentList.setCellRenderer(renderer);
-                
-            }
-        }catch(SQLException err)
-		{
-                    System.out.println("ERROR: " + err);
-			JOptionPane.showMessageDialog(null,"* Cannot connect to database! *");
-			System.exit(1);
-		}
+                int elementID;
+                String elementName;
+
+                while(elementsOnProjectListResultSet.next())
+                {
+                    elementID = elementsOnProjectListResultSet.getInt("elementID");
+                    elementName = elementsOnProjectListResultSet.getString("elementName");
+
+                    Element element = new Element(elementID,elementName);
+                    listOfElements.add(element);
+                    listElementList.setListData(listOfElements);
+                    ProjectElementsListCellRenderer renderer = new ProjectElementsListCellRenderer(); //custom cell renderer to display property rather than useless object.toString()
+                    listElementList.setCellRenderer(renderer);
+
+                }
+            }catch(SQLException err)
+                    {
+                        System.out.println("ERROR: " + err);
+                            JOptionPane.showMessageDialog(null,"* Cannot connect to database! *");
+                            System.exit(1);
+                    }
+        }else{
+            listOfElements.clear();
+            listElementList.setListData(listOfElements);
+            listElementList.repaint();
+        }
           
     }
     
@@ -300,7 +304,7 @@ public class ManagerUI extends javax.swing.JFrame {
         listStaffOnProject = new javax.swing.JList();
         jLabel7 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        listComponentList = new javax.swing.JList();
+        listElementList = new javax.swing.JList();
         jLabel8 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
         listTasksList = new javax.swing.JList();
@@ -353,12 +357,12 @@ public class ManagerUI extends javax.swing.JFrame {
 
         jLabel7.setText("Elements");
 
-        listComponentList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+        listElementList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                listComponentListValueChanged(evt);
+                listElementListValueChanged(evt);
             }
         });
-        jScrollPane3.setViewportView(listComponentList);
+        jScrollPane3.setViewportView(listElementList);
 
         jLabel8.setText("Tasks:");
 
@@ -567,7 +571,7 @@ public class ManagerUI extends javax.swing.JFrame {
         txtClientRep.setText(selectedProject.getClientRep().getFirstName() + " " + selectedProject.getClientRep().getSurname());
 
         fillInStaffOnProjectList(selectedProject.getProjectID());
-        fillInComponentsOnProjectList(selectedProject.getProjectID());
+        fillInElementsOnProjectList(selectedProject.getProjectID());
        }
        else
        {
@@ -576,20 +580,20 @@ public class ManagerUI extends javax.swing.JFrame {
         txtClientRep.setText("");
         
         fillInStaffOnProjectList(0);
-        fillInComponentsOnProjectList(0);
+        fillInElementsOnProjectList(0);
        }
        listTasksList.repaint();
-       listComponentList.repaint();
+       listElementList.repaint();
        listStaffOnProject.repaint();
 
 
     }//GEN-LAST:event_listProjectsListValueChanged
 
-    private void listComponentListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listComponentListValueChanged
+    private void listElementListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listElementListValueChanged
        /* selectedComponent = (ProjectComponent) listComponentList.getSelectedValue();
         if(selectedComponent != null)
             fillInTaskOnComponentsList(selectedComponent.getComponentID());*/
-    }//GEN-LAST:event_listComponentListValueChanged
+    }//GEN-LAST:event_listElementListValueChanged
 
     private void btnDeleteProjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteProjectActionPerformed
         if(selectedProject !=null)
@@ -616,7 +620,7 @@ public class ManagerUI extends javax.swing.JFrame {
          if(selectedComponent !=null && selectedProject !=null)
         {
             deleteComponentOnProject(selectedComponent.getComponentID());
-            fillInComponentsOnProjectList(selectedProject.getProjectID());
+            fillInElementsOnProjectList(selectedProject.getProjectID());
         }
         listComponentList.repaint();     */ 
     }//GEN-LAST:event_btnRemoveComponentsToProjectActionPerformed
@@ -707,7 +711,7 @@ public class ManagerUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JList listComponentList;
+    private javax.swing.JList listElementList;
     private javax.swing.JList listProjectsList;
     private javax.swing.JList listStaffOnProject;
     private javax.swing.JList listTasksList;
