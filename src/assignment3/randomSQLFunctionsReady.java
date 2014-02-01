@@ -810,9 +810,5 @@ public class randomSQLFunctionsReady {
                     Logger.getLogger(randomSQLFunctionsReady.class.getName()).log(Level.SEVERE, null, ex);
                 }
      }
-     
-     SELECT SetOFAssets.elementID, Asset.*, Task.*
-FROM (Asset INNER JOIN (Element INNER JOIN SetOFAssets ON Element.elementID = SetOFAssets.elementID) ON Asset.ID = SetOFAssets.assetID) INNER JOIN Task ON Asset.ID = Task.assetID
-WHERE (((SetOFAssets.elementID)=1));
 
 }
