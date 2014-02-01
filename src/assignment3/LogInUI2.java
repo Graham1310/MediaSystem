@@ -256,7 +256,7 @@ public class LogInUI2 extends javax.swing.JFrame {
         //Connection String for Marcin
         //String fileName = "C:\\Users\\Neverborn\\Documents\\NetBeansProjects\\MediaSystem\\CSSD.mdb";
         /*Connction String for Graham */
-       String fileName = "C:\\Users\\Graham\\Desktop\\Uni\\Assignment3\\CSSD.mdb" ;
+       String fileName = "C:\\Users\\Graham\\Desktop\\MediaSystem\\CSSD.mdb" ;
         //relative path test - doesnt work :/
         //String fileName = "..\\..\\CSSD.mdb";
         String dbString ="jdbc:odbc:Driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=" + fileName + ";"; //Change back to *mdb for 32bit access  		
