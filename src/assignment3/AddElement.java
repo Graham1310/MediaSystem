@@ -19,16 +19,18 @@ import javax.swing.JOptionPane;
 public class AddElement extends javax.swing.JFrame {
 
     /**
-     * init the variables and sets that will be needed within the form
-     * sets them up as new so null reference exception will not be happen
+     *
      */
     public SetOfAssets NewAssets =  new SetOfAssets();
+
+    /**
+     *
+     */
     public SetOfTasks AssetTasks = new SetOfTasks();
     private int selectedProjectID = 0;
     private Element element;
     int tempElementID=0; //no need for deletion upon exit when 0 
-    private  randomSQLFunctionsReady randSQL = new randomSQLFunctionsReady();
-    
+        private  randomSQLFunctionsReady randSQL = new randomSQLFunctionsReady();
     /**
      * Creates new form AddElement
      */
@@ -40,11 +42,6 @@ public class AddElement extends javax.swing.JFrame {
         removeTaskBtn.setEnabled(false);
     }
 
-     /**
-     * Creates new form AddElement
-     * @param projectID passes in the projectID so it can be used in the form 
-     * when adding new elements.
-     */
     AddElement(int projectID) {
         initComponents();
         insertTempElementIntoDataBase();
@@ -238,11 +235,6 @@ public class AddElement extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    
-     /**
-     * Insert a temporary element in to the database so it can be used within
-     * the file and can be updated along the way.
-     */
     private void insertTempElementIntoDataBase(){
         try {
             
@@ -254,10 +246,6 @@ public class AddElement extends javax.swing.JFrame {
         }
     };
     
-     /**
-     * Get the last ID from the element Table to assign to the new one 
-     * so it can be updated later on.
-     */
     private void setLastElementIDFromDataBase(){
         try {
             ResultSet tempProjectIDResults= null;
@@ -274,37 +262,25 @@ public class AddElement extends javax.swing.JFrame {
         }
      }   
     
-     /**
-     * Processes an button
-     * Calls the AddAssetToElement constructor with the element ID
-     */
     private void AddAssetBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddAssetBtnActionPerformed
         // LOADS UP ADD ASSET UI
         Project SelectedProject = null;
         new AddAssetToElement(tempElementID).setVisible(true);
     }//GEN-LAST:event_AddAssetBtnActionPerformed
 
-     /**
-     * Loads up create new Asset UI
-     */
     private void createAssetBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createAssetBtnActionPerformed
         // LOADS UP CREATE NEW ASSET UI
         new CreateAssetUI().setVisible(true);
     }//GEN-LAST:event_createAssetBtnActionPerformed
 
-     /**
-     * Ready to process a delete on the database if the element is no longer needed
-     * it can be deleted
-     */
     private void removeAssetBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeAssetBtnActionPerformed
-        // REMOVE ASSET FROM ELEMENT delete from database update the list  
+        // REMOVE ASSET FROM ELEMENT delete from database update the list
+        
+        
+        
         
     }//GEN-LAST:event_removeAssetBtnActionPerformed
 
-     /**
-     * This loads up the AddTaskUI and passed in the assetID and project ID
-     * ready for saving in to the database.
-     */
     private void addNewTaskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addNewTaskActionPerformed
         // ADDS TASK TO SELECTED ASSET, LOADS UP UI.
         //NEEDS TO UPDATE THE LIST
@@ -312,19 +288,10 @@ public class AddElement extends javax.swing.JFrame {
          new AddTaskUI(SelectedAsset.getAssetID(), selectedProjectID).setVisible(true);
     }//GEN-LAST:event_addNewTaskActionPerformed
 
-     /**
-     * Set up ready to delete the task from the asset and database if need be
-     */
     private void removeTaskBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeTaskBtnActionPerformed
         // REMOVES TASK FROM SELECTED ASSET and DATABASE
     }//GEN-LAST:event_removeTaskBtnActionPerformed
 
-    
-     /**
-     * Makes a call to the database so save the element. Element is created
-     * by adding all the variables in and calls the statement to insert in to 
-     * correct table. 
-     */
     private void saveElementBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveElementBtnActionPerformed
          if (elementNameTxt.getText().equals("")) 
          {

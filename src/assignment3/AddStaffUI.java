@@ -20,6 +20,9 @@ public class AddStaffUI extends javax.swing.JFrame {
     /**
      * Creates new form AddStaffUI
      * @param project
+     * Passes in the selected project
+     * Initialises the components
+     * Compiles list of staff working on the selected project
      */
     public AddStaffUI(Project project) {
         initComponents();
@@ -102,12 +105,22 @@ public class AddStaffUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * 
+     * @param evt 
+     * On button click, get selected staff from list
+     * Call function to add staff to work on project, and save to database
+     */
     private void btnAddStaffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddStaffActionPerformed
         User selectedStaff = (User)listStaffList.getSelectedValue();
         addStaffOnProjectToDataBase(selectedStaff,selectedProject);
         this.dispose();
     }//GEN-LAST:event_btnAddStaffActionPerformed
 
+    /**
+     * @param evt 
+     * On button click, close window
+     */
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnCancelActionPerformed

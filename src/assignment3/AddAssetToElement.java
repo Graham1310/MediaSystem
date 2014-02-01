@@ -18,17 +18,30 @@ import javax.swing.JOptionPane;
  */
 
 public class AddAssetToElement extends javax.swing.JFrame {
-    
+/**
+ * This initialises the variables that will be required
+ */    
 private int elementID = 0;
 private SetOfAssets setOfAssets = new SetOfAssets();
-
+/**
+ * @param tempElementID 
+ * Receives ID for element to assign asset to
+ * *Initialises the components
+ *Fills assetList with set of assets 
+ */
     AddAssetToElement(int tempElementID) {
         elementID = tempElementID;
         initComponents();                    
         FillAssets();
     }
       
-      
+      /**
+       * Create declaration of variables required
+       * Set up connection to database
+       * Select all assets from database that are not assigned to an element
+       * For each result, create an asset and assign it to a set of assets
+       * Display assets in list
+       */
       
     private void FillAssets() {
 
@@ -47,9 +60,7 @@ private SetOfAssets setOfAssets = new SetOfAssets();
                     while(dbAssetResults.next()){
                         assetID = dbAssetResults.getInt("ID");
                         assetName = dbAssetResults.getString("assetName");
-                        assetType = dbAssetResults.getString("assetType");
-                        
-                        
+                        assetType = dbAssetResults.getString("assetType");  
                         Asset newAsset = new Asset(assetID, assetName, assetType, assetTasks);
                         setOfAssets.add(newAsset);
                         assetList.setListData(setOfAssets);
@@ -65,7 +76,8 @@ private SetOfAssets setOfAssets = new SetOfAssets();
     }
    
     /**
-     *
+     *Initialises the components
+     *Fills assetList with set of assets
      */
     public AddAssetToElement() {
         initComponents();                    
@@ -152,39 +164,53 @@ private SetOfAssets setOfAssets = new SetOfAssets();
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * @param evt
+     * On button click, try to create a connection
+     * for each asset in assetList, insert the asset into SetOfAssets to assign
+     * the asset to the elementID
+     * Close when completed
+     **/
     private void addAssetsToEleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addAssetsToEleActionPerformed
-       
-       //setOfAssets =  (SetOfAssets) assetList.getSelectedValuesList();    
-       
+        
        try {
-                    //SetOfAssets elementAssets = new SetOfAssets();
-                    //requires code to put each asset selected in GUI to be put into "elementAssets"
-                    Statement statement;
-                    statement = connection.createStatement();
-                    for (int i=0; i< assetList.getSelectedValuesList().size(); i++){
-                        Asset asset = (Asset) assetList.getSelectedValuesList().get(i);
-                        statement.executeUpdate(" INSERT INTO SetOfAssets (assetID, elementID)"
-                                + "VALUES (" + asset.getAssetID() + ", " + elementID + ");" );
-                    }
-                } catch (SQLException ex) {
-                   
-                }
-        
-        
-        
-       this.dispose();
+
+            Statement statement;
+            statement = connection.createStatement();
+            for (int i=0; i< assetList.getSelectedValuesList().size(); i++){
+                Asset asset = (Asset) assetList.getSelectedValuesList().get(i);
+                statement.executeUpdate(" INSERT INTO SetOfAssets (assetID, elementID)"
+                        + "VALUES (" + asset.getAssetID() + ", " + elementID + ");" );
+            }
+       } 
+       catch (SQLException ex) {
+       }
+            this.dispose();
     }//GEN-LAST:event_addAssetsToEleActionPerformed
 
+    /**
+     * @param evt 
+     * On button click
+     * fill the list with the list of assets
+     */
+    
     private void refreshBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshBtnActionPerformed
        FillAssets();
     }//GEN-LAST:event_refreshBtnActionPerformed
 
+    /**
+     * @param evt 
+     * On button click
+     * Open the CreateAssetUI
+     */
     private void createAssetBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createAssetBtnActionPerformed
         new CreateAssetUI().setVisible(true);
     }//GEN-LAST:event_createAssetBtnActionPerformed
 
     /**
      * @param args the command line arguments
+     * When the AddAssetToElement UI opens
+     * make the UI visible
      */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
