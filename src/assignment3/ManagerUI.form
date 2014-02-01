@@ -6,7 +6,6 @@
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
-    <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
   </SyntheticProperties>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
@@ -71,7 +70,7 @@
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="btnEditComponentsOnProject" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="btnRemoveComponentsToProject" min="-2" pref="66" max="-2" attributes="0"/>
+                      <Component id="btnRemoveElementsOnProject" min="-2" pref="66" max="-2" attributes="0"/>
                   </Group>
                   <Component id="jScrollPane3" alignment="0" min="-2" pref="187" max="-2" attributes="0"/>
                   <Component id="jLabel7" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -168,7 +167,7 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="btnAddElement" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                              <Component id="btnRemoveComponentsToProject" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnRemoveElementsOnProject" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="btnEditComponentsOnProject" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="btnAddAsset" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="btnEditAsset" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -330,12 +329,12 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRemoveStaffFromProjectActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="btnRemoveComponentsToProject">
+    <Component class="javax.swing.JButton" name="btnRemoveElementsOnProject">
       <Properties>
         <Property name="text" type="java.lang.String" value="Remove"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRemoveComponentsToProjectActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRemoveElementsOnProjectActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnRemoveTaskFromProject">

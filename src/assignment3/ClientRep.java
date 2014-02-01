@@ -16,6 +16,7 @@ public class ClientRep {
      * @param client
      * @param contactNo
      * @param email
+     * Creates constructor
      */
     public ClientRep(User clientRepUser, Client client, String contactNo, String email) {
         this.clientRepUser = clientRepUser;
@@ -24,6 +25,9 @@ public class ClientRep {
         this.email = email;
     }
     
+    /**
+     * Declares variables required
+     */
     private User clientRepUser;
     private Client client;
     private String contactNo;

@@ -15,12 +15,16 @@ public class Element {
      * @param elementID
      * @param name
      * @param setOfAssets
+     * Creates constructor
      */
     public Element(int elementID, String name, SetOfAssets setOfAssets) {
         this.elementID = elementID;
         this.name = name;
         this.setOfAssets = setOfAssets;
     }
+    /**
+     * Defines variables required
+     */
     private int elementID;
     private String name;
     private SetOfAssets setOfAssets;

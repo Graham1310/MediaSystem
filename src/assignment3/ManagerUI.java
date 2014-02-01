@@ -19,6 +19,9 @@ import javax.swing.JOptionPane;
  */
 public class ManagerUI extends javax.swing.JFrame {
 
+    /**
+     * Declares variables required
+     */
     private SetOfProjects listOfProjects = new SetOfProjects();
     private SetOfUsers listOfUsers = new SetOfUsers();
     private SetOfElements listOfElements = new SetOfElements();
@@ -29,8 +32,8 @@ public class ManagerUI extends javax.swing.JFrame {
     private Task selectedTask;
     private Element selectedElement;
     private Asset selectedAsset;
-    
     private  randomSQLFunctionsReady randSQL = new randomSQLFunctionsReady();
+    
     /**
      * Creates new form ManagerUI
      */
@@ -39,6 +42,11 @@ public class ManagerUI extends javax.swing.JFrame {
         fillInProjectsList();        
     }
     
+    /**
+     * Create connection
+     * Select all projects from the database
+     * For every project in the database, load it into the system
+     */
     private void fillInProjectsList(){
         try{
             ResultSet projectsResultSet = null;
@@ -63,24 +71,16 @@ public class ManagerUI extends javax.swing.JFrame {
             {
                 projectID = projectsResultSet.getInt("projectId");
                 projectName = projectsResultSet.getString("ProjectName");
-//                teamLeader=;
-//                clientRep=;
                 priority = projectsResultSet.getInt("priority");
-             
-                //project = new Project(projectID, projectName, teamLeader, clientRep, priority, projectTasks, elementCollection, reports, setOfStaff);
-                //listOfProjects.add(project);
-
                 int clientRepId = projectsResultSet.getInt("userID");;
                 String clientRepFirstName = projectsResultSet.getString("firstName");
                 String clientrepSurname = projectsResultSet.getString("surname");
                 clientRep =  new User(clientRepId,clientRepFirstName,clientrepSurname);
-                
                 project = new Project(projectID,projectName,priority,clientRep);
                 listOfProjects.add(project);
                 listProjectsList.setListData(listOfProjects);
                 ProjectListCellRenderer renderer = new ProjectListCellRenderer(); //custom cell renderer to display property rather than useless object.toString()
                 listProjectsList.setCellRenderer(renderer);
-                //Project(int projectID, ProjectComponent rootComponent, SetOfTasks projectTasks, User teamLeader, User clientRep, int priority, SetOfComponents componentCollection, SetOfQCReports reports)
             }
         }catch(SQLException err)
 		{
@@ -88,24 +88,23 @@ public class ManagerUI extends javax.swing.JFrame {
 			JOptionPane.showMessageDialog(null,"* Cannot connect to database! *");
 			System.exit(1);
 		}
-          
     }
-    
+    /**
+     * 
+     * @param projectID 
+     * Pass in projectID
+     * Select everything from the project in the database with the ID, and load to system
+     * Display project in UI
+     */
     private void fillInStaffOnProjectList(int projectID){
         listOfUsers.clear();
         if (projectID >=1)
         {
             try{
-
                 ResultSet staffOnProjectResultSet = null;
-
                 Statement staff;
-
                 staff = connection.createStatement();
-               
                 staffOnProjectResultSet = staff.executeQuery("SELECT Project.projectID, User.userID, User.firstName, User.surname, Staff.role FROM User INNER JOIN (Staff INNER JOIN (Project INNER JOIN StaffOnProjects ON Project.projectID = StaffOnProjects.projectID) ON Staff.staffID = StaffOnProjects.staffID) ON User.userID = Staff.staffID WHERE Project.projectID=" + projectID + ";"); 
-
-
                 int userID;
                 String firstName;
                 String surname;
@@ -117,14 +116,11 @@ public class ManagerUI extends javax.swing.JFrame {
                     firstName = staffOnProjectResultSet.getString("firstName");
                     surname = staffOnProjectResultSet.getString("surname");
                     role = staffOnProjectResultSet.getString("role");
-
-                    //User(int aUserID, String aFirstname, String aSurname, String aUsername, String aPassword, String aRole)
                     User user= new User(userID,firstName,surname, "","");
                     listOfUsers.add(user);
                     listStaffOnProject.setListData(listOfUsers);
                     UserListCellRenderer renderer = new UserListCellRenderer();  //custom cell renderer to display property rather than useless object.toString()
                     listStaffOnProject.setCellRenderer(renderer);
-
                 }
             }catch(SQLException err)
                     {
@@ -138,20 +134,23 @@ public class ManagerUI extends javax.swing.JFrame {
             listStaffOnProject.setListData(listOfUsers);
             listStaffOnProject.repaint();
         }
-          
     }
     
+    /**
+     * 
+     * @param projectID
+     * Pass in projectID and create connection
+     * Select elements from database that belong to selected project
+     * Load all elements into system and display in UI
+     */
     private void fillInElementsOnProjectList(int projectID){
         listOfElements.clear();
         if (projectID >=1){
             try{
                 ResultSet elementsOnProjectListResultSet = null;
                 Statement statement;
-
                 statement = connection.createStatement();
                 elementsOnProjectListResultSet = statement.executeQuery("SELECT Element.elementID, Element.elementName, SetOFElements.ProjectID FROM Element INNER JOIN SetOFElements ON Element.[elementID] = SetOFElements.[elementID] WHERE ProjectID="+ projectID +";"); 
-
-
                 int elementID;
                 String elementName;
 
@@ -159,33 +158,35 @@ public class ManagerUI extends javax.swing.JFrame {
                 {
                     elementID = elementsOnProjectListResultSet.getInt("elementID");
                     elementName = elementsOnProjectListResultSet.getString("elementName");
-
                     Element element = new Element(elementID,elementName);
                     listOfElements.add(element);
                     listElementsList.setListData(listOfElements);
                     ProjectElementsListCellRenderer renderer = new ProjectElementsListCellRenderer(); //custom cell renderer to display property rather than useless object.toString()
                     listElementsList.setCellRenderer(renderer);
-
                 }
             }catch(SQLException err)
                     {
                         System.out.println("ERROR: " + err);
-                            JOptionPane.showMessageDialog(null,"* Cannot connect to database! *");
-                            System.exit(1);
+                        JOptionPane.showMessageDialog(null,"* Cannot connect to database! *");
+                        System.exit(1);
                     }
         }else{
             listOfElements.clear();
             listElementsList.setListData(listOfElements);
             listElementsList.repaint();
         }
-          
     }
     
+    /**
+     * 
+     * @param projectElementID
+     * Pass in ProjectElementID
+     * Create connection and select all assets belonging to element selected
+     * For each asset, load to system and add to element
+     */
     private void fillInAssetOnElementsList(int projectElementID){
     try{
         ResultSet assetsOnElementsListResultSet = null;
-       
-         
         listOfAssets.clear();
         listAssetList.repaint();
         Statement statement;
@@ -196,41 +197,35 @@ public class ManagerUI extends javax.swing.JFrame {
         assetsOnElementsListResultSet = statement.executeQuery("SELECT Asset.ID,Asset.assetName, Asset.assetType, SetOFAssets.elementID" +
                                                 " FROM Asset LEFT JOIN SetOFAssets ON Asset.ID = SetOFAssets.assetID" +
                                                 " WHERE (((SetOFAssets.elementID) = " + SElementID  + " ));");
-
-        
         int assetID;
         String assetName;      
         String assetType; 
         SetOfTasks assetTasks = new SetOfTasks();
         
         while(assetsOnElementsListResultSet.next()){
-           // Asset assetthing = assetsOnElementsListResultSet.get;
-                        assetID = assetsOnElementsListResultSet.getInt("ID");
-                        assetName = assetsOnElementsListResultSet.getString("assetName");
-                        assetType = assetsOnElementsListResultSet.getString("assetType");                      
-                        
-                          
-                       
-                         
-                         Asset newAsset = new Asset(assetID, assetName, assetType, assetTasks);
-
-                        listOfAssets.add(newAsset);
-                        listAssetList.setListData(listOfAssets);
-                        TasksListCellRenderer renderer = new TasksListCellRenderer();  //custom cell renderer to display property rather than useless object.toString()
-                        listAssetList.setCellRenderer(renderer);  
-                    }
-
-
-
+            assetID = assetsOnElementsListResultSet.getInt("ID");
+            assetName = assetsOnElementsListResultSet.getString("assetName");
+            assetType = assetsOnElementsListResultSet.getString("assetType");                      
+            Asset newAsset = new Asset(assetID, assetName, assetType, assetTasks);
+            listOfAssets.add(newAsset);
+            listAssetList.setListData(listOfAssets);
+            TasksListCellRenderer renderer = new TasksListCellRenderer();  //custom cell renderer to display property rather than useless object.toString()
+            listAssetList.setCellRenderer(renderer);  
+        }
     }catch(SQLException err)
             {
                 System.out.println("ERROR: " + err);
                     JOptionPane.showMessageDialog(null,"* Cannot connect to database! *");
                     System.exit(1);
             }
-
     }
     
+    /**
+     * 
+     * @param projectID 
+     * Pass in project and create statement
+     * Delete everything associated with the project in the database
+     */
     private void deleteProject(int projectID){
             
         try {  
@@ -239,49 +234,43 @@ public class ManagerUI extends javax.swing.JFrame {
             projects.executeUpdate("DELETE FROM Task WHERE projectID = " + projectID + ";");            
             projects.executeUpdate("DELETE FROM Project WHERE projectID="+ projectID+";");
             projects.executeUpdate("DELETE FROM StaffOnProjects WHERE projectID = " + projectID + ";");
-            projects.executeUpdate("DELETE FROM QCReport WHERE projectID = " + projectID + ";");
-
-              
+            projects.executeUpdate("DELETE FROM QCReport WHERE projectID = " + projectID + ";");      
         } catch (SQLException err) {
                 System.out.println("ERROR: " + err);
-                    JOptionPane.showMessageDialog(null,"* Cannot connect to database! *");
-                    System.exit(1);
+                JOptionPane.showMessageDialog(null,"* Cannot connect to database! *");
+                System.exit(1);
         }
     }
     
+    /**
+     * 
+     * @param userID 
+     * Pass in User and create statement
+     * Delete all from StaffOnProjects where the user is on the same project as the selected project
+     */
     private void deleteStaffOnProject(int userID) {
         try {  
         Statement staff;
         staff = connection.createStatement();
-
         staff.executeUpdate("DELETE FROM StaffOnProjects WHERE projectID = " + selectedProject.getProjectID() + " AND staffID = " + userID + ";");
               
         } catch (SQLException err) {
                 System.out.println("ERROR: " + err);
-                    JOptionPane.showMessageDialog(null,"* Cannot connect to database! *"); //TO DO: replace this with proper query
-                    System.exit(1);
+                JOptionPane.showMessageDialog(null,"* Cannot connect to database! *"); //TO DO: replace this with proper query
+                System.exit(1);
         }
     }
     
-    private void deleteComponentOnProject(int componentID) {
-        try {  
-        Statement component;
-        component = connection.createStatement();
-
-        component.executeUpdate("DELETE FROM Component WHERE componentID="+ componentID+";"); //TO DO: replace this with proper query
-
-        } catch (SQLException err) {
-                System.out.println("ERROR: " + err);
-                    JOptionPane.showMessageDialog(null,"* Cannot connect to database! *");
-                    System.exit(1);
-        }
-    }
-    
-    private void deleteTaskOnComponent(int taskID) {
+    /**
+     * 
+     * @param taskID 
+     * Pass in taskID and create statement
+     * Delete task in database with taskID passed in
+     */
+    private void deleteTask(int taskID) {
         try {  
         Statement task;
         task = connection.createStatement();
-
         task.executeUpdate("DELETE FROM Task WHERE taskID="+ taskID+";"); //TO DO: replace this with proper query
 
         } catch (SQLException err) {
@@ -319,7 +308,7 @@ public class ManagerUI extends javax.swing.JFrame {
         jScrollPane4 = new javax.swing.JScrollPane();
         listTasksList = new javax.swing.JList();
         btnRemoveStaffFromProject = new javax.swing.JButton();
-        btnRemoveComponentsToProject = new javax.swing.JButton();
+        btnRemoveElementsOnProject = new javax.swing.JButton();
         btnRemoveTaskFromProject = new javax.swing.JButton();
         btnDeleteProject = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
@@ -395,10 +384,10 @@ public class ManagerUI extends javax.swing.JFrame {
             }
         });
 
-        btnRemoveComponentsToProject.setText("Remove");
-        btnRemoveComponentsToProject.addActionListener(new java.awt.event.ActionListener() {
+        btnRemoveElementsOnProject.setText("Remove");
+        btnRemoveElementsOnProject.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRemoveComponentsToProjectActionPerformed(evt);
+                btnRemoveElementsOnProjectActionPerformed(evt);
             }
         });
 
@@ -531,7 +520,7 @@ public class ManagerUI extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnEditComponentsOnProject)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnRemoveComponentsToProject, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnRemoveElementsOnProject, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7))
                 .addGap(18, 18, 18)
@@ -608,7 +597,7 @@ public class ManagerUI extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnAddElement)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(btnRemoveComponentsToProject)
+                                .addComponent(btnRemoveElementsOnProject)
                                 .addComponent(btnEditComponentsOnProject)
                                 .addComponent(btnAddAsset)
                                 .addComponent(btnEditAsset)
@@ -628,22 +617,31 @@ public class ManagerUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * On button click, open CreateProjectUI 
+     * @param evt 
+     */
     private void btnCreateProjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateProjectActionPerformed
         new CreateProjectUI().setVisible(true);
     }//GEN-LAST:event_btnCreateProjectActionPerformed
 
+    /**
+     * 
+     * @param evt 
+     * On button click, re-fresh all lists in UI
+     * Re-load all lists
+     */
     private void listProjectsListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listProjectsListValueChanged
        selectedProject = (Project) listProjectsList.getSelectedValue();
        listOfUsers.clear();
        listOfElements.clear();
        listOfTasks.clear();
-         listOfAssets.clear();
-        listAssetList.repaint();
+       listOfAssets.clear();
+       listAssetList.repaint();
        if (selectedProject !=null)
        {
         txtPriority.setText(String.valueOf(selectedProject.getPriority())); 
         txtClientRep.setText(selectedProject.getClientRep().getFirstName() + " " + selectedProject.getClientRep().getSurname());
-
         fillInStaffOnProjectList(selectedProject.getProjectID());
         fillInElementsOnProjectList(selectedProject.getProjectID());
        }
@@ -652,26 +650,34 @@ public class ManagerUI extends javax.swing.JFrame {
         txtRootComponent.setText("");  
         txtPriority.setText(""); 
         txtClientRep.setText("");
-        
         fillInStaffOnProjectList(0);
         fillInElementsOnProjectList(0);
        }
        listTasksList.repaint();
        listElementsList.repaint();
        listStaffOnProject.repaint();
-
-
     }//GEN-LAST:event_listProjectsListValueChanged
 
+    /**
+     * 
+     * @param evt 
+     * On button click, clear lists
+     * Re-load lists
+     */
     private void listElementsListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listElementsListValueChanged
-          listOfTasks.clear();
-       
+        listOfTasks.clear();
         listTasksList.repaint();
         selectedElement = (Element) listElementsList.getSelectedValue();
         if(selectedElement != null)
             fillInAssetOnElementsList(selectedElement.getElementID());
     }//GEN-LAST:event_listElementsListValueChanged
-
+/**
+ * 
+ * @param evt 
+ * On button click
+ * Call function to delete selected project
+ * Refresh UI
+ */
     private void btnDeleteProjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteProjectActionPerformed
         if(selectedProject !=null)
         {
@@ -682,6 +688,13 @@ public class ManagerUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnDeleteProjectActionPerformed
 
+    /**
+     * 
+     * @param evt 
+     * On button click
+     * Get selected staff and project
+     * Call function to delete selected staff from project
+     */
     private void btnRemoveStaffFromProjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveStaffFromProjectActionPerformed
         selectedStaff = (User)listStaffOnProject.getSelectedValue();
         if(selectedStaff !=null && selectedProject !=null)
@@ -692,16 +705,17 @@ public class ManagerUI extends javax.swing.JFrame {
         listStaffOnProject.repaint();
     }//GEN-LAST:event_btnRemoveStaffFromProjectActionPerformed
 
-    private void btnRemoveComponentsToProjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveComponentsToProjectActionPerformed
-       /* selectedComponent = (ProjectComponent)listComponentList.getSelectedValue();
-         if(selectedComponent !=null && selectedProject !=null)
-        {
-            deleteComponentOnProject(selectedComponent.getComponentID());
-            fillInElementsOnProjectList(selectedProject.getProjectID());
-        }
-        listComponentList.repaint();     */ 
-    }//GEN-LAST:event_btnRemoveComponentsToProjectActionPerformed
-
+    /**
+     * 
+     * @param evt 
+     */
+    private void btnRemoveElementsOnProjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveElementsOnProjectActionPerformed
+       
+    }//GEN-LAST:event_btnRemoveElementsOnProjectActionPerformed
+/**
+ * 
+ * @param evt 
+ */
     private void btnRemoveTaskFromProjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveTaskFromProjectActionPerformed
        /* selectedTask = (Task)listTasksList.getSelectedValue();
          if(selectedTask !=null && selectedComponent !=null && selectedProject !=null)
@@ -712,16 +726,34 @@ public class ManagerUI extends javax.swing.JFrame {
         listTasksList.repaint(); */
     }//GEN-LAST:event_btnRemoveTaskFromProjectActionPerformed
 
+    /**
+     * 
+     * @param evt 
+     * On button click, get selected project
+     * Open up AddElement UI for selected project
+     */
     private void btnAddElementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddElementActionPerformed
        Project mySelectedProject = (Project) listProjectsList.getSelectedValue();
         new AddElement(mySelectedProject.getProjectID()).setVisible(true);
     }//GEN-LAST:event_btnAddElementActionPerformed
 
+    /**
+     * 
+     * @param evt 
+     * On button click
+     * If a project is selected, open AddStaffUI
+     */
     private void btnAddStaffToProjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddStaffToProjectActionPerformed
         if(selectedProject !=null)
             new AddStaffUI(selectedProject).setVisible(true);
     }//GEN-LAST:event_btnAddStaffToProjectActionPerformed
 
+    /**
+     * 
+     * @param evt 
+     * On button click
+     * Refresh the lists in the UI
+     */
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
         fillInProjectsList();
         fillInStaffOnProjectList(0);
@@ -729,64 +761,62 @@ public class ManagerUI extends javax.swing.JFrame {
         listStaffOnProject.repaint();
     }//GEN-LAST:event_btnRefreshActionPerformed
 
+    /**
+     * 
+     * @param evt 
+     * On button click
+     * Call function to add selected asset to element
+     */
     private void btnAddAssetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddAssetActionPerformed
       Element selectedElement = (Element) listElementsList.getSelectedValue();
         new AddAssetToElement(selectedElement.getElementID()).setVisible(true);
     }//GEN-LAST:event_btnAddAssetActionPerformed
 
+    /**
+     * 
+     * @param evt 
+     * On button click
+     * Fill tasks related to asset
+     */
     private void listAssetListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listAssetListValueChanged
         selectedAsset = (Asset) listAssetList.getSelectedValue();
         if(selectedAsset != null)
-            fillInTaskOnAssetList(selectedAsset);      
-        
-        
+            fillInTaskOnAssetList(selectedAsset);            
     }//GEN-LAST:event_listAssetListValueChanged
 
     private void btnRemoveAssetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveAssetActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnRemoveAssetActionPerformed
 
+    /**
+     * 
+     * @param evt
+     * On button click
+     * Open AddTaskUI and pass in asset and project
+     */
     private void btnAddTaskToProjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddTaskToProjectActionPerformed
         Project selectedProject = (Project) listProjectsList.getSelectedValue();
          Asset SelectedAsset = (Asset) listAssetList.getSelectedValue();
          new AddTaskUI(SelectedAsset.getAssetID(), selectedProject.getProjectID()).setVisible(true);
     }//GEN-LAST:event_btnAddTaskToProjectActionPerformed
 
+    /**
+     * 
+     * @param evt 
+     * On button click
+     * Open ProjectOverview UI and pass in selected project
+     */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         Project selectedProject = (Project) listProjectsList.getSelectedValue();
-        
         new ProjectOverview(selectedProject.getProjectID()).setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
+     * Create and display the form
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ManagerUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ManagerUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ManagerUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ManagerUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
 //                new ManagerUI().setVisible(true);
@@ -806,7 +836,7 @@ public class ManagerUI extends javax.swing.JFrame {
     private javax.swing.JButton btnEditTaskOnProject;
     private javax.swing.JButton btnRefresh;
     private javax.swing.JButton btnRemoveAsset;
-    private javax.swing.JButton btnRemoveComponentsToProject;
+    private javax.swing.JButton btnRemoveElementsOnProject;
     private javax.swing.JButton btnRemoveStaffFromProject;
     private javax.swing.JButton btnRemoveTaskFromProject;
     private javax.swing.JButton jButton1;
@@ -834,71 +864,57 @@ public class ManagerUI extends javax.swing.JFrame {
     private javax.swing.JTextField txtRootComponent;
     // End of variables declaration//GEN-END:variables
 
+    /**
+     * 
+     * @param asset 
+     * Clear the UI and create connection
+     * Select all tasks in the database for the passed in asset
+     * For every task returned, load in all information on the task into the system
+     * Display all tasks for the asset in the UI
+     */
     private void fillInTaskOnAssetList(Asset asset) {
            
         listOfTasks.clear();
         listTasksList.repaint();
-        
-          ResultSet tasksOnAssetListResultSet = null;   
-            Statement statement;
+        ResultSet tasksOnAssetListResultSet = null;   
+        Statement statement;
         try {
             statement = connection.createStatement();
-       
             tasksOnAssetListResultSet = statement.executeQuery("SELECT * FROM Task WHERE assetID = " + asset.getAssetID() + ";");  
-                        
-                  
                          randSQL.loadAllUsers();
                          SetOfUsers allusers = randSQL.getAllUsers();
 
                         while (tasksOnAssetListResultSet.next()){
-                             int taskID;
-                         int projectID;                        
-                         User responsible = null;
-                         int taskPriority;
-                         String status;
-                         String taskName;
-                         String taskType;
-                            
-                             taskID = tasksOnAssetListResultSet.getInt("taskID");
-                             projectID = tasksOnAssetListResultSet.getInt("projectID");
-                             
-                             
+                            int taskID;
+                            int projectID;                        
+                            User responsible = null;
+                            int taskPriority;
+                            String status;
+                            String taskName;
+                            String taskType;
+                            taskID = tasksOnAssetListResultSet.getInt("taskID");
+                            projectID = tasksOnAssetListResultSet.getInt("projectID");
+   
                             for(int i=0; i<allusers.size();i++){
                                 if(tasksOnAssetListResultSet.getInt("responsiblePerson")==allusers.get(i).getUserID());
                                 {
                                     responsible = allusers.get(i);
                                     break;
                                 }     
-                             }
-                            
+                             }                 
                               taskPriority = tasksOnAssetListResultSet.getInt("taskPriority");
                               status = tasksOnAssetListResultSet.getString("status");
                               taskName = tasksOnAssetListResultSet.getString("taskName");
-                              taskType = tasksOnAssetListResultSet.getString("type");
-                              
-                              Task newTask = new Task(taskID, responsible,taskName, taskPriority , status,projectID, asset, taskType);
-                                                            
-                                
+                              taskType = tasksOnAssetListResultSet.getString("type");                   
+                              Task newTask = new Task(taskID, responsible,taskName, taskPriority , status,projectID, asset, taskType);                     
                               listOfTasks.add(newTask);
                               listTasksList.setListData(listOfTasks);
                               TasksListCellRenderer renderer = new TasksListCellRenderer();  //custom cell renderer to display property rather than useless object.toString()
-                              listTasksList.setCellRenderer(renderer);
-                            
-                         }
-                        
-                        
+                              listTasksList.setCellRenderer(renderer);                 
+                         }                     
                         asset.setSetOfTasks(listOfTasks);
-                         
-                        
-                        
-                        
-                        
                          } catch (SQLException ex) {
             Logger.getLogger(ManagerUI.class.getName()).log(Level.SEVERE, null, ex);
         }
-       
-      
     }
-
-
 }

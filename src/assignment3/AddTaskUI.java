@@ -16,21 +16,37 @@ import java.util.logging.Logger;
  */
 public class AddTaskUI extends javax.swing.JFrame {
 
+    /**
+     * Define variables that will be required
+     */
     int assetID2 = 0;
     int selectedProjectID2 = 0;
     /**
      * Creates new form AddTaskUI
+     * Initialises the components
      */
     public AddTaskUI() {
         initComponents();
     }
 
+    /**
+     * 
+     * @param assetID 
+     * Passes in the integer for assetID and sets it in the class
+     */
     AddTaskUI(int assetID) {
         initComponents();  
         assetID = assetID;
     }
     
-        AddTaskUI(int assetID, int selectedProjectID) {
+    /**
+     * 
+     * @param assetID
+     * @param selectedProjectID
+     * Passes in the assetID and the selected project ID
+     * Fills the combo box with staff, and declares the priority ratings
+     */
+    AddTaskUI(int assetID, int selectedProjectID) {
         initComponents();  
         assetID2 = assetID;
         selectedProjectID2 = selectedProjectID;
@@ -160,10 +176,24 @@ public class AddTaskUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * 
+     * @param evt 
+     * Closes the window on button click
+     */
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         this.dispose();        // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    /**
+     * 
+     * @param evt 
+     * On button click, retrieve information from UI
+     * Try and create connection
+     * If no one selected, create new task with no one assigned to do it
+     * Otherwise, create task with person selected assigned to task
+     * Close window
+     */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
       
       int priority = (int) taskPriorityCbo.getSelectedItem();
@@ -199,6 +229,7 @@ public class AddTaskUI extends javax.swing.JFrame {
 
     /**
      * @param args the command line arguments
+     * Open the AddTaskUI
      */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -245,6 +276,10 @@ public class AddTaskUI extends javax.swing.JFrame {
     private javax.swing.JComboBox taskPriorityCbo;
     // End of variables declaration//GEN-END:variables
 
+    /**
+     * Loads all Users
+     * Populates list with users
+     */
     private void FillStaffCombo() {
        //staffCbo
              randomSQLFunctionsReady RandSql = new  randomSQLFunctionsReady();

@@ -21,41 +21,20 @@ import java.util.logging.Logger;
 public class LogInUI2 extends javax.swing.JFrame {
 
     /**
-     * Creates new form LogInUI2
+     *Declares variables required
      */
       private SetOfUsers allUsers = new SetOfUsers();
-
-    /**
-     *
-     */
-    public User UserLoggedIn;
-
-    /**
-     *
-     */
-    public Singleton newInstance = Singleton.getInstance();
+      public User UserLoggedIn;
+      public Singleton newInstance = Singleton.getInstance();
       static Connection connection;
       static Statement statement;
         
     /**
-     *
+     * Creates new form LogInUI2
+     * Initialises components
      */
     public LogInUI2() {
         initComponents();
-        
-        //add users via database connection
-        
-            /*
-            User user1 = new User("Jane", "Air", "user1", "user1");
-            User user2 = new User("Amir", "Air", "user2", "user2");
-            User user3 = new User("Astrid", "Air", "user3", "user3");
-            User user4 = new User("Andy", "Air", "user4", "user4");
-
-            allUsers.add(user1);
-            allUsers.add(user2);
-            allUsers.add(user3);
-            allUsers.add(user4);
-            */
     }
 
     /**
@@ -123,6 +102,14 @@ public class LogInUI2 extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * 
+     * @param userID
+     * @return 
+     * Passes in the userID and creates connection
+     * Selects the role of the user from the database
+     * Returns role of the user
+     */
     private String getUserRole(int userID){
         String role="";
         try{
@@ -143,51 +130,40 @@ public class LogInUI2 extends javax.swing.JFrame {
         return role;
     }
     
+    /**
+     * 
+     * @param evt 
+     * On button click
+     * Create connection and check database for user with correct details
+     * If details are incorrect, display error message
+     * If details are correct, display appropriate UI for user
+     */
     private void logInBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logInBtnActionPerformed
         try {
-            //int num = Integer.parseInt(SearchBookBox.getText());
                      String username = usernameTxt.getText();
                      String password = passTxt.getText();
-                     //Boolean found = false;
-                     
                      ResultSet loginResults = null;
-                     Statement statement;
-                     
+                     Statement statement;                  
                      statement = connection.createStatement();
-                     loginResults = statement.executeQuery( "SELECT * FROM User WHERE username='" + username + "' AND password='" + password + "'");
-                     
-                     
+                     loginResults = statement.executeQuery( "SELECT * FROM User WHERE username='" + username +
+                                                        "' AND password='" + password + "'");
+                 
                      while (loginResults.next())
                     {
                         //finds any matching user and puts them into UserLoggedIn
-                        UserLoggedIn = new User(loginResults.getInt("userID"), loginResults.getString("firstName"), loginResults.getString("surname"), loginResults.getString("username"), loginResults.getString("password"));
-
-                    }
-                     
+                        UserLoggedIn = new User(loginResults.getInt("userID"), loginResults.getString("firstName"), 
+                                loginResults.getString("surname"), loginResults.getString("username"), 
+                                loginResults.getString("password"));
+                    }              
                     if (UserLoggedIn == null )
                     {
                        JOptionPane.showMessageDialog(null, "Username or password not found. Please see your manager");
-                    }
-                     
+                    }              
                     else
                     {
                         newInstance.addUserLogedIn(UserLoggedIn);
-//                        JOptionPane.showMessageDialog(null, "You have logged in!");
-
-/*                          
-                        //loading all data into system
-                        randomSQLFunctionsReady randSQL = new randomSQLFunctionsReady();
-                        randSQL.loadAllUsers();
-                        SetOfUsers setOfUsers = randSQL.getAllUsers();
-                        //...etc...
-                        //end loading data
-*/                        
-
-
                         int userID = UserLoggedIn.getUserID();
-                       
                         String role = getUserRole(userID);
-                        
                         switch(role){ // load different starting frame depending on role
 
                             case "Manager": new ManagerUI().setVisible(true);
@@ -203,42 +179,18 @@ public class LogInUI2 extends javax.swing.JFrame {
                         }
                         this.setVisible(false);
                     }
-                    
-
         } catch (SQLException ex) {
             Logger.getLogger(LogInUI2.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_logInBtnActionPerformed
-
-    
-    
+  
     /**
      * @param args the command line arguments
      * @throws java.sql.SQLException
+     * Opens UI
+     * Creates connection to database
      */
     public static void main(String args[])  throws  SQLException{
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(LogInUI2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(LogInUI2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(LogInUI2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(LogInUI2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
 //variables for use in the program
 		
 	final int PORT = 1234;
@@ -256,7 +208,7 @@ public class LogInUI2 extends javax.swing.JFrame {
         //Connection String for Marcin
         //String fileName = "C:\\Users\\Neverborn\\Documents\\NetBeansProjects\\MediaSystem\\CSSD.mdb";
         /*Connction String for Graham */
-       String fileName = "C:\\Users\\Graham\\Desktop\\MediaSystem\\CSSD.mdb" ;
+       String fileName = "C:\\Users\\Graham\\Desktop\\Uni\\Assignment3\\CSSD.mdb" ;
         //relative path test - doesnt work :/
         //String fileName = "..\\..\\CSSD.mdb";
         String dbString ="jdbc:odbc:Driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=" + fileName + ";"; //Change back to *mdb for 32bit access  		

@@ -10,6 +10,9 @@ package assignment3;
  */
 public class Asset {
 
+    /**
+     * Declares variables required
+     */
     private int assetID;
     private String name;
     private String type;
@@ -21,6 +24,7 @@ public class Asset {
      * @param Assname
      * @param Asstype
      * @param setOfTasks
+     * Constructs Asset
      */
     public Asset(int AssID, String Assname, String Asstype, SetOfTasks setOfTasks) {
         assetID = AssID;

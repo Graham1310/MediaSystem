@@ -15,6 +15,7 @@ public class Client {
      * @param clientID
      * @param organisationName
      * @param organisationAddress
+     * Creates constructor
      */
     public Client(int clientID, String organisationName, String organisationAddress) {
         this.clientID = clientID;
@@ -22,6 +23,9 @@ public class Client {
         this.organisationAddress = organisationAddress;
     }
     
+    /**
+     * Declares variables required
+     */
     private int clientID;
     private String organisationName;
     private String organisationAddress;

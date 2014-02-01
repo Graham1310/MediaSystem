@@ -124,6 +124,13 @@ public class AddStaffUI extends javax.swing.JFrame {
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnCancelActionPerformed
+    
+    /**
+     * Try to create connection to database
+     * Select all Users that are Staff from the database
+     * For every result, add to list
+     * Display list
+     */
     private void fillInStaffList(){
         try{
             ResultSet staffResultSet = null;
@@ -140,8 +147,6 @@ public class AddStaffUI extends javax.swing.JFrame {
                 String surname= staffResultSet.getString("surname");
                 User user = new User(userID,firstName,surname);
                 staff.add(user);
-
-                //Project(int projectID, ProjectComponent rootComponent, SetOfTasks projectTasks, User teamLeader, User clientRep, int priority, SetOfComponents componentCollection, SetOfQCReports reports)
             }
  
         }catch(SQLException err)
@@ -155,16 +160,22 @@ public class AddStaffUI extends javax.swing.JFrame {
         listStaffList.setCellRenderer(renderer);
     }
     
+    /**
+     * 
+     * @param staff
+     * @param project 
+     * Pass in selected staff and selected project
+     * Try to create connection to database
+     * Insert staff and project into StaffOnProjects in database to assign staff to the project
+     */
     private void addStaffOnProjectToDataBase(User staff, Project project){
  
        try{
-
             Statement statement;
             staff.getUserID();
             statement = connection.createStatement();
             statement.executeUpdate(" INSERT INTO StaffOnProjects (staffID, projectID)"
                                 + "VALUES (" + staff.getUserID() + ", " + project.getProjectID() + ");" ); // insert staff
-
         }catch(SQLException err)
 		{
                     System.out.println("ERROR: " + err);
@@ -172,6 +183,7 @@ public class AddStaffUI extends javax.swing.JFrame {
 			System.exit(1);
 		}                  
     } 
+    
     /**
      * @param args the command line arguments
      */

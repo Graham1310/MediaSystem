@@ -17,9 +17,9 @@ import javax.swing.JOptionPane;
  * @author Neverborn
  */
 public class CreateProjectUI extends javax.swing.JFrame {
-//teamLeader, User clientRep, int priority, SetOfComponents componentCollection, SetOfQCReports reports)
+
     /**
-     * Creates new form CreateProjectUI
+     * Declares variables required
      */
     private Project project;
     private int projectID;
@@ -27,22 +27,19 @@ public class CreateProjectUI extends javax.swing.JFrame {
     private int priority;
     private SetOfUsers clientRepList = new SetOfUsers();
     private User clientRep;
-    //for db dependencies
-    
     int rootComponentID;
     int teamLeaderID;
     int clientRepID;
     int tempProjectID=0; //no need for deletion upon exit when 0
 
     /**
-     *
+     * Creates new form CreateProjectUI
      */
     public CreateProjectUI() {
         initComponents();
         insertTempProjectIntoDataBase();
         setLastProjectIDFromDataBase();
         fillInClientRepList();
- 
     }
 
     /**
@@ -153,10 +150,16 @@ public class CreateProjectUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * 
+     * @param evt 
+     * On button click, retrieve information from UI
+     * If the fields are correctly formatted, create project
+     * Close UI
+     */
     private void btnCreateProjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateProjectActionPerformed
         String projectName = txtProjectName.getText();
         int priority =  Integer.valueOf(cboxPriority.getSelectedItem().toString());
-//        Project(String projectName, int rootComponentID, int teamLeaderID, int clientRepID, int priority)
         clientRep = (User)listClientRepList.getSelectedValue();
         if(priority>=1 && clientRep!=null){
             project = new Project(projectName,priority,clientRep);
@@ -165,25 +168,38 @@ public class CreateProjectUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnCreateProjectActionPerformed
 
+    /**
+     * 
+     * @param evt 
+     * On button click, delete temporary variable from database and close UI
+     */
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         deleteTempProjectFromDataBase(tempProjectID);
         this.dispose();
     }//GEN-LAST:event_btnCancelActionPerformed
 
-  
+  /**
+   * 
+   * @param project 
+   * Pass in project and create connection
+   * Create project in database
+   */
     private void insertProjectIntoDataBase(Project project){
         try {
             
             Statement statement;
             statement = connection.createStatement();
             clientRepID = project.getClientRep().getUserID();
-//            statement.executeUpdate( "INSERT INTO Project(projectName, rootComponent, teamLeader, clientRep, priority) "
-//                    + "VALUES ('" + project.getProjectName() + "', '" + project.getRootComponentID() + "','" + project.getTeamLeaderID() + "', '" + project.getClientRepID() + "', '" + project.getPriority() + "');"); // change to update
-            statement.executeUpdate("UPDATE Project SET projectName='"+project.getProjectName()+"' , clientRep="+ clientRepID +", priority="+project.getPriority()+" WHERE projectID="+tempProjectID+";");
+            statement.executeUpdate("UPDATE Project SET projectName='"+project.getProjectName()+"' , clientRep="
+                    + clientRepID +", priority="+project.getPriority()+" WHERE projectID="+tempProjectID+";");
         } catch (SQLException ex) {
             Logger.getLogger(testFrame2.class.getName()).log(Level.SEVERE, null, ex);
         }
     };
+    /**
+     * Create connection
+     * Create a temporary project in database
+     */
      private void insertTempProjectIntoDataBase(){
         try {
             
@@ -195,6 +211,10 @@ public class CreateProjectUI extends javax.swing.JFrame {
         }
     };
     
+     /**
+      * Create connection
+      * Select last projectID in database
+      */
      private void setLastProjectIDFromDataBase(){
         try {
             ResultSet tempProjectIDResults= null;
@@ -211,6 +231,12 @@ public class CreateProjectUI extends javax.swing.JFrame {
         }
      }
      
+     /**
+      * 
+      * @param tempProjectID 
+      * Pass in tempProjectID and create connection
+      * Delete from Project in database where ID matches passed ID
+      */
      private void deleteTempProjectFromDataBase(int tempProjectID){
          if(tempProjectID !=0){
             try {
@@ -223,6 +249,12 @@ public class CreateProjectUI extends javax.swing.JFrame {
          }
     };
      
+     /**
+      * Create connection
+      * Select all Client Representatives
+      * For every ClientRep, add them to list of all ClientReps
+      * Display list of ClientReps
+      */
     private void fillInClientRepList(){
         try{
             ResultSet clientRepResultSet = null;
@@ -237,14 +269,11 @@ public class CreateProjectUI extends javax.swing.JFrame {
                 int userID = clientRepResultSet.getInt("userID");
                 String firstName = clientRepResultSet.getString("firstName");
                 String surname = clientRepResultSet.getString("surname");
-                
                 clientRep = new User(userID,firstName,surname);
-                
                 clientRepList.add(clientRep);
                 listClientRepList.setListData(clientRepList);
                 UserListCellRenderer renderer = new UserListCellRenderer(); //custom cell renderer to display property rather than useless object.toString()
                 listClientRepList.setCellRenderer(renderer);
-                //Project(int projectID, ProjectComponent rootComponent, SetOfTasks projectTasks, User teamLeader, User clientRep, int priority, SetOfComponents componentCollection, SetOfQCReports reports)
             }
         }catch(SQLException err)
 		{
@@ -252,36 +281,13 @@ public class CreateProjectUI extends javax.swing.JFrame {
 			JOptionPane.showMessageDialog(null,"* Cannot connect to database! *");
 			System.exit(1);
 		}
-          
     }     
     /**
      * @param args the command line arguments
+     * Create and display the form
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CreateProjectUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CreateProjectUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CreateProjectUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CreateProjectUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
 
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new CreateProjectUI().setVisible(true);
