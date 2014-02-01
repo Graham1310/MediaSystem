@@ -446,7 +446,7 @@ public class randomSQLFunctionsReady {
                 for(int i=0; i<allAssets.size();i++){
                     if(allAssets.get(i).getAssetID()==dbUsersTasks.getInt("assetID")){
                         Task task = new Task(dbUsersTasks.getInt("Task.taskID"), UserLoggedIn, dbUsersTasks.getString("Task.TaskName"), dbUsersTasks.getInt("Task.taskPriority"),
-                                dbUsersTasks.getString("Task.taskStatus"), dbUsersTasks.getInt("Task.projectID"), allAssets.get(i));
+                                dbUsersTasks.getString("Task.taskStatus"), dbUsersTasks.getInt("Task.projectID"), allAssets.get(i), dbUsersTasks.getString("Task.type"));
                         usersTasks.addTask(task);
                     }
                 }
@@ -811,5 +811,8 @@ public class randomSQLFunctionsReady {
                 }
      }
      
-     
+     SELECT SetOFAssets.elementID, Asset.*, Task.*
+FROM (Asset INNER JOIN (Element INNER JOIN SetOFAssets ON Element.elementID = SetOFAssets.elementID) ON Asset.ID = SetOFAssets.assetID) INNER JOIN Task ON Asset.ID = Task.assetID
+WHERE (((SetOFAssets.elementID)=1));
+
 }
