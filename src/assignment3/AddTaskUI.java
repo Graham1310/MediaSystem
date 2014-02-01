@@ -155,14 +155,28 @@ public class AddTaskUI extends javax.swing.JFrame {
       
       int priority = (int) taskPriorityCbo.getSelectedItem();
       String name = taskNameTxt.getText();
-      User selectedStaff = (User) staffCbo.getSelectedItem();
-       
         
         try {
-                    Statement statement;
-                        statement = connection.createStatement();
-                        statement.executeUpdate( "INSERT INTO Task(projectID, responsiblePerson, taskPriority, status, taskName, assetID) "
-                                        + "VALUES (" + selectedProjectID2 + ", " + selectedStaff.getUserID() + ", " + priority + ", '" + "Not Started" + "', '" + name + "', " + assetID2 + ");");
+            Statement statement;
+            statement = connection.createStatement();
+            
+            
+                if(staffCbo.getSelectedItem()=="No Person Selected")
+                {
+                    //System.out.print("no one selected");
+                    statement.executeUpdate( "INSERT INTO Task(projectID, taskPriority, status, taskName, assetID) "
+                                        + "VALUES (" + selectedProjectID2 + ", " + priority + ", '" + "Not Started" + "', '" + name + "', " + assetID2 + ");");
+                    
+                }
+                else{
+                   User selectedStaff = (User) staffCbo.getSelectedItem();
+                    int userID = selectedStaff.getUserID();
+                    statement.executeUpdate( "INSERT INTO Task(projectID, responsiblePerson, taskPriority, status, taskName, assetID) "
+                                        + "VALUES (" + selectedProjectID2 + ", " + userID + ", " + priority + ", '" + "Not Started" + "', '" + name + "', " + assetID2 + ");");
+                }
+            
+                    
+                        
                 } catch (SQLException ex) {
                     Logger.getLogger(randomSQLFunctionsReady.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -221,7 +235,11 @@ public class AddTaskUI extends javax.swing.JFrame {
              SetOfUsers allusers = new SetOfUsers();
              allusers = RandSql.allUsers;
              
-             for (int i = 0; i< allusers.size(); i++)
+             //remove these 2 lines of this doesn't work
+             String noOneSelected = "No Person Selected";
+             staffCbo.add(noOneSelected, this);
+             
+             for (int i = 1; i< (allusers.size()+1); i++)
              {
                  staffCbo.addItem(allusers.get(i));
              }
