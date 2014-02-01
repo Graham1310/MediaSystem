@@ -12,7 +12,7 @@ class Task {
     private int taskID;
     private User responsiblePerson;
 
-    public Task(int taskID, User responsiblePerson, String taskName, int priority, String status, int projectID, Asset asset) {
+    public Task(int taskID, User responsiblePerson, String taskName, int priority, String status, int projectID, Asset asset, String type) {
         this.taskID = taskID;
         this.responsiblePerson = responsiblePerson;
         this.taskName = taskName;
@@ -20,6 +20,7 @@ class Task {
         this.status = status;
         this.projectID = projectID;
         this.asset = asset;
+        this.type = type;
     }
     
     
@@ -29,6 +30,15 @@ class Task {
     private String status;
     private int projectID;
     private Asset asset;
+    private String type;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public Asset getAsset() {
         return asset;
