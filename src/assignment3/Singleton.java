@@ -15,6 +15,10 @@ public class Singleton {
     
     private Singleton (){}
     
+    /**
+     *
+     * @return
+     */
     public static synchronized Singleton getInstance(){
         if (instance == null){
             instance = new Singleton();
@@ -24,15 +28,27 @@ public class Singleton {
     
     private LinkedList<User> usersLoggedInList = new LinkedList<User>();
     
+    /**
+     *
+     * @return
+     */
     public LinkedList<User> getUsersLoggedIn()
     {
         return instance.usersLoggedInList;
     }
     
+    /**
+     *
+     * @param aUser
+     */
     public void addUserLogedIn(User aUser){
         usersLoggedInList.add(aUser);
     }
     
+    /**
+     *
+     * @param aUser
+     */
     public void removeUserLoggedIn(User aUser){
         usersLoggedInList.remove(aUser);
     }

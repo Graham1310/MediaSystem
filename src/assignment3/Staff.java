@@ -10,6 +10,11 @@ package assignment3;
  */
 public class Staff {
 
+    /**
+     *
+     * @param staffUser
+     * @param role
+     */
     public Staff(User staffUser, String role) {
         this.staffUser = staffUser;
         this.role = role;
@@ -17,18 +22,34 @@ public class Staff {
     private User staffUser;
     private String role;
 
+    /**
+     *
+     * @return
+     */
     public User getStaffUser() {
         return staffUser;
     }
 
+    /**
+     *
+     * @param staffUser
+     */
     public void setStaffUser(User staffUser) {
         this.staffUser = staffUser;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getRole() {
         return role;
     }
 
+    /**
+     *
+     * @param role
+     */
     public void setRole(String role) {
         this.role = role;
     }

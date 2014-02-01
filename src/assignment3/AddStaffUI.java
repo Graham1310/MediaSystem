@@ -19,6 +19,7 @@ public class AddStaffUI extends javax.swing.JFrame {
     private Project selectedProject;
     /**
      * Creates new form AddStaffUI
+     * @param project
      */
     public AddStaffUI(Project project) {
         initComponents();

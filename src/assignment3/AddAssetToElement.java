@@ -16,6 +16,7 @@ import javax.swing.JOptionPane;
  *
  * @author b0025885
  */
+
 public class AddAssetToElement extends javax.swing.JFrame {
     
 private int elementID = 0;
@@ -63,6 +64,9 @@ private SetOfAssets setOfAssets = new SetOfAssets();
         
     }
    
+    /**
+     *
+     */
     public AddAssetToElement() {
         initComponents();                    
         FillAssets();
@@ -81,6 +85,8 @@ private SetOfAssets setOfAssets = new SetOfAssets();
         assetList = new javax.swing.JList();
         jLabel1 = new javax.swing.JLabel();
         addAssetsToEle = new javax.swing.JButton();
+        createAssetBtn = new javax.swing.JButton();
+        refreshBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -95,6 +101,20 @@ private SetOfAssets setOfAssets = new SetOfAssets();
             }
         });
 
+        createAssetBtn.setText("Create Asset");
+        createAssetBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                createAssetBtnActionPerformed(evt);
+            }
+        });
+
+        refreshBtn.setText("Refresh Assets");
+        refreshBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refreshBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -106,7 +126,10 @@ private SetOfAssets setOfAssets = new SetOfAssets();
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(addAssetsToEle)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(addAssetsToEle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(createAssetBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(refreshBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -117,7 +140,12 @@ private SetOfAssets setOfAssets = new SetOfAssets();
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(addAssetsToEle))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(addAssetsToEle)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(createAssetBtn)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(refreshBtn)))
                 .addContainerGap(23, Short.MAX_VALUE))
         );
 
@@ -146,6 +174,14 @@ private SetOfAssets setOfAssets = new SetOfAssets();
         
        this.dispose();
     }//GEN-LAST:event_addAssetsToEleActionPerformed
+
+    private void refreshBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshBtnActionPerformed
+       FillAssets();
+    }//GEN-LAST:event_refreshBtnActionPerformed
+
+    private void createAssetBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createAssetBtnActionPerformed
+        new CreateAssetUI().setVisible(true);
+    }//GEN-LAST:event_createAssetBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -187,7 +223,9 @@ private SetOfAssets setOfAssets = new SetOfAssets();
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addAssetsToEle;
     private javax.swing.JList assetList;
+    private javax.swing.JButton createAssetBtn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton refreshBtn;
     // End of variables declaration//GEN-END:variables
 }

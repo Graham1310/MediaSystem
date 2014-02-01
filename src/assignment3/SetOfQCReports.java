@@ -12,12 +12,25 @@ import java.util.Vector;
  */
 public class SetOfQCReports extends Vector<QCReport>{
     
+    /**
+     *
+     */
     public SetOfQCReports(){
         super();
     }
+
+    /**
+     *
+     * @param aQCReport
+     */
     public void addReport(QCReport aQCReport){
         super.add(aQCReport);
     }
+
+    /**
+     *
+     * @param aQCReport
+     */
     public void removeReport(QCReport aQCReport){
         super.remove(aQCReport);
     }

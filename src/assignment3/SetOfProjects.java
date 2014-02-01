@@ -11,14 +11,26 @@ import java.util.Vector;
  * @author Tim Beale
  */
 public class SetOfProjects extends Vector<Project>{
+
+    /**
+     *
+     */
     public SetOfProjects(){
         super();
     }
 
+    /**
+     *
+     * @param aProject
+     */
     public void addProject(Project aProject){
         super.add(aProject);
     }
 
+    /**
+     *
+     * @param aProject
+     */
     public void removeProject(Project aProject){
         super.remove(aProject);
     }

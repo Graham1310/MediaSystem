@@ -10,6 +10,12 @@ package assignment3;
  */
 public class Client {
 
+    /**
+     *
+     * @param clientID
+     * @param organisationName
+     * @param organisationAddress
+     */
     public Client(int clientID, String organisationName, String organisationAddress) {
         this.clientID = clientID;
         this.organisationName = organisationName;
@@ -20,26 +26,50 @@ public class Client {
     private String organisationName;
     private String organisationAddress;
 
-     public int getClientID() {
+    /**
+     *
+     * @return
+     */
+    public int getClientID() {
         return clientID;
     }
 
+    /**
+     *
+     * @param clientID
+     */
     public void setClientID(int clientID) {
         this.clientID = clientID;
     }
     
+    /**
+     *
+     * @return
+     */
     public String getOrganisationName() {
         return organisationName;
     }
 
+    /**
+     *
+     * @param organisationName
+     */
     public void setOrganisationName(String organisationName) {
         this.organisationName = organisationName;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getOrganisationAddress() {
         return organisationAddress;
     }
 
+    /**
+     *
+     * @param organisationAddress
+     */
     public void setOrganisationAddress(String organisationAddress) {
         this.organisationAddress = organisationAddress;
     }

@@ -10,6 +10,18 @@ package assignment3;
  */
 public class Project {
 
+    /**
+     *
+     * @param projectID
+     * @param projectName
+     * @param teamLeader
+     * @param clientRep
+     * @param priority
+     * @param projectTasks
+     * @param reports
+     * @param elementCollection
+     * @param setOfUsers
+     */
     public Project(int projectID, String projectName, User teamLeader, User clientRep, int priority, SetOfTasks projectTasks, SetOfQCReports reports, SetOfElements elementCollection, SetOfUsers setOfUsers) {
         this.projectID = projectID;
         this.setOfUsers = setOfUsers;
@@ -22,6 +34,15 @@ public class Project {
         this.reports = reports;
     }
 
+    /**
+     *
+     * @param projectName
+     * @param projectTasks
+     * @param teamLeader
+     * @param clientRep
+     * @param priority
+     * @param reports
+     */
     public Project(String projectName, SetOfTasks projectTasks, User teamLeader, User clientRep, int priority, SetOfQCReports reports) {
         this.projectName = projectName;
         //this.rootComponent = rootComponent;
@@ -32,6 +53,13 @@ public class Project {
         //this.componentCollection = componentCollection;
         this.reports = reports;
     }
+
+    /**
+     *
+     * @param projectName
+     * @param priority
+     * @param clientRep
+     */
     public Project(String projectName,int priority, User clientRep) {
         this.projectName = projectName;
         this.clientRep = clientRep;
@@ -39,6 +67,13 @@ public class Project {
 
     }
     
+    /**
+     *
+     * @param projectID
+     * @param projectName
+     * @param priority
+     * @param clientRep
+     */
     public Project(int projectID, String projectName,int priority, User clientRep) {
         this.projectID = projectID;
         this.projectName = projectName;
@@ -47,7 +82,16 @@ public class Project {
 
     } 
     //for db dependencies
-    public Project(String projectName, int rootComponentID, int teamLeaderID, int clientRepID, int priority) {
+
+    /**
+     *
+     * @param projectName
+     * @param rootComponentID
+     * @param teamLeaderID
+     * @param clientRepID
+     * @param priority
+     */
+        public Project(String projectName, int rootComponentID, int teamLeaderID, int clientRepID, int priority) {
         this.projectName = projectName;
         this.rootComponentID = rootComponentID;
         this.teamLeaderID = teamLeaderID;
@@ -65,10 +109,18 @@ public class Project {
     private SetOfElements elementCollection;
     //private ProjectComponent rootComponent; // remove?
 
+    /**
+     *
+     * @return
+     */
     public SetOfElements getElementCollection() {
         return elementCollection;
     }
 
+    /**
+     *
+     * @param elementCollection
+     */
     public void setElementCollection(SetOfElements elementCollection) {
         this.elementCollection = elementCollection;
     }
@@ -82,91 +134,178 @@ public class Project {
     int teamLeaderID;
     int clientRepID;
 
-    
+    /**
+     *
+     * @return
+     */
     public int getProjectID() {
         return projectID;
     }
 
+    /**
+     *
+     * @param projectID
+     */
     public void setProjectID(int projectID) {
         this.projectID = projectID;
     }
     
+    /**
+     *
+     * @return
+     */
     public String getProjectName() {
         return projectName;
     }
 
+    /**
+     *
+     * @param projectName
+     */
     public void setProjectName(String projectName) {
         this.projectName = projectName;
     }
     
+    /**
+     *
+     * @return
+     */
     public SetOfQCReports getReports() {
         return reports;
     }
 
+    /**
+     *
+     * @param reports
+     */
     public void setReports(SetOfQCReports reports) {
         this.reports = reports;
     }
 
+    /**
+     *
+     * @return
+     */
     public SetOfTasks getProjectTasks() {
         return projectTasks;
     }
 
+    /**
+     *
+     * @param projectTasks
+     */
     public void setProjectTasks(SetOfTasks projectTasks) {
         this.projectTasks = projectTasks;
     }
 
+    /**
+     *
+     * @return
+     */
     public User getTeamLeader() {
         return teamLeader;
     }
 
+    /**
+     *
+     * @param teamLeader
+     */
     public void setTeamLeader(User teamLeader) {
         this.teamLeader = teamLeader;
     }
 
+    /**
+     *
+     * @return
+     */
     public User getClientRep() {
         return clientRep;
     }
 
+    /**
+     *
+     * @param clientRep
+     */
     public void setClientRep(User clientRep) {
         this.clientRep = clientRep;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getPriority() {
         return priority;
     }
 
+    /**
+     *
+     * @param priority
+     */
     public void setPriority(int priority) {
         this.priority = priority;
     }
     
+    /**
+     *
+     * @return
+     */
     public SetOfUsers getSetOfUsers() {
         return setOfUsers;
     }
 
+    /**
+     *
+     * @param setOfUsers
+     */
     public void setSetOfUsers(SetOfUsers setOfUsers) {
         this.setOfUsers = setOfUsers;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getRootComponentID(){
         return rootComponentID;
     }
     
+    /**
+     *
+     * @param rootComponentID
+     */
     public void setRootComponentID(int rootComponentID){
         this.rootComponentID = rootComponentID;
     }
   
+    /**
+     *
+     * @return
+     */
     public int getTeamLeaderID(){
         return teamLeaderID;
     }
     
+    /**
+     *
+     * @param teamLeaderID
+     */
     public void setTeamLeaderID(int teamLeaderID){
         this.teamLeaderID = teamLeaderID;
     }
     
+    /**
+     *
+     * @return
+     */
     public int getClientRepID(){
         return clientRepID;
     }
     
+    /**
+     *
+     * @param clientRepID
+     */
     public void setClientRepID(int clientRepID){
         this.clientRepID = clientRepID;
     }    

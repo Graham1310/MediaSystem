@@ -11,10 +11,18 @@ package assignment3;
 public class QCTask {
     private QCReport qualityControlTaskReport;
 
+    /**
+     *
+     * @return
+     */
     public QCReport getQualityControlTaskReport() {
         return qualityControlTaskReport;
     }
 
+    /**
+     *
+     * @param qualityControlTaskReport
+     */
     public void setQualityControlTaskReport(QCReport qualityControlTaskReport) {
         this.qualityControlTaskReport = qualityControlTaskReport;
     }

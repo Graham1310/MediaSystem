@@ -19,7 +19,6 @@ public class MainUI extends javax.swing.JFrame {
 //    private boolean UserLoggedIN;      
     /**
      *
-     * @param UserLoggedIN
      */
     public MainUI() {
         initComponents();

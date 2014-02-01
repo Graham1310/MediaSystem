@@ -25,6 +25,9 @@ public class testFrame2 extends javax.swing.JFrame {
     SetOfAssets AllAssets = new SetOfAssets();
     SetOfElements AllElements = new SetOfElements();
     
+    /**
+     *
+     */
     public testFrame2() {
          
         

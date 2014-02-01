@@ -32,9 +32,11 @@ public class CreateProjectUI extends javax.swing.JFrame {
     int rootComponentID;
     int teamLeaderID;
     int clientRepID;
-    int tempProjectID=0; //no need for deletion upon exit when 0 
-    
-    
+    int tempProjectID=0; //no need for deletion upon exit when 0
+
+    /**
+     *
+     */
     public CreateProjectUI() {
         initComponents();
         insertTempProjectIntoDataBase();

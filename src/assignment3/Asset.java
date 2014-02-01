@@ -15,6 +15,13 @@ public class Asset {
     private String type;
     private SetOfTasks setOfTasks;
 
+    /**
+     *
+     * @param AssID
+     * @param Assname
+     * @param Asstype
+     * @param setOfTasks
+     */
     public Asset(int AssID, String Assname, String Asstype, SetOfTasks setOfTasks) {
         assetID = AssID;
         name = Assname;
@@ -22,34 +29,66 @@ public class Asset {
         setOfTasks = setOfTasks;
     }
 
-     public SetOfTasks getSetOfTasks() {
+    /**
+     *
+     * @return
+     */
+    public SetOfTasks getSetOfTasks() {
         return setOfTasks;
     }
 
+    /**
+     *
+     * @param setOfTasks
+     */
     public void setSetOfTasks(SetOfTasks setOfTasks) {
         this.setOfTasks = setOfTasks;
     }
     
+    /**
+     *
+     * @return
+     */
     public int getAssetID() {
         return assetID;
     }
 
+    /**
+     *
+     * @param assetID
+     */
     public void setAssetID(int assetID) {
         this.assetID = assetID;
     }
     
+    /**
+     *
+     * @return
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     *
+     * @param name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getType() {
         return type;
     }
 
+    /**
+     *
+     * @param type
+     */
     public void setType(String type) {
         this.type = type;
     }

@@ -19,6 +19,20 @@ import javax.swing.JOptionPane;
  */
 public class randomSQLFunctionsReady {
 
+    /**
+     *
+     * @param UserLoggedIn
+     * @param allQCReports
+     * @param allComments
+     * @param allTasks
+     * @param allUsers
+     * @param allClients
+     * @param allClientReps
+     * @param allStaff
+     * @param allAssets
+     * @param allElements
+     * @param allProjects
+     */
     public randomSQLFunctionsReady(User UserLoggedIn, SetOfQCReports allQCReports,  SetOfQCComments allComments,
             SetOfTasks allTasks, SetOfUsers allUsers, SetOfClients allClients, SetOfClientReps allClientReps,
             SetOfStaff allStaff, SetOfAssets allAssets, SetOfElements allElements, SetOfProjects allProjects ) {
@@ -53,95 +67,185 @@ public class randomSQLFunctionsReady {
         //throw new UnsupportedOperationException("Not yet implemented");
     }
             
+    /**
+     *
+     * @return
+     */
     public SetOfQCReports getAllQCReports() {
         return allQCReports;
     }
 
+    /**
+     *
+     * @param allQCReports
+     */
     public void setAllQCReports(SetOfQCReports allQCReports) {
         this.allQCReports = allQCReports;
     }
 
+    /**
+     *
+     * @return
+     */
     public SetOfQCComments getAllComments() {
         return allComments;
     }
 
+    /**
+     *
+     * @param allComments
+     */
     public void setAllComments(SetOfQCComments allComments) {
         this.allComments = allComments;
     }
 
+    /**
+     *
+     * @return
+     */
     public SetOfTasks getAllTasks() {
         return allTasks;
     }
 
+    /**
+     *
+     * @param allTasks
+     */
     public void setAllTasks(SetOfTasks allTasks) {
         this.allTasks = allTasks;
     }
 
+    /**
+     *
+     * @return
+     */
     public SetOfUsers getAllUsers() {
         return allUsers;
     }
 
+    /**
+     *
+     * @param allUsers
+     */
     public void setAllUsers(SetOfUsers allUsers) {
         this.allUsers = allUsers;
     }
 
+    /**
+     *
+     * @return
+     */
     public SetOfClients getAllClients() {
         return allClients;
     }
 
+    /**
+     *
+     * @param allClients
+     */
     public void setAllClients(SetOfClients allClients) {
         this.allClients = allClients;
     }
 
+    /**
+     *
+     * @return
+     */
     public SetOfClientReps getAllClientReps() {
         return allClientReps;
     }
 
+    /**
+     *
+     * @param allClientReps
+     */
     public void setAllClientReps(SetOfClientReps allClientReps) {
         this.allClientReps = allClientReps;
     }
 
+    /**
+     *
+     * @return
+     */
     public SetOfStaff getAllStaff() {
         return allStaff;
     }
 
+    /**
+     *
+     * @param allStaff
+     */
     public void setAllStaff(SetOfStaff allStaff) {
         this.allStaff = allStaff;
     }
 
+    /**
+     *
+     * @return
+     */
     public SetOfAssets getAllAssets() {
         return allAssets;
     }
 
+    /**
+     *
+     * @param allAssets
+     */
     public void setAllAssets(SetOfAssets allAssets) {
         this.allAssets = allAssets;
     }
 
+    /**
+     *
+     * @return
+     */
     public SetOfElements getAllElements() {
         return allElements;
     }
 
+    /**
+     *
+     * @param allElements
+     */
     public void setAllElements(SetOfElements allElements) {
         this.allElements = allElements;
     }
 
+    /**
+     *
+     * @return
+     */
     public SetOfProjects getAllProjects() {
         return allProjects;
     }
 
+    /**
+     *
+     * @param allProjects
+     */
     public void setAllProjects(SetOfProjects allProjects) {
         this.allProjects = allProjects;
     }
 
+    /**
+     *
+     * @return
+     */
     public User getUserLoggedIn() {
         return UserLoggedIn;
     }
 
+    /**
+     *
+     * @param UserLoggedIn
+     */
     public void setUserLoggedIn(User UserLoggedIn) {
         this.UserLoggedIn = UserLoggedIn;
     }
-    
-    
+
+    /**
+     *
+     */
     public void loadAllUsers(){//COMPLETE
         try {        
             ResultSet dbAllUsers = null;
@@ -160,6 +264,9 @@ public class randomSQLFunctionsReady {
         }
     }
     
+    /**
+     *
+     */
     public void loadAllClients(){//needs the address fixing
         try {        
             ResultSet dbAllClients = null;
@@ -177,6 +284,9 @@ public class randomSQLFunctionsReady {
         }
     }
     
+    /**
+     *
+     */
     public void loadAllClientReps(){//COMPLETE
         try {        
             ResultSet dbAllClientReps = null;
@@ -208,6 +318,9 @@ public class randomSQLFunctionsReady {
         }
     }
     
+    /**
+     *
+     */
     public void loadAllStaff(){//COMPLETE
         try {               
             ResultSet dbAllStaff = null;
@@ -234,6 +347,9 @@ public class randomSQLFunctionsReady {
         }
     }
     
+    /**
+     *
+     */
     public void loadAllAssets(){//COMPLETE
         try {        
             ResultSet dbAllAssets = null;
@@ -257,6 +373,9 @@ public class randomSQLFunctionsReady {
         }
     }
     
+    /**
+     *
+     */
     public void loadAllElements(){//REALLY NOT SURE IF THIS ONE WILL WORK RIGHT
         try {
             ResultSet dbAllElements = null;
@@ -281,6 +400,9 @@ public class randomSQLFunctionsReady {
         }
     }
     
+    /**
+     *
+     */
     public void loadAllQCComments(){
                 try {
                     allComments = null;
@@ -303,6 +425,9 @@ public class randomSQLFunctionsReady {
                 }
     }
     
+    /**
+     *
+     */
     public void loadAllQCReports(){
                 try {
                     allQCReports = null;
@@ -335,8 +460,10 @@ public class randomSQLFunctionsReady {
                     Logger.getLogger(randomSQLFunctionsReady.class.getName()).log(Level.SEVERE, null, ex);
                 }
     }
-    
-    
+
+    /**
+     *
+     */
     public void loadAllProjects(){
         try {
                 //requires components and QC stuff
@@ -419,6 +546,15 @@ public class randomSQLFunctionsReady {
 
     }
     
+    /**
+     *
+     * @param project
+     * @param user
+     * @param priority
+     * @param status
+     * @param name
+     * @param asset
+     */
     public void createNewTask(Project project, User user, int priority, String status, String name, Asset asset){
                 try {
                     Statement statement;
@@ -430,6 +566,9 @@ public class randomSQLFunctionsReady {
                 }
     }
     
+    /**
+     *
+     */
     public void displayUsersTasks(){
         SetOfTasks usersTasks = new SetOfTasks();
         try {
@@ -496,6 +635,15 @@ public class randomSQLFunctionsReady {
             JOptionPane.showMessageDialog(null,e);
         }
     }*/
+
+    /**
+     *
+     * @param projectName
+     * @param teamLeader
+     * @param clientRep
+     * @param priority
+     */
+    
     
     public void CreateNewProject(String projectName, User teamLeader, User clientRep, int priority){//create a new project
                 try {
@@ -508,6 +656,15 @@ public class randomSQLFunctionsReady {
                 }
     }
     
+    /**
+     *
+     * @param project
+     * @param responsiblePerson
+     * @param priority
+     * @param status
+     * @param taskName
+     * @param asset
+     */
     public void ChangeTaskStatus(Project project, User responsiblePerson, int priority, String status, String taskName, Asset asset){//edit the task
         //requires IF statement to make sure only appropriate QC Team Member can change the task status
         try {
@@ -524,6 +681,11 @@ public class randomSQLFunctionsReady {
                 }
     }
     
+    /**
+     *
+     * @param projectTeam
+     * @param project
+     */
     public void defineProjectTeam(SetOfUsers projectTeam, Project project){//creates team to work on a project
                 try {
                     Statement statement;
@@ -538,6 +700,10 @@ public class randomSQLFunctionsReady {
                 }
     }
     
+    /**
+     *
+     * @param elementName
+     */
     public void createNewElement(String elementName){
                 try {
                     Statement statement;
@@ -549,6 +715,11 @@ public class randomSQLFunctionsReady {
                 }
     }
     
+    /**
+     *
+     * @param assetName
+     * @param assetType
+     */
     public void createNewAsset(String assetName, String assetType){
                 try {
                     Statement statement;
@@ -560,6 +731,11 @@ public class randomSQLFunctionsReady {
                 }
     }
     
+    /**
+     *
+     * @param elementAssets
+     * @param element
+     */
     public void assignAssetsToElement(SetOfAssets elementAssets, Element element){//assigns list of assets to an element
         try {
                     Statement statement;
@@ -573,8 +749,13 @@ public class randomSQLFunctionsReady {
                     Logger.getLogger(testFrame2.class.getName()).log(Level.SEVERE, null, ex);
                 }
     }
-     
-     public void assignElementsToProject(SetOfElements projectElements, Project project){//assigns list of components to a project
+
+    /**
+     *
+     * @param projectElements
+     * @param project
+     */
+    public void assignElementsToProject(SetOfElements projectElements, Project project){//assigns list of components to a project
         try {     
                     Statement statement;
                     statement = connection.createStatement();
@@ -586,8 +767,12 @@ public class randomSQLFunctionsReady {
                     Logger.getLogger(testFrame2.class.getName()).log(Level.SEVERE, null, ex);
                 }
     }
-     
-     public void findStaffOnProject(Project project){//update this when database relationships and place of "role" has been decided
+
+    /**
+     *
+     * @param project
+     */
+    public void findStaffOnProject(Project project){//update this when database relationships and place of "role" has been decided
           try{
             
             //make sure GUI gets the info on selected project in the JList, and looks up the correct projectID in the query below          
@@ -613,8 +798,13 @@ public class randomSQLFunctionsReady {
             JOptionPane.showMessageDialog(null,e);
         }
      }
-     
-     public void removeStaffFromProject(User user, Project project){
+
+    /**
+     *
+     * @param user
+     * @param project
+     */
+    public void removeStaffFromProject(User user, Project project){
                 try {
                     project.getSetOfUsers().removeUser(user);
                     user.getWorkingOnProjects().removeProject(project);
@@ -630,8 +820,12 @@ public class randomSQLFunctionsReady {
                     Logger.getLogger(randomSQLFunctionsReady.class.getName()).log(Level.SEVERE, null, ex);
                 }
      }
-     
-     public void findStaffProjects(User user){//displays all projects that the staff is working on
+
+    /**
+     *
+     * @param user
+     */
+    public void findStaffProjects(User user){//displays all projects that the staff is working on
      
             
             //make sure GUI gets the info on userLogged in --OR-- the userID, and looks up the correct userID in the query below          
@@ -657,8 +851,12 @@ public class randomSQLFunctionsReady {
                     Logger.getLogger(randomSQLFunctionsReady.class.getName()).log(Level.SEVERE, null, ex);
                 }
      }
-     
-     public void displayManagingProjects(User manager){//displays all projects where user is a team leader
+
+    /**
+     *
+     * @param manager
+     */
+    public void displayManagingProjects(User manager){//displays all projects where user is a team leader
                 try {
                     ResultSet projectResults = null;
                     Statement statement;
@@ -674,10 +872,12 @@ public class randomSQLFunctionsReady {
                     Logger.getLogger(testFrame2.class.getName()).log(Level.SEVERE, null, ex);
                 }
      }
-     
 
-     
-     public void GetElementsOnProject(Project project){
+    /**
+     *
+     * @param project
+     */
+    public void GetElementsOnProject(Project project){
          try{
             
                      SetOfElements projectElements = new SetOfElements();
@@ -700,8 +900,12 @@ public class randomSQLFunctionsReady {
          
          
      }
-     
-     public void GetTasksOnProject(Project project){
+
+    /**
+     *
+     * @param project
+     */
+    public void GetTasksOnProject(Project project){
            try{
                      SetOfTasks projectTasks = new SetOfTasks();
                      ResultSet projectResults = null;
@@ -721,8 +925,12 @@ public class randomSQLFunctionsReady {
             JOptionPane.showMessageDialog(null,e);
         }
      }
-     
-     public void deleteTask(Task task){
+
+    /**
+     *
+     * @param task
+     */
+    public void deleteTask(Task task){
          try {
                     ResultSet delTaskResults = null;
                     Statement statement;
@@ -734,8 +942,12 @@ public class randomSQLFunctionsReady {
                 }
          
      }
-     
-     public void deleteProject(Project projectToDelete){
+
+    /**
+     *
+     * @param projectToDelete
+     */
+    public void deleteProject(Project projectToDelete){
                 try {
                     //NEEDS TO REMOVE ALL DEPENDANCIES
                        ResultSet delProjectResults = null;
@@ -752,8 +964,13 @@ public class randomSQLFunctionsReady {
                     Logger.getLogger(randomSQLFunctionsReady.class.getName()).log(Level.SEVERE, null, ex);
                 }
      }
-     
-     public void removeAssetFromElement(Element element, Asset asset){
+
+    /**
+     *
+     * @param element
+     * @param asset
+     */
+    public void removeAssetFromElement(Element element, Asset asset){
         try {
             element.getSetOfAssets().removeAsset(asset);
             ResultSet delProjectResults = null;
@@ -765,8 +982,13 @@ public class randomSQLFunctionsReady {
         }
          
      }
-     
-     public void removeTaskFromAsset(Task task, Asset asset){
+
+    /**
+     *
+     * @param task
+     * @param asset
+     */
+    public void removeTaskFromAsset(Task task, Asset asset){
          try {
             asset.getSetOfTasks().removeTask(task);
             ResultSet delTaskResults = null;
@@ -777,8 +999,13 @@ public class randomSQLFunctionsReady {
             Logger.getLogger(randomSQLFunctionsReady.class.getName()).log(Level.SEVERE, null, ex);
         }
      }
-     
-     public void removeStafFromProject(Project removeFromProject, User usertoRemove){
+
+    /**
+     *
+     * @param removeFromProject
+     * @param usertoRemove
+     */
+    public void removeStafFromProject(Project removeFromProject, User usertoRemove){
            try {
                     ResultSet projectResults = null;
                     Statement statement;
@@ -789,8 +1016,11 @@ public class randomSQLFunctionsReady {
                     Logger.getLogger(testFrame2.class.getName()).log(Level.SEVERE, null, ex);
                 }
      }
-     
-     public void displayUnassignedAssets(){
+
+    /**
+     *
+     */
+    public void displayUnassignedAssets(){
                 try {
                     SetOfAssets unassignedAssets = new SetOfAssets();
                     ResultSet dbAssetResults = null;
