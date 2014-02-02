@@ -64,7 +64,7 @@ private SetOfAssets setOfAssets = new SetOfAssets();
                         Asset newAsset = new Asset(assetID, assetName, assetType, assetTasks);
                         setOfAssets.add(newAsset);
                         assetList.setListData(setOfAssets);
-                        TasksListCellRenderer renderer = new TasksListCellRenderer();  //custom cell renderer to display property rather than useless object.toString()
+                        AssetsListCellRenderer renderer = new AssetsListCellRenderer();  //custom cell renderer to display property rather than useless object.toString()
                         assetList.setCellRenderer(renderer);  
                     }
                 } catch (SQLException ex) {
