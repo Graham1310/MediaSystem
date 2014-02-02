@@ -22,6 +22,7 @@ public class SetOfClients extends Vector<Client>{
     /**
      *
      * @param aClient
+     * Adds a Client to the list
      */
     public void addClient(Client aClient){
         super.add(aClient);
@@ -30,6 +31,7 @@ public class SetOfClients extends Vector<Client>{
     /**
      *
      * @param aClient
+     * Removes a Client from the list
      */
     public void removeUser(Client aClient){
         super.remove(aClient);

@@ -19,10 +19,10 @@ import java.util.logging.Logger;
  */
 public class ProjectOverview extends javax.swing.JFrame {
 
-    /**
-     * Creates new form ProjectOverview
-     */
     
+    /**
+     *Declares variables required
+     */
     private SetOfTasks waitingTasks = new SetOfTasks();
     private SetOfTasks allocatedTasks= new SetOfTasks();
     private SetOfTasks tasksInProgress= new SetOfTasks();
@@ -31,7 +31,8 @@ public class ProjectOverview extends javax.swing.JFrame {
     private int projectID;
 
     /**
-     *
+     * Creates new form ProjectOverview
+     * Initialises components
      */
     public ProjectOverview() {
         initComponents();
@@ -40,6 +41,8 @@ public class ProjectOverview extends javax.swing.JFrame {
     /**
      *
      * @param ProjectID
+     * Passes in the projectID
+     * loads all lists associated with project
      */
     public ProjectOverview(int ProjectID) {
         initComponents();
@@ -160,39 +163,20 @@ public class ProjectOverview extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * 
+     * @param evt 
+     * On button click, close window
+     */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
+     * Create and display the form
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ProjectOverview.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ProjectOverview.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ProjectOverview.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ProjectOverview.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new ProjectOverview().setVisible(true);
@@ -217,108 +201,86 @@ public class ProjectOverview extends javax.swing.JFrame {
     private javax.swing.JList waitTaskList;
     // End of variables declaration//GEN-END:variables
 
+    /**
+     * Create connection statement
+     * Select all tasks from database associated with selected project
+     * For every task, load information into system
+     * Sort tasks into category based on status, and display in UI
+     */
     private void LoadAllLists() {
-        
-          ResultSet tasksOnAssetListResultSet = null;   
+            ResultSet tasksOnAssetListResultSet = null;   
             Statement statement;
-        try {
+            try {
             statement = connection.createStatement();
        
             tasksOnAssetListResultSet = statement.executeQuery("SELECT * FROM Task WHERE projectID = " + projectID + ";");  
                         
                   
-                         randSQL.loadAllUsers();
-                         SetOfUsers allusers = randSQL.getAllUsers();
+            randSQL.loadAllUsers();
+            SetOfUsers allusers = randSQL.getAllUsers();
 
-                        while (tasksOnAssetListResultSet.next()){
-                         int taskID;
-                         int projectID;                        
-                         User responsibleUser = null ;
-                         int taskPriority;
-                         String status;
-                         String taskName;
-                         String taskType;
-                            
-                             taskID = tasksOnAssetListResultSet.getInt("taskID");
-                             projectID = tasksOnAssetListResultSet.getInt("projectID");
-                             int userResponsible = tasksOnAssetListResultSet.getInt("responsiblePerson");
-                             
-                            for(int i=0; i<allusers.size();i++)
-                            {                                
-                                int userID = allusers.get(i).getUserID();
-                                if(userResponsible == userID)
-                                {
-                                    responsibleUser = allusers.get(i);
-                                    break;
-                                }     
-                             }
-                            
-                              taskPriority = tasksOnAssetListResultSet.getInt("taskPriority");
-                              status = tasksOnAssetListResultSet.getString("status");
-                              taskName = tasksOnAssetListResultSet.getString("taskName");
-                              taskType = tasksOnAssetListResultSet.getString("type");
-                              
-                              
-                              Task newTask = new Task(taskID, responsibleUser,taskName, taskPriority , status,projectID, null, taskType);
-                              
-                               //private SetOfTasks waitingTasks;
-                               //private SetOfTasks allocatedTasks;
-                               //private SetOfTasks tasksInProgress;
-                               //private SetOfTasks completedTasks;
-                              
-                              if (responsibleUser == null )
-                              {
-                                  //add to waiting
-                                  waitingTasks.add(newTask);
-                              }
-                              
-                              else if (newTask.getStatus().equals("Not Started") && newTask.getResponsiblePerson() != null)
-                              {
-                                  //Allocated
-                                  allocatedTasks.add(newTask);
-                              }
-                              
-                              else if (newTask.getStatus().equals("In Progress"))
-                              {
-                                  //add to inprogress
-                                  tasksInProgress.add(newTask);
-                              }
-                              
-                              else if (newTask.getStatus().equals("Completed"))
-                              {
-                                  //add to completed
-                                  completedTasks.add(newTask);
-                              }                             
-                              
-                               allocatedTaskList.setListData(allocatedTasks);; 
-                               completedTaskList.setListData(completedTasks);;
-                               tIPList.setListData(tasksInProgress);;
-                               waitTaskList.setListData(waitingTasks);;
-                               
-                               OverviewTaskCellRenderer renderer = new OverviewTaskCellRenderer();  //custom cell renderer to display property rather than useless object.toString()
-                               allocatedTaskList.setCellRenderer(renderer);
-                               completedTaskList.setCellRenderer(renderer);
-                               tIPList.setCellRenderer(renderer);
-                               waitTaskList.setCellRenderer(renderer);     
-                                
-                             
-                            
-                         }
-                        
-                        
-                        //asset.setSetOfTasks(listOfTasks);
-                         
-                        
-                        
-                        
-                        
-                         } catch (SQLException ex) {
-            Logger.getLogger(ManagerUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        
-        
-        
-        
+            while (tasksOnAssetListResultSet.next()){
+               int taskID;
+               int projectID;                        
+               User responsibleUser = null ;
+               int taskPriority;
+               String status;
+               String taskName;
+               String taskType;
+
+                taskID = tasksOnAssetListResultSet.getInt("taskID");
+                projectID = tasksOnAssetListResultSet.getInt("projectID");
+                int userResponsible = tasksOnAssetListResultSet.getInt("responsiblePerson");
+
+               for(int i=0; i<allusers.size();i++)
+               {                                
+                   int userID = allusers.get(i).getUserID();
+                   if(userResponsible == userID)
+                   {
+                       responsibleUser = allusers.get(i);
+                       break;
+                   }     
+                }
+
+                 taskPriority = tasksOnAssetListResultSet.getInt("taskPriority");
+                 status = tasksOnAssetListResultSet.getString("status");
+                 taskName = tasksOnAssetListResultSet.getString("taskName");
+                 taskType = tasksOnAssetListResultSet.getString("type");
+
+                 Task newTask = new Task(taskID, responsibleUser,taskName, taskPriority , status,projectID, null, taskType);
+
+                 if (responsibleUser == null )
+                 {
+                     //add to waiting
+                     waitingTasks.add(newTask);
+                 }
+                 else if (newTask.getStatus().equals("Not Started") && newTask.getResponsiblePerson() != null)
+                 {
+                     //Allocated
+                     allocatedTasks.add(newTask);
+                 }
+                 else if (newTask.getStatus().equals("In Progress"))
+                 {
+                     //add to inprogress
+                     tasksInProgress.add(newTask);
+                 }
+                 else if (newTask.getStatus().equals("Completed"))
+                 {
+                     //add to completed
+                     completedTasks.add(newTask);
+                 }                             
+                  allocatedTaskList.setListData(allocatedTasks);; 
+                  completedTaskList.setListData(completedTasks);;
+                  tIPList.setListData(tasksInProgress);;
+                  waitTaskList.setListData(waitingTasks);;
+                  OverviewTaskCellRenderer renderer = new OverviewTaskCellRenderer();  //custom cell renderer to display property rather than useless object.toString()
+                  allocatedTaskList.setCellRenderer(renderer);
+                  completedTaskList.setCellRenderer(renderer);
+                  tIPList.setCellRenderer(renderer);
+                  waitTaskList.setCellRenderer(renderer);     
+            }
+            } catch (SQLException ex) {
+Logger.getLogger(ManagerUI.class.getName()).log(Level.SEVERE, null, ex);
+        }    
     }
 }

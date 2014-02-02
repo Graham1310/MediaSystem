@@ -21,6 +21,7 @@ public class Project {
      * @param reports
      * @param elementCollection
      * @param setOfUsers
+     * Creates constructor
      */
     public Project(int projectID, String projectName, User teamLeader, User clientRep, int priority, SetOfTasks projectTasks, SetOfQCReports reports, SetOfElements elementCollection, SetOfUsers setOfUsers) {
         this.projectID = projectID;
@@ -42,6 +43,7 @@ public class Project {
      * @param clientRep
      * @param priority
      * @param reports
+     * Creates constructor
      */
     public Project(String projectName, SetOfTasks projectTasks, User teamLeader, User clientRep, int priority, SetOfQCReports reports) {
         this.projectName = projectName;
@@ -50,7 +52,6 @@ public class Project {
         this.teamLeader = teamLeader;
         this.clientRep = clientRep;
         this.priority = priority;
-        //this.componentCollection = componentCollection;
         this.reports = reports;
     }
 
@@ -59,6 +60,7 @@ public class Project {
      * @param projectName
      * @param priority
      * @param clientRep
+     * Creates constructor
      */
     public Project(String projectName,int priority, User clientRep) {
         this.projectName = projectName;
@@ -73,6 +75,7 @@ public class Project {
      * @param projectName
      * @param priority
      * @param clientRep
+     * Creates constructor
      */
     public Project(int projectID, String projectName,int priority, User clientRep) {
         this.projectID = projectID;
@@ -90,6 +93,7 @@ public class Project {
      * @param teamLeaderID
      * @param clientRepID
      * @param priority
+     * Creates constructor
      */
         public Project(String projectName, int rootComponentID, int teamLeaderID, int clientRepID, int priority) {
         this.projectName = projectName;
@@ -99,6 +103,9 @@ public class Project {
         this.priority = priority;
     }    
     
+    /**
+     * Declares variables required
+     */
     private int projectID;
     private SetOfUsers setOfUsers;
     private String projectName;
@@ -107,7 +114,6 @@ public class Project {
     private int priority;
     private SetOfTasks projectTasks;
     private SetOfElements elementCollection;
-    //private ProjectComponent rootComponent; // remove?
 
     /**
      *
@@ -126,8 +132,6 @@ public class Project {
     }
     private SetOfQCReports reports;
     private SetOfStaff setOfStaff;
-
-    //private SetOfComponents componentCollection;
     
     //for db dependencies
     int rootComponentID ;

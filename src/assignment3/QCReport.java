@@ -18,6 +18,7 @@ public class QCReport {
      * @param comments
      * @param reviewer
      * @param overallSeverity
+     * Creates constructor
      */
     public QCReport(int qCReportID, int projectID, SetOfQCComments comments, User reviewer, int overallSeverity) {
         this.qCReportID = qCReportID;
@@ -27,6 +28,9 @@ public class QCReport {
         this.overallSeverity = overallSeverity;
     }
     
+    /**
+     * Declares variables required
+     */
     private int qCReportID;
     private int ProjectID;
     private SetOfQCComments comments;

@@ -22,6 +22,7 @@ public class SetOfClientReps extends Vector<ClientRep>{
     /**
      *
      * @param aClientRep
+     * Adds a Client Representative to the list
      */
     public void addClientRep(ClientRep aClientRep){
         super.add(aClientRep);
@@ -30,6 +31,7 @@ public class SetOfClientReps extends Vector<ClientRep>{
     /**
      *
      * @param aClientRep
+     * Removes a Client Representative from the list
      */
     public void removeClientRep(ClientRep aClientRep){
         super.remove(aClientRep);

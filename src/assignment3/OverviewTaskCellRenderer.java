@@ -12,6 +12,10 @@ import javax.swing.JList;
  *
  * @author Graham
  */
+/**
+ * 
+ * 
+ */
 public class OverviewTaskCellRenderer extends DefaultListCellRenderer{
                 public Component getListCellRendererComponent(JList<?> list,
                                  Object value,
@@ -20,8 +24,7 @@ public class OverviewTaskCellRenderer extends DefaultListCellRenderer{
                                  boolean cellHasFocus) {
         super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
         if (value instanceof Task) {
-            Task task = (Task)value;
-            
+            Task task = (Task)value;         
              if (task.getResponsiblePerson() == null && task.getStatus().equals("Not Started"))
             {
               setText(task.getTaskName());                    
@@ -38,22 +41,13 @@ public class OverviewTaskCellRenderer extends DefaultListCellRenderer{
             {
                 setText(task.getTaskName());                        
             }
-           
-         
-                                   
-                  
-            
-            
-           
-            // setIcon(ingredient.getIcon());
         }
         
          if (value instanceof Asset) {
             Asset task = (Asset)value;
             setText(task.getName());
             // setIcon(ingredient.getIcon());
-        }
-        
+        }    
         return this;
     }    
 }

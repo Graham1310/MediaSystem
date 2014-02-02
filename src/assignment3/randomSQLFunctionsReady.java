@@ -32,6 +32,7 @@ public class randomSQLFunctionsReady {
      * @param allAssets
      * @param allElements
      * @param allProjects
+     * Create constructor
      */
     public randomSQLFunctionsReady(User UserLoggedIn, SetOfQCReports allQCReports,  SetOfQCComments allComments,
             SetOfTasks allTasks, SetOfUsers allUsers, SetOfClients allClients, SetOfClientReps allClientReps,
@@ -49,10 +50,11 @@ public class randomSQLFunctionsReady {
         this.allUsers = allUsers;
     }
 
-
+    /**
+     * Declares variables required
+     */
             SetOfQCReports allQCReports = new SetOfQCReports();
             SetOfQCComments allComments = new SetOfQCComments();
-            //SetOfTasks usersTasks = new SetOfTasks();
             SetOfTasks allTasks = new SetOfTasks();
             SetOfUsers allUsers = new SetOfUsers();
             SetOfClients allClients = new SetOfClients();
@@ -244,9 +246,11 @@ public class randomSQLFunctionsReady {
     }
 
     /**
-     *
+     *Create connection
+     * Select all users from database
+     * For every user, load into system
      */
-    public void loadAllUsers(){//COMPLETE
+    public void loadAllUsers(){
         try {        
             ResultSet dbAllUsers = null;
             Statement statement;
@@ -265,9 +269,11 @@ public class randomSQLFunctionsReady {
     }
     
     /**
-     *
+     *Creates connection
+     * Selects all Clients from the database
+     * For every Client, load client into system
      */
-    public void loadAllClients(){//needs the address fixing
+    public void loadAllClients(){
         try {        
             ResultSet dbAllClients = null;
             Statement statement;
@@ -285,7 +291,9 @@ public class randomSQLFunctionsReady {
     }
     
     /**
-     *
+     *Creates connection
+     * Selects all Client Representatives from the database
+     * For every ClientRep, load ClientRep into system
      */
     public void loadAllClientReps(){//COMPLETE
         try {        
@@ -319,7 +327,9 @@ public class randomSQLFunctionsReady {
     }
     
     /**
-     *
+     *Creates connection
+     * Select all Staff from database
+     * For every Staff selected, load Staff into system
      */
     public void loadAllStaff(){//COMPLETE
         try {               
@@ -348,9 +358,11 @@ public class randomSQLFunctionsReady {
     }
     
     /**
-     *
+     *Creates connection
+     * Select all Assets from database
+     * For every asset selected, load asset into system
      */
-    public void loadAllAssets(){//COMPLETE
+    public void loadAllAssets(){
         try {        
             ResultSet dbAllAssets = null;
             Statement statement;
@@ -374,15 +386,17 @@ public class randomSQLFunctionsReady {
     }
     
     /**
-     *
+     *Create connection
+     * Select all elements in the database
+     * For every element in the database, load into system and add any assets it has a set of
      */
-    public void loadAllElements(){//REALLY NOT SURE IF THIS ONE WILL WORK RIGHT
+    public void loadAllElements(){
         try {
             ResultSet dbAllElements = null;
             Statement statement;
             statement = connection.createStatement();  
             dbAllElements = statement.executeQuery( "SELECT Element.elementID, Element.elementName, SetOFAssets.assetID" +
-                    "FROM Element INNER JOIN SetOFAssets ON Element.elementID = SetOFAssets.elementID;");
+                    "FROM Element LEFT OUTER JOIN SetOFAssets ON Element.elementID = SetOFAssets.elementID;");
             while(dbAllElements.next())
             {
                 SetOfAssets elementAssets = new SetOfAssets();
@@ -401,7 +415,9 @@ public class randomSQLFunctionsReady {
     }
     
     /**
-     *
+     *Creates statement
+     * Selects all QCComments from the database
+     * For every QCComment, load QCComment into system
      */
     public void loadAllQCComments(){
                 try {
@@ -426,7 +442,10 @@ public class randomSQLFunctionsReady {
     }
     
     /**
-     *
+     *Creates statement
+     * Selects all QCReports from the database
+     * For every QCReport, load QCReport into system
+     * Add any users and comments to the report as necessary 
      */
     public void loadAllQCReports(){
                 try {
@@ -462,15 +481,18 @@ public class randomSQLFunctionsReady {
     }
 
     /**
-     *
+     *Create connection
+     * Select all Projects from the database
+     * Select all elements associated with projects from the database
+     * Select staff working on projects from database
+     * For every project;
+     * -Load project details, including team leader and client representative
+     * -Load all elements for project into the system and associate with the project
+     * -Load all users on the project into the system and associate with the project
      */
     public void loadAllProjects(){
         try {
-                //requires components and QC stuff
-            
                 allProjects = null;
-                
-                
                 ResultSet dbAllProjects = null;
                 ResultSet dbAllProjectElements = null;
                 ResultSet dbAllProjectStaff = null;
@@ -554,6 +576,8 @@ public class randomSQLFunctionsReady {
      * @param status
      * @param name
      * @param asset
+     * Passes in all variables for a task
+     * Inserts into database new task
      */
     public void createNewTask(Project project, User user, int priority, String status, String name, Asset asset){
                 try {
@@ -567,7 +591,9 @@ public class randomSQLFunctionsReady {
     }
     
     /**
-     *
+     *Create connection statement
+     * Select all tasks from the database for the user logged into the system
+     * Loads all tasks into the system
      */
     public void displayUsersTasks(){
         SetOfTasks usersTasks = new SetOfTasks();
@@ -642,9 +668,9 @@ public class randomSQLFunctionsReady {
      * @param teamLeader
      * @param clientRep
      * @param priority
+     * Passes in variables for a project
+     * Inserts new project into database
      */
-    
-    
     public void CreateNewProject(String projectName, User teamLeader, User clientRep, int priority){//create a new project
                 try {
                     Statement statement;
@@ -664,6 +690,8 @@ public class randomSQLFunctionsReady {
      * @param status
      * @param taskName
      * @param asset
+     * Passes in new task details
+     * Updates task selected in database
      */
     public void ChangeTaskStatus(Project project, User responsiblePerson, int priority, String status, String taskName, Asset asset){//edit the task
         //requires IF statement to make sure only appropriate QC Team Member can change the task status
@@ -675,7 +703,6 @@ public class randomSQLFunctionsReady {
                     statement.executeUpdate("UPDATE Task SET [projectID] =" + project.getProjectID() + ", [responsiblePerson] =" + responsiblePerson.getUserID()
                                                 + ", [taskPriority] =" + priority + ", [status] = '" + status + 
                                             "', [taskName] ='" + taskName + "', [assetID] =" + asset.getAssetID() + ");");
-                            
                     } catch (SQLException ex) {
                     Logger.getLogger(testFrame2.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -685,6 +712,8 @@ public class randomSQLFunctionsReady {
      *
      * @param projectTeam
      * @param project
+     * Pass through set of users and project
+     * Assign set of users to project in the database
      */
     public void defineProjectTeam(SetOfUsers projectTeam, Project project){//creates team to work on a project
                 try {
@@ -703,6 +732,8 @@ public class randomSQLFunctionsReady {
     /**
      *
      * @param elementName
+     * Pass through new element name
+     * Create new element in the database
      */
     public void createNewElement(String elementName){
                 try {
@@ -719,6 +750,8 @@ public class randomSQLFunctionsReady {
      *
      * @param assetName
      * @param assetType
+     * Pass through asset details
+     * Create new asset in the database
      */
     public void createNewAsset(String assetName, String assetType){
                 try {
@@ -735,6 +768,8 @@ public class randomSQLFunctionsReady {
      *
      * @param elementAssets
      * @param element
+     * Pass through set of assets and element
+     * Assign set of assets to element in the database
      */
     public void assignAssetsToElement(SetOfAssets elementAssets, Element element){//assigns list of assets to an element
         try {
@@ -754,6 +789,8 @@ public class randomSQLFunctionsReady {
      *
      * @param projectElements
      * @param project
+     * Pass in set of elements and project
+     * Assign set of elements to project in database
      */
     public void assignElementsToProject(SetOfElements projectElements, Project project){//assigns list of components to a project
         try {     
@@ -771,13 +808,13 @@ public class randomSQLFunctionsReady {
     /**
      *
      * @param project
+     * Create statement
+     * Select all Staff in database who are working on selected project
+     * Load all staff into system
      */
-    public void findStaffOnProject(Project project){//update this when database relationships and place of "role" has been decided
+    public void findStaffOnProject(Project project){
           try{
-            
-            //make sure GUI gets the info on selected project in the JList, and looks up the correct projectID in the query below          
                      SetOfUsers staffOnProject = new SetOfUsers();
-              
                      ResultSet staffResults = null;
                      Statement statement;
                      statement = connection.createStatement();
@@ -803,6 +840,9 @@ public class randomSQLFunctionsReady {
      *
      * @param user
      * @param project
+     * Pass through selected user and project
+     * Removes user from project in system and removes project from user's project list in system
+     * Removes user from project in database
      */
     public void removeStaffFromProject(User user, Project project){
                 try {
@@ -812,10 +852,8 @@ public class randomSQLFunctionsReady {
                     ResultSet removeStaffFromProject = null;
                     Statement statement;
                     statement = connection.createStatement();
-                    
                     removeStaffFromProject = statement.executeQuery( "DELETE FROM StaffOnProjects WHERE projectID = " + project.getProjectID() 
                                                                         + " AND staffID = " + user.getUserID() + ";");
-                    
                 } catch (SQLException ex) {
                     Logger.getLogger(randomSQLFunctionsReady.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -824,11 +862,12 @@ public class randomSQLFunctionsReady {
     /**
      *
      * @param user
+     * Passes in user
+     * Selects all projects in database that user is working on
+     * Loads all projects into system
      */
-    public void findStaffProjects(User user){//displays all projects that the staff is working on
+    public void findStaffProjects(User user){
      
-            
-            //make sure GUI gets the info on userLogged in --OR-- the userID, and looks up the correct userID in the query below          
                      ResultSet projectResults = null;
                      Statement statement;
                 try {
@@ -843,9 +882,7 @@ public class randomSQLFunctionsReady {
                           + " ON User.userID = Staff.staffID WHERE User.userID=" + user.getUserID() + ";");
                   while (projectResults.next())
                  {
-                   // for(int i=0; i<allProjects.g
-                    //}
-
+                    //
                  }
                 } catch (SQLException ex) {
                     Logger.getLogger(randomSQLFunctionsReady.class.getName()).log(Level.SEVERE, null, ex);
@@ -855,6 +892,9 @@ public class randomSQLFunctionsReady {
     /**
      *
      * @param manager
+     * Passes in manager
+     * Selects all projects that the manager is in charge of
+     * Loads all projects into system
      */
     public void displayManagingProjects(User manager){//displays all projects where user is a team leader
                 try {
@@ -876,6 +916,9 @@ public class randomSQLFunctionsReady {
     /**
      *
      * @param project
+     * Pass in project
+     * Select all elements from the database associated with the project
+     * Load all elements for the project into the system
      */
     public void GetElementsOnProject(Project project){
          try{
@@ -904,6 +947,9 @@ public class randomSQLFunctionsReady {
     /**
      *
      * @param project
+     * Passes in project
+     * Selects all tasks for the project in the database
+     * Loads all selected tasks into the system
      */
     public void GetTasksOnProject(Project project){
            try{
@@ -929,6 +975,8 @@ public class randomSQLFunctionsReady {
     /**
      *
      * @param task
+     * Passes in task
+     * Deletes task from database
      */
     public void deleteTask(Task task){
          try {
@@ -946,6 +994,12 @@ public class randomSQLFunctionsReady {
     /**
      *
      * @param projectToDelete
+     * Passes in project
+     * Deletes tasks in database associated with the project
+     * Deletes set of staff in database associated with project
+     * Deletes QCReports in database associated with project
+     * Deletes set of elements in database associated with project
+     * Deletes the project itself
      */
     public void deleteProject(Project projectToDelete){
                 try {
@@ -956,7 +1010,7 @@ public class randomSQLFunctionsReady {
                        delProjectResults = statement.executeQuery( "DELETE FROM Task WHERE projectID = " + projectToDelete.getProjectID() + ";");
                        delProjectResults = statement.executeQuery( "DELETE FROM StaffOnProjects WHERE projectID = " + projectToDelete.getProjectID() + ";");
                        delProjectResults = statement.executeQuery( "DELETE FROM QCReport WHERE projectID = " + projectToDelete.getProjectID() + ";");
-                       delProjectResults = statement.executeQuery( "DELETE FROM SetOfComponents WHERE projectID = " + projectToDelete.getProjectID() + ";");
+                       delProjectResults = statement.executeQuery( "DELETE FROM SetOfElements WHERE projectID = " + projectToDelete.getProjectID() + ";");
                        delProjectResults = statement.executeQuery( "DELETE FROM Project WHERE projectID = " + projectToDelete.getProjectID() + ";");
                        
                        
@@ -969,6 +1023,9 @@ public class randomSQLFunctionsReady {
      *
      * @param element
      * @param asset
+     * Passes in element and asset
+     * Removes asset from element in system
+     * Removes asset from element in database
      */
     public void removeAssetFromElement(Element element, Asset asset){
         try {
@@ -987,6 +1044,9 @@ public class randomSQLFunctionsReady {
      *
      * @param task
      * @param asset
+     * Passes in task and asset
+     * Removes task from asset in system
+     * Removes task from asset in database
      */
     public void removeTaskFromAsset(Task task, Asset asset){
          try {
@@ -1004,6 +1064,8 @@ public class randomSQLFunctionsReady {
      *
      * @param removeFromProject
      * @param usertoRemove
+     * Passes in Project and user
+     * Removes staff from project in database
      */
     public void removeStafFromProject(Project removeFromProject, User usertoRemove){
            try {
@@ -1018,7 +1080,9 @@ public class randomSQLFunctionsReady {
      }
 
     /**
-     *
+     *Creates connection
+     * Selects all assets in database that are not assigned to an element
+     * Loads all selected assets into system
      */
     public void displayUnassignedAssets(){
                 try {

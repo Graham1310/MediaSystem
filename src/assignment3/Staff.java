@@ -14,11 +14,15 @@ public class Staff {
      *
      * @param staffUser
      * @param role
+     * Creates constructor
      */
     public Staff(User staffUser, String role) {
         this.staffUser = staffUser;
         this.role = role;
     }
+    /**
+     * Declares variables required
+     */
     private User staffUser;
     private String role;
 
