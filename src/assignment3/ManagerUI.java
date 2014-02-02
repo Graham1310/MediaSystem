@@ -72,7 +72,7 @@ public class ManagerUI extends javax.swing.JFrame {
                 projectID = projectsResultSet.getInt("projectId");
                 projectName = projectsResultSet.getString("ProjectName");
                 priority = projectsResultSet.getInt("priority");
-                int clientRepId = projectsResultSet.getInt("userID");;
+                int clientRepId = projectsResultSet.getInt("clientRepID");;
                 String clientRepFirstName = projectsResultSet.getString("firstName");
                 String clientrepSurname = projectsResultSet.getString("surname");
                 clientRep =  new User(clientRepId,clientRepFirstName,clientrepSurname);
@@ -209,7 +209,7 @@ public class ManagerUI extends javax.swing.JFrame {
             Asset newAsset = new Asset(assetID, assetName, assetType, assetTasks);
             listOfAssets.add(newAsset);
             listAssetList.setListData(listOfAssets);
-            TasksListCellRenderer renderer = new TasksListCellRenderer();  //custom cell renderer to display property rather than useless object.toString()
+            AssetsListCellRenderer renderer = new AssetsListCellRenderer();  //custom cell renderer to display property rather than useless object.toString()
             listAssetList.setCellRenderer(renderer);  
         }
     }catch(SQLException err)
