@@ -22,6 +22,7 @@ public class SetOfProjects extends Vector<Project>{
     /**
      *
      * @param aProject
+     * Adds a project to the set of projects
      */
     public void addProject(Project aProject){
         super.add(aProject);
@@ -30,6 +31,7 @@ public class SetOfProjects extends Vector<Project>{
     /**
      *
      * @param aProject
+     * Removes a project from the list of projects
      */
     public void removeProject(Project aProject){
         super.remove(aProject);

@@ -18,6 +18,7 @@ public class Singleton {
     /**
      *
      * @return
+     * Create a new instance if there is no current instance
      */
     public static synchronized Singleton getInstance(){
         if (instance == null){
@@ -31,6 +32,7 @@ public class Singleton {
     /**
      *
      * @return
+     * Returns users logged in
      */
     public LinkedList<User> getUsersLoggedIn()
     {
@@ -40,6 +42,7 @@ public class Singleton {
     /**
      *
      * @param aUser
+     * Adds user currently logged in
      */
     public void addUserLogedIn(User aUser){
         usersLoggedInList.add(aUser);
@@ -48,6 +51,7 @@ public class Singleton {
     /**
      *
      * @param aUser
+     * Removes user currently logged in
      */
     public void removeUserLoggedIn(User aUser){
         usersLoggedInList.remove(aUser);

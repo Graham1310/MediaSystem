@@ -22,6 +22,7 @@ public class SetOfStaff extends Vector<Staff>{
     /**
      *
      * @param aStaff
+     * Adds a Staff to the set of Staff
      */
     public void addStaff(Staff aStaff){
         super.add(aStaff);
@@ -30,6 +31,7 @@ public class SetOfStaff extends Vector<Staff>{
     /**
      *
      * @param aStaff
+     * Removes a Staff to the set of Staff
      */
     public void removeStaff(Staff aStaff){
         super.remove(aStaff);

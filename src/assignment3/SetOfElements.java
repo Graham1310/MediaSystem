@@ -15,9 +15,19 @@ class SetOfElements extends Vector<Element>{
     public SetOfElements(){
         super();
     }
+    /**
+     * 
+     * @param aElement 
+     * Adds an element to the set of elements
+     */
     public void addElement(Element aElement){
         super.add(aElement);
     }
+    /**
+     * 
+     * @param aElement 
+     * Removes an element from the set of elements
+     */
     public void removeElement(Element aElement){
         super.remove(aElement);
     }

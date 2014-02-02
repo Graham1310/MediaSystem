@@ -22,6 +22,7 @@ public class SetOfQCReports extends Vector<QCReport>{
     /**
      *
      * @param aQCReport
+     * Adds a QCReport to the set of QCReports
      */
     public void addReport(QCReport aQCReport){
         super.add(aQCReport);
@@ -30,6 +31,7 @@ public class SetOfQCReports extends Vector<QCReport>{
     /**
      *
      * @param aQCReport
+     * Removes a QCReport from the set of QCReports
      */
     public void removeReport(QCReport aQCReport){
         super.remove(aQCReport);

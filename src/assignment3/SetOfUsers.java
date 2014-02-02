@@ -22,6 +22,7 @@ public class SetOfUsers extends Vector<User>{
     /**
      *
      * @param aUser
+     * Adds a user to the set of users
      */
     public void addUser(User aUser){
         super.add(aUser);
@@ -30,6 +31,7 @@ public class SetOfUsers extends Vector<User>{
     /**
      *
      * @param aUser
+     * Removes a user from the set of users
      */
     public void removeUser(User aUser){
         super.remove(aUser);

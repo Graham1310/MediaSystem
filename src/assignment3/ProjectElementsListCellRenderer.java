@@ -22,7 +22,6 @@ class ProjectElementsListCellRenderer extends DefaultListCellRenderer {
         if (value instanceof Element) {
             Element element = (Element)value;
             setText(element.getName());
-            // setIcon(ingredient.getIcon());
         }
         return this;
     }    

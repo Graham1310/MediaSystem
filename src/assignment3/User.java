@@ -10,31 +10,45 @@ package assignment3;
  */
 public class User {
     
-    private int userID;
-    private String firstName;
-    private String surname;
-    private String username;
-    private String password;
-    private String role;
-    
-
-    
+    /**
+     * 
+     * @param aUserID
+     * @param aFirstname
+     * @param aSurname
+     * @param aUsername
+     * @param aPassword 
+     * Creates constructor
+     */
      User(int aUserID, String aFirstname, String aSurname, String aUsername, String aPassword){
      userID = aUserID;
      firstName = aFirstname;
      surname = aSurname;
      username = aUsername;
      password = aPassword;
-     
     }
 
+     /**
+      * 
+      * @param aUserID
+      * @param aFirstname
+      * @param aSurname 
+      * Creates constructor
+      */
     User(int aUserID, String aFirstname, String aSurname){
      userID = aUserID;
      firstName = aFirstname;
      surname = aSurname;
-     //role= aRole;
-     
     }
+    
+    /**
+     * Declares variables required
+     */
+    private int userID;
+    private String firstName;
+    private String surname;
+    private String username;
+    private String password;
+    private String role;
 
     /**
      *
