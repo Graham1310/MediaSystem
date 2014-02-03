@@ -32,17 +32,41 @@ class Task {
         this.asset = asset;
         this.type = type;
     }
-    
+ 
+     /**
+     * 
+     * @param taskID
+     * @param responsiblePerson
+     * @param taskName
+     * @param priority
+     * @param status
+     * @param projectID
+     * @param assetID
+     * @param type 
+     * Creates constructor
+     */
+    public Task(int taskID, int responsiblePersonID, String taskName, int priority, String status, int projectID, int assetID, String type) {
+        this.taskID = taskID;
+        this.responsiblePersonID = responsiblePersonID;
+        this.taskName = taskName;
+        this.priority = priority;
+        this.status = status;
+        this.projectID = projectID;
+        this.assetID = assetID;
+        this.type = type;
+    }    
     /**
      * Declares variables required
      */
     private int taskID;
     private User responsiblePerson;
+    private int responsiblePersonID;    
     private String taskName;
     private int priority;
     private String status;
     private int projectID;
     private Asset asset;
+    private int assetID;
     private String type;
 
     /**
@@ -66,6 +90,15 @@ class Task {
     public Asset getAsset() {
         return asset;
     }
+    
+/**
+ * 
+ * @return 
+ */
+    public int getAssetID() {
+        return assetID;
+    }
+    
 /**
  * 
  * @param asset 

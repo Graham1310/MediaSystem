@@ -320,6 +320,7 @@ public class MainUI extends javax.swing.JFrame {
         listSelectedAssetsList = new javax.swing.JList();
         btnAddAssetToTheList = new javax.swing.JButton();
         btnRemoveAssetFromTheList = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -406,6 +407,13 @@ public class MainUI extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("Manage Your Tasks");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -428,7 +436,8 @@ public class MainUI extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(btnCreateInboundQCTask, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(btnEditInboundQCTask, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnRemoveInboundQCTask, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                    .addComponent(btnRemoveInboundQCTask, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -516,7 +525,9 @@ public class MainUI extends javax.swing.JFrame {
                         .addComponent(btnEditInboundQCTask)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnRemoveInboundQCTask)))
-                .addContainerGap(107, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton1)
+                .addContainerGap(73, Short.MAX_VALUE))
         );
 
         pack();
@@ -615,6 +626,10 @@ public class MainUI extends javax.swing.JFrame {
         new AddQCTaskUI(selectedProject.getProjectID(),selectedAssets).setVisible(true);
     }//GEN-LAST:event_btnCreateInboundQCTaskActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        new ManageTasksUI(userLoggedIn).setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     private void fillInSelectedAssets(SetOfAssets aSelectedAssets)
     {
            listSelectedAssetsList.setListData(aSelectedAssets);
@@ -641,6 +656,7 @@ public class MainUI extends javax.swing.JFrame {
     private javax.swing.JButton btnEditInboundQCTask;
     private javax.swing.JButton btnRemoveAssetFromTheList;
     private javax.swing.JButton btnRemoveInboundQCTask;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
