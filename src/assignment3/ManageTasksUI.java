@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -17,6 +18,7 @@ import java.util.logging.Logger;
 public class ManageTasksUI extends javax.swing.JFrame {
 
     private Task selectedTask;
+    private Task selectedUnallocatedTask;
     private int selectedTaskId;
     private String selectedTaskName;
     private String selectedTaskProject;
@@ -26,7 +28,9 @@ public class ManageTasksUI extends javax.swing.JFrame {
     private String selectedTaskType;
     private int selectedTaskResponsiblePersonID;
     private SetOfTasks userTasks = new SetOfTasks();
+    private SetOfTasks unallocatedTasks = new SetOfTasks();
     private int userLoggedInID;
+    private randomSQLFunctionsReady randSQL = new randomSQLFunctionsReady();
     
     /**
      * Creates new form ManageTasksUI
@@ -35,10 +39,10 @@ public class ManageTasksUI extends javax.swing.JFrame {
         this.userLoggedInID = userLoggedInID;
         initComponents();
         fillInUserTaskList(userLoggedInID);
+        fillInUnAllocatedTaskList(userLoggedInID);
     }
     
     private void fillInUserTaskList(int userID){
-
             userTasks.clear();
             ResultSet userTasksResultSet = null;
             Statement statement;
@@ -83,6 +87,60 @@ public class ManageTasksUI extends javax.swing.JFrame {
             }
             
         
+    }
+    
+    private void fillInUnAllocatedTaskList(int userID) {
+            unallocatedTasks.clear();
+            //unallocatedTasks = randSQL.GetUnassignedTasksForUser(userID);
+            SetOfTasks unassignedTasks = new SetOfTasks();
+                try{
+                     
+                     ResultSet taskResults = null;
+                     Statement statement;
+                     Task task;
+                     statement = connection.createStatement();
+                     taskResults = statement.executeQuery( "SELECT Task.*, StaffOnProjects.staffID, StaffOnProjects.projectID FROM"
+                                            + " (Project INNER JOIN StaffOnProjects ON Project.projectID = StaffOnProjects.projectID)"
+                                            + " INNER JOIN Task ON Project.projectID = Task.projectID WHERE (((StaffOnProjects.staffID)="
+                                            + userID + ") AND ((Task.responsiblePerson) Is Null));");                                         
+                     //AND ((Task.responsiblePerson) Is Null))
+                     
+                     int taskID ;
+                        String taskName;
+                        int taskPriority;
+                        String status ;
+                        int projectID ;
+                        String type ;
+                        int assetID;
+                        int responsiblePersonID;
+                        //User emptyUser;
+                     
+                     while (taskResults.next())
+                    {
+                        //emptyUser = new User();
+                         taskID = taskResults.getInt("taskID");
+                         responsiblePersonID = taskResults.getInt("responsiblePerson");
+                         taskName = taskResults.getString("taskName");
+                         taskPriority = taskResults.getInt("taskPriority");
+                         status = taskResults.getString("status");
+                         projectID = taskResults.getInt("projectID");
+                         type =  taskResults.getString("type");
+                         assetID = taskResults.getInt("assetID");
+                         task = new Task(taskID, responsiblePersonID, taskName, taskPriority, status, projectID, assetID, type);
+                         unallocatedTasks.addTask(task);
+                       
+            
+                         
+                          UnallocatedTasksList.setListData(unallocatedTasks);
+                          TasksListCellRenderer renderer = new TasksListCellRenderer(); //custom cell renderer to display property rather than useless object.toString()
+                          UnallocatedTasksList.setCellRenderer(renderer);
+                    }
+                }catch(Exception e){
+                  JOptionPane.showMessageDialog(null,e);
+              }
+            
+                
+           
     }
     
     private String getProjectName(int projectID){
@@ -160,6 +218,18 @@ public class ManageTasksUI extends javax.swing.JFrame {
             Logger.getLogger(ManageTasksUI.class.getName()).log(Level.SEVERE, null, ex);
         }        
     }
+    
+    private void AllocateTask(int taskID){
+        
+        Statement statement;
+        try {
+            statement = connection.createStatement();
+            statement.executeUpdate("UPDATE Task SET responsiblePerson='"+ userLoggedInID + "' WHERE taskID="+ taskID +";");
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(ManageTasksUI.class.getName()).log(Level.SEVERE, null, ex);
+        }     
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -189,8 +259,25 @@ public class ManageTasksUI extends javax.swing.JFrame {
         txtTaskType = new javax.swing.JTextField();
         txtTaskStatus = new javax.swing.JTextField();
         btnClose = new javax.swing.JButton();
+        jLabel9 = new javax.swing.JLabel();
+        txtUnallocatedTaskPriority = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        txtUnallocatedTaskAsset = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        txtUnallocatedTaskType = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
+        txtUnallocatedTaskStatus = new javax.swing.JTextField();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        allocateTaskBtn = new javax.swing.JButton();
+        txtUnallocatedTaskProject = new javax.swing.JTextField();
+        txtUnallocatedTaskTitle = new javax.swing.JTextField();
+        jLabel16 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        UnallocatedTasksList = new javax.swing.JList();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         listUserTasksList.setPreferredSize(new java.awt.Dimension(200, 215));
         listUserTasksList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
@@ -249,6 +336,49 @@ public class ManageTasksUI extends javax.swing.JFrame {
             }
         });
 
+        jLabel9.setText("Status:");
+
+        txtUnallocatedTaskPriority.setEditable(false);
+
+        jLabel10.setText("Priority:");
+
+        txtUnallocatedTaskAsset.setEditable(false);
+
+        jLabel11.setText("Type:");
+
+        txtUnallocatedTaskType.setEditable(false);
+
+        jLabel12.setText("In Project:");
+
+        txtUnallocatedTaskStatus.setEditable(false);
+
+        jLabel13.setText("On Asset:");
+
+        jLabel14.setText("Details Of Selected Task:");
+
+        jLabel15.setText("Title:");
+
+        allocateTaskBtn.setText("Allocate Task");
+        allocateTaskBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                allocateTaskBtnActionPerformed(evt);
+            }
+        });
+
+        txtUnallocatedTaskProject.setEditable(false);
+
+        txtUnallocatedTaskTitle.setEditable(false);
+
+        jLabel16.setText("Unallocated Tasks");
+
+        UnallocatedTasksList.setPreferredSize(new java.awt.Dimension(200, 215));
+        UnallocatedTasksList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                UnallocatedTasksListValueChanged(evt);
+            }
+        });
+        jScrollPane2.setViewportView(UnallocatedTasksList);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -257,8 +387,43 @@ public class ManageTasksUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel16)
+                            .addComponent(allocateTaskBtn)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(21, 21, 21)
+                                .addComponent(jLabel14))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel15)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(txtUnallocatedTaskTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel12)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(txtUnallocatedTaskProject, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel13)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(txtUnallocatedTaskAsset, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel9)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(txtUnallocatedTaskStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel10)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(txtUnallocatedTaskPriority, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel11)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(txtUnallocatedTaskType, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel1)
@@ -280,7 +445,7 @@ public class ManageTasksUI extends javax.swing.JFrame {
                                         .addComponent(txtTaskTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel4)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(txtTaskProject, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel5)
@@ -338,9 +503,46 @@ public class ManageTasksUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnStartTask)
                     .addComponent(btnCompleteTask))
-                .addGap(18, 18, 18)
-                .addComponent(btnClose)
-                .addContainerGap(69, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnClose)
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel16)
+                            .addComponent(jLabel14))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel15)
+                                    .addComponent(txtUnallocatedTaskTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel12)
+                                    .addComponent(txtUnallocatedTaskProject, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel13)
+                                    .addComponent(txtUnallocatedTaskAsset, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel10)
+                                    .addComponent(txtUnallocatedTaskPriority, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel11)
+                                    .addComponent(txtUnallocatedTaskType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel9)
+                                    .addComponent(txtUnallocatedTaskStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(allocateTaskBtn)
+                        .addContainerGap(23, Short.MAX_VALUE))))
         );
 
         pack();
@@ -378,6 +580,38 @@ public class ManageTasksUI extends javax.swing.JFrame {
         }  
     }//GEN-LAST:event_btnCompleteTaskActionPerformed
 
+    private void allocateTaskBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_allocateTaskBtnActionPerformed
+        // TODO add your handling code here:
+         selectedTask = (Task) UnallocatedTasksList.getSelectedValue();
+         
+         AllocateTask(selectedTask.getTaskID());
+         fillInUserTaskList(userLoggedInID);
+         listUserTasksList.repaint();
+         
+         fillInUnAllocatedTaskList(userLoggedInID);
+         UnallocatedTasksList.repaint();
+         
+    }//GEN-LAST:event_allocateTaskBtnActionPerformed
+
+    private void UnallocatedTasksListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_UnallocatedTasksListValueChanged
+        selectedUnallocatedTask = (Task) UnallocatedTasksList.getSelectedValue();
+        if (selectedUnallocatedTask !=null)
+        {
+           setUnAllocatedTaskDetails(selectedUnallocatedTask); 
+        }
+    }//GEN-LAST:event_UnallocatedTasksListValueChanged
+
+     private void setUnAllocatedTaskDetails(Task task){
+        
+            txtUnallocatedTaskTitle.setText(task.getTaskName());
+            txtUnallocatedTaskProject.setText(getProjectName(task.getProjectID()));
+            txtUnallocatedTaskAsset.setText(getAssetName(task.getAssetID()));
+            txtUnallocatedTaskPriority.setText(String.valueOf(task.getPriority()));
+            txtUnallocatedTaskType.setText(task.getType());
+            txtUnallocatedTaskStatus.setText(task.getStatus());
+                        
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -413,10 +647,19 @@ public class ManageTasksUI extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JList UnallocatedTasksList;
+    private javax.swing.JButton allocateTaskBtn;
     private javax.swing.JButton btnClose;
     private javax.swing.JButton btnCompleteTask;
     private javax.swing.JButton btnStartTask;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -424,7 +667,9 @@ public class ManageTasksUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JList listUserTasksList;
     private javax.swing.JTextField txtTaskAsset;
     private javax.swing.JTextField txtTaskPriority;
@@ -432,5 +677,13 @@ public class ManageTasksUI extends javax.swing.JFrame {
     private javax.swing.JTextField txtTaskStatus;
     private javax.swing.JTextField txtTaskTitle;
     private javax.swing.JTextField txtTaskType;
+    private javax.swing.JTextField txtUnallocatedTaskAsset;
+    private javax.swing.JTextField txtUnallocatedTaskPriority;
+    private javax.swing.JTextField txtUnallocatedTaskProject;
+    private javax.swing.JTextField txtUnallocatedTaskStatus;
+    private javax.swing.JTextField txtUnallocatedTaskTitle;
+    private javax.swing.JTextField txtUnallocatedTaskType;
     // End of variables declaration//GEN-END:variables
+
+
 }

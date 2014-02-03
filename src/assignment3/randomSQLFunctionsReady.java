@@ -1104,5 +1104,76 @@ public class randomSQLFunctionsReady {
                     Logger.getLogger(randomSQLFunctionsReady.class.getName()).log(Level.SEVERE, null, ex);
                 }
      }
+    
+     /**
+     * Re-sets all tasks in system
+     * Selects all tasks from the database
+     * For every task, assign the appropriate asset and load to the system
+     */
+    public void loadAllTasks(){
+        allTasks = null;
+        try {
+            ResultSet dbAllTasks = null;
+            Statement statement;
+            statement = connection.createStatement();
+            dbAllTasks = statement.executeQuery( "SELECT Task.* FROM Task;");                     
+
+            while(dbAllTasks.next())
+            {
+                for(int i=0; i<allAssets.size();i++){
+                    if(allAssets.get(i).getAssetID()==dbAllTasks.getInt("assetID")){
+                        Task task = new Task(dbAllTasks.getInt("Task.taskID"), UserLoggedIn, dbAllTasks.getString("Task.TaskName"), dbAllTasks.getInt("Task.taskPriority"),
+                                dbAllTasks.getString("Task.taskStatus"), dbAllTasks.getInt("Task.projectID"), allAssets.get(i), dbAllTasks.getString("Task.type"));
+                        allTasks.addTask(task);
+                    }
+                }
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(testFrame3Tim.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    /**
+     * 
+     * @param user
+     * @return 
+     * Load all tasks in database
+     * Select all tasks in the database where the user is on the project and the task currently has no one assigned to it
+     * Add all the retrieved tasks to a list of unassigned tasks
+     * Return the list of unassigned tasks
+     */
+    public SetOfTasks GetUnassignedTasksForUser(int userID) {
+       //loadAllTasks();
+        //loadAllAssets();
+                SetOfTasks unassignedTasks = new SetOfTasks();
+                try{
+                     
+                     ResultSet taskResults = null;
+                     Statement statement;
+                     statement = connection.createStatement();
+                     taskResults = statement.executeQuery( "SELECT Task.*, StaffOnProjects.staffID, StaffOnProjects.projectID FROM"
+                                            + " (Project INNER JOIN StaffOnProjects ON Project.projectID = StaffOnProjects.projectID)"
+                                            + " INNER JOIN Task ON Project.projectID = Task.projectID WHERE (((StaffOnProjects.staffID)="
+                                            + userID + ") AND ((Task.responsiblePerson) Is Null));");                                         
+                     //AND ((Task.responsiblePerson) Is Null))
+                     
+                     
+                     while (taskResults.next())
+                    {
+                        int taskID = taskResults.getInt("taskID");
+                        String taskName = taskResults.getString("taskName");
+                        int taskPriority = taskResults.getInt("taskPriority");
+                        String status = taskResults.getString("status");
+                        int projectID = taskResults.getInt("projectID");
+                        String type =  taskResults.getString("type");
+                        Task task = new Task(taskID, null, taskName, taskPriority,
+                                status, projectID, null, type);
+                        unassignedTasks.addTask(task);
+                    }
+                }catch(Exception e){
+                  JOptionPane.showMessageDialog(null,e);
+              }
+           return unassignedTasks; }
 
 }
