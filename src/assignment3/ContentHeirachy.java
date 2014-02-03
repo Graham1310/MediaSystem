@@ -154,9 +154,17 @@ public class ContentHeirachy extends javax.swing.JFrame {
         DefaultMutableTreeNode pnode2 = new DefaultMutableTreeNode();
           
          DefaultMutableTreeNode node = (DefaultMutableTreeNode) jTree1.getLastSelectedPathComponent();
-         if (node != null){
+         if (node != null ){
+             if (node.getUserObject() instanceof Project ){
+             }else{
+            
          DefaultMutableTreeNode pnode = (DefaultMutableTreeNode) node.getParent();
-         pnode2 = (DefaultMutableTreeNode) pnode.getParent();
+         
+         if (node.getUserObject() instanceof Element ){
+         }else{
+             pnode2 = (DefaultMutableTreeNode) pnode.getParent();
+         }
+         
                         
         
          if (node.getUserObject() instanceof Asset) {
@@ -195,6 +203,7 @@ public class ContentHeirachy extends javax.swing.JFrame {
           assetCbo.setRenderer(renderer);
           elementsCbo.setRenderer(renderer);
          }
+                 }
     }//GEN-LAST:event_jTree1ValueChanged
 
      private void fillInAssetOnElementsList(int ElementID){
