@@ -24,6 +24,25 @@ class UserListCellRenderer extends DefaultListCellRenderer{
             setText(user.getFirstName()+ " " + user.getSurname());
             // setIcon(ingredient.getIcon());
         }
+        if (value instanceof Asset) {
+            Asset asset = (Asset)value;
+            setText(asset.getName());
+            // setIcon(ingredient.getIcon());
+        }
+        
+      if (value instanceof Project) {
+            Project project = (Project)value;
+            setText(project.getProjectName());
+            // setIcon(ingredient.getIcon());
+        }
+      
+          if (value instanceof Element) {
+            Element element = (Element)value;
+            setText(element.getName());
+            // setIcon(ingredient.getIcon());
+        }
+        
+        
         return this;
     
     }
