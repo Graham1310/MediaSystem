@@ -104,22 +104,6 @@ public class User {
      *
      * @return
      */
-    public SetOfProjects getWorkingOnProjects() {
-        return workingOnProjects;
-    }
-
-    /**
-     *
-     * @param workingOnProjects
-     */
-    public void setWorkingOnProjects(SetOfProjects workingOnProjects) {
-        this.workingOnProjects = workingOnProjects;
-    }
-
-    /**
-     *
-     * @return
-     */
     public String getFirstName() {
         return firstName;
     }
@@ -147,35 +131,5 @@ public class User {
     public void setSurname(String surname) {
         this.surname = surname;
     }
-    
-    /**
-     *
-     * @return
-     */
-    public String getRole(){
-        return role;
-    }
-    
-    /**
-     *
-     * @param role
-     */
-    public void setRole(String role){
-        this.role = role;
-    }
-    
-    /**
-     *
-     */
-    public void allocateTask() {
-        //allocate to task/set of tasks
-    }
-    
-    /**
-     *
-     */
-    public void removeTask() {
-        //remove user from working on a task
-    }
-    
+ 
 }

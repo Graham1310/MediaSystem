@@ -27,10 +27,10 @@ public class Asset {
      * Constructs Asset
      */
     public Asset(int AssID, String Assname, String Asstype, SetOfTasks setOfTasks) {
-        assetID = AssID;
-        name = Assname;
-        type = Asstype; 
-        setOfTasks = setOfTasks;
+        this.assetID = AssID;
+        this.name = Assname;
+        this.type = Asstype; 
+        this.setOfTasks = setOfTasks;
     }
 
     /**

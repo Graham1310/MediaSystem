@@ -844,20 +844,20 @@ public class randomSQLFunctionsReady {
      * Removes user from project in system and removes project from user's project list in system
      * Removes user from project in database
      */
-    public void removeStaffFromProject(User user, Project project){
-                try {
-                    project.getSetOfUsers().removeUser(user);
-                    user.getWorkingOnProjects().removeProject(project);
-                    
-                    ResultSet removeStaffFromProject = null;
-                    Statement statement;
-                    statement = connection.createStatement();
-                    removeStaffFromProject = statement.executeQuery( "DELETE FROM StaffOnProjects WHERE projectID = " + project.getProjectID() 
-                                                                        + " AND staffID = " + user.getUserID() + ";");
-                } catch (SQLException ex) {
-                    Logger.getLogger(randomSQLFunctionsReady.class.getName()).log(Level.SEVERE, null, ex);
-                }
-     }
+//    public void removeStaffFromProject(User user, Project project){
+//                try {
+//                    project.getSetOfUsers().removeUser(user);
+//                    user.getWorkingOnProjects().removeProject(project);
+//                    
+//                    ResultSet removeStaffFromProject = null;
+//                    Statement statement;
+//                    statement = connection.createStatement();
+//                    removeStaffFromProject = statement.executeQuery( "DELETE FROM StaffOnProjects WHERE projectID = " + project.getProjectID() 
+//                                                                        + " AND staffID = " + user.getUserID() + ";");
+//                } catch (SQLException ex) {
+//                    Logger.getLogger(randomSQLFunctionsReady.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+//     }
 
     /**
      *
