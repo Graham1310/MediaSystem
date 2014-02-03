@@ -244,7 +244,7 @@ public class MainUI extends javax.swing.JFrame {
         Statement statement;
         try {
             statement = connection.createStatement();
-            tasksOnAssetListResultSet = statement.executeQuery("SELECT * FROM Task WHERE assetID = " + asset.getAssetID() + " AND type='QC Task';");  
+            tasksOnAssetListResultSet = statement.executeQuery("SELECT * FROM Task WHERE assetID = " + asset.getAssetID() + ";");  
                          randSQL.loadAllUsers();
                          SetOfUsers allusers = randSQL.getAllUsers();
 
@@ -380,7 +380,7 @@ public class MainUI extends javax.swing.JFrame {
 
         btnRemoveInboundQCTask.setText("Remove Inbound QC Task");
 
-        jLabel5.setText("Inbound QC Tasks:");
+        jLabel5.setText("Inbound Tasks:");
 
         jScrollPane1.setViewportView(listTasksList);
 

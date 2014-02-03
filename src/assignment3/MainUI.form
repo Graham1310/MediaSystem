@@ -319,7 +319,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel5">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Inbound QC Tasks:"/>
+        <Property name="text" type="java.lang.String" value="Inbound Tasks:"/>
       </Properties>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">

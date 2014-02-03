@@ -47,7 +47,7 @@ public class AddStaffUI extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         listStaffList = new javax.swing.JList();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setText("Add Staff to Project:");
 
@@ -153,7 +153,6 @@ public class AddStaffUI extends javax.swing.JFrame {
 		{
                     System.out.println("ERROR: " + err);
 			JOptionPane.showMessageDialog(null,"* Cannot connect to database! *");
-			System.exit(1);
 		}
         listStaffList.setListData(staff);
         UserListCellRenderer renderer = new UserListCellRenderer(); //custom cell renderer to display property rather than useless object.toString()
