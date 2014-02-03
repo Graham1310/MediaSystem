@@ -380,7 +380,7 @@ public class MainUI extends javax.swing.JFrame {
 
         btnRemoveInboundQCTask.setText("Remove Inbound QC Task");
 
-        jLabel5.setText("Inbound QC Tasks:");
+        jLabel5.setText("Inbound Tasks:");
 
         jScrollPane1.setViewportView(listTasksList);
 
