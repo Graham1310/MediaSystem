@@ -518,7 +518,7 @@ public class AddElement extends javax.swing.JFrame {
             try {
                 Statement statement;
                 statement = connection.createStatement();
-                statement.executeUpdate( "DELETE FROM Element WHERE projectID="+tempElementID+";");
+                statement.executeUpdate( "DELETE FROM Element WHERE elementID="+tempElementID+";");
             } catch (SQLException ex) {
                 Logger.getLogger(testFrame2.class.getName()).log(Level.SEVERE, null, ex);
             }
