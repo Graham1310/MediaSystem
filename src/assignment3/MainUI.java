@@ -7,6 +7,7 @@
 package assignment3;
 
 import static assignment3.LogInUI2.connection;
+import java.awt.Dimension;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -37,6 +38,7 @@ public class MainUI extends javax.swing.JFrame {
     private Asset selectedAssetToRemove;
     private  randomSQLFunctionsReady randSQL = new randomSQLFunctionsReady();
     private int userLoggedIn;
+    private String role;
   
     /**
      * Creates new form MainUI
@@ -45,6 +47,9 @@ public class MainUI extends javax.swing.JFrame {
     public MainUI(int userLoggedInID) {
         this.userLoggedIn = userLoggedInID;
         initComponents();
+        this.role = getUserRole(userLoggedIn);
+        if (!role.equalsIgnoreCase("QC Team Lead"))
+            enableQCTeamLeaderInterface(false);
         fillInProjectsList(userLoggedIn);           
     }
 
@@ -236,7 +241,7 @@ public class MainUI extends javax.swing.JFrame {
      * For every task returned, load in all information on the task into the system
      * Display all tasks for the asset in the UI
      */
-    private void fillInInboundTaskOnAssetList(Asset asset) {
+    private void fillInTaskOnAssetList(Asset asset) {
            
         listOfTasks.clear();
         listTasksList.repaint();
@@ -293,7 +298,6 @@ public class MainUI extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         listUserProjectsList = new javax.swing.JList();
-        jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -305,13 +309,10 @@ public class MainUI extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jScrollPane5 = new javax.swing.JScrollPane();
         listAssetsList = new javax.swing.JList();
-        txtRootComponent = new javax.swing.JTextField();
         txtPriority = new javax.swing.JTextField();
         txtClientRep = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         btnCreateInboundQCTask = new javax.swing.JButton();
-        btnEditInboundQCTask = new javax.swing.JButton();
-        btnRemoveInboundQCTask = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         listTasksList = new javax.swing.JList();
@@ -321,8 +322,10 @@ public class MainUI extends javax.swing.JFrame {
         btnAddAssetToTheList = new javax.swing.JButton();
         btnRemoveAssetFromTheList = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        btnRefresh = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jLabel1.setText("List of Your Projects:");
 
@@ -332,8 +335,6 @@ public class MainUI extends javax.swing.JFrame {
             }
         });
         jScrollPane2.setViewportView(listUserProjectsList);
-
-        jLabel2.setText("Root Component:");
 
         jLabel3.setText("Priority:");
 
@@ -354,14 +355,13 @@ public class MainUI extends javax.swing.JFrame {
 
         jLabel8.setText("Assets:");
 
+        listAssetsList.setPreferredSize(new java.awt.Dimension(150, 0));
         listAssetsList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
                 listAssetsListValueChanged(evt);
             }
         });
         jScrollPane5.setViewportView(listAssetsList);
-
-        txtRootComponent.setEditable(false);
 
         txtPriority.setEditable(false);
 
@@ -376,11 +376,7 @@ public class MainUI extends javax.swing.JFrame {
             }
         });
 
-        btnEditInboundQCTask.setText("Edit Inbound QC Task");
-
-        btnRemoveInboundQCTask.setText("Remove Inbound QC Task");
-
-        jLabel5.setText("Inbound Tasks:");
+        jLabel5.setText("Tasks:");
 
         jScrollPane1.setViewportView(listTasksList);
 
@@ -414,6 +410,13 @@ public class MainUI extends javax.swing.JFrame {
             }
         });
 
+        btnRefresh.setText("Refresh View");
+        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -421,34 +424,23 @@ public class MainUI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(49, 49, 49)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addGap(42, 42, 42)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(btnCreateInboundQCTask, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnEditInboundQCTask, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnRemoveInboundQCTask, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1))
+                        .addGap(42, 42, 42)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel9)
                             .addGroup(layout.createSequentialGroup()
+                                .addGap(243, 243, 243)
+                                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnRefresh)
+                        .addGap(78, 78, 78)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                        .addComponent(jLabel2)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(txtRootComponent))
                                     .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                         .addComponent(jLabel3)
@@ -459,18 +451,22 @@ public class MainUI extends javax.swing.JFrame {
                                         .addGap(44, 44, 44)
                                         .addComponent(txtClientRep, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(40, 40, 40)
-                                .addComponent(jLabel7)
-                                .addGap(144, 144, 144)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(btnAddAssetToTheList, javax.swing.GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)
-                                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                                    .addComponent(jLabel8))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabel7))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5))
+                        .addGap(34, 34, 34)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnCreateInboundQCTask)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnAddAssetToTheList, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel8)
+                                .addComponent(btnRemoveAssetFromTheList, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel10)
-                                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                                    .addComponent(btnRemoveAssetFromTheList, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE))))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -480,54 +476,54 @@ public class MainUI extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addComponent(jLabel9))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel6)
+                                    .addComponent(txtClientRep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(38, 38, 38)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel3)
+                                    .addComponent(txtPriority, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel7))
+                                .addGap(18, 18, 18)
+                                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6)
-                            .addComponent(txtClientRep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnAddAssetToTheList)
-                            .addComponent(btnRemoveAssetFromTheList)))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel2)
-                                .addComponent(txtRootComponent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(18, 18, 18)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel3)
-                                .addComponent(txtPriority, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(18, 18, 18)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel4)
-                                .addComponent(jLabel7)
-                                .addComponent(jLabel8)
-                                .addComponent(jLabel10))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGap(18, 18, 18)
-                                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addGap(18, 18, 18)
-                .addComponent(jLabel5)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnCreateInboundQCTask)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnEditInboundQCTask)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnRemoveInboundQCTask)))
+                        .addGap(76, 76, 76)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(168, 168, 168)
+                                .addComponent(btnAddAssetToTheList))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel8)
+                                .addGap(18, 18, 18)
+                                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(33, 33, 33)
+                        .addComponent(jLabel10)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
-                .addContainerGap(73, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnRemoveAssetFromTheList)
+                    .addComponent(jButton1)
+                    .addComponent(btnRefresh))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnCreateInboundQCTask)
+                .addContainerGap(37, Short.MAX_VALUE))
         );
 
         pack();
@@ -555,7 +551,6 @@ public class MainUI extends javax.swing.JFrame {
        }
        else
        {
-        txtRootComponent.setText("");  
         txtPriority.setText(""); 
         txtClientRep.setText("");
         fillInStaffOnProjectList(0);
@@ -591,7 +586,7 @@ public class MainUI extends javax.swing.JFrame {
     private void listAssetsListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listAssetsListValueChanged
         selectedAsset = (Asset) listAssetsList.getSelectedValue();
         if(selectedAsset != null)
-            fillInInboundTaskOnAssetList(selectedAsset);          
+            fillInTaskOnAssetList(selectedAsset);          
     }//GEN-LAST:event_listAssetsListValueChanged
 
     private void btnAddAssetToTheListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddAssetToTheListActionPerformed
@@ -630,6 +625,11 @@ public class MainUI extends javax.swing.JFrame {
         new ManageTasksUI(userLoggedIn).setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
+        fillInProjectsList(userLoggedIn);  
+        listUserProjectsList.repaint();
+    }//GEN-LAST:event_btnRefreshActionPerformed
+
     private void fillInSelectedAssets(SetOfAssets aSelectedAssets)
     {
            listSelectedAssetsList.setListData(aSelectedAssets);
@@ -637,6 +637,40 @@ public class MainUI extends javax.swing.JFrame {
            listSelectedAssetsList.setCellRenderer(renderer);  
            listSelectedAssetsList.repaint();       
     }
+    
+    private String getUserRole(int userID){
+        String role="";
+        try{
+            ResultSet userResults = null;
+            Statement user;
+            
+            user = connection.createStatement();
+            userResults = user.executeQuery("SELECT Staff.role, User.userID FROM [User] INNER JOIN Staff ON User.[userID] = Staff.[staffID] WHERE User.userID="+userID+";");
+           
+            while(userResults.next())
+            {
+                role = userResults.getString("role");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(LogInUI2.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return role;
+    }
+    
+    private void enableQCTeamLeaderInterface(boolean visible){
+//        jLabel8.setVisible(visible);
+//        listAssetsList.setVisible(visible);
+        btnAddAssetToTheList.setVisible(visible); 
+        jLabel10.setVisible(visible);
+        jScrollPane6.setVisible(visible);
+//        listSelectedAssetsList.setVisible(visible);
+        btnRemoveAssetFromTheList.setVisible(visible);
+        btnRemoveAssetFromTheList.repaint();
+        btnCreateInboundQCTask.setVisible(visible);
+//        btnEditInboundQCTask.setVisible(visible);
+//        btnRemoveInboundQCTask.setVisible(visible);
+   }
     
     /**
      * @param args the command line arguments
@@ -653,13 +687,11 @@ public class MainUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddAssetToTheList;
     private javax.swing.JButton btnCreateInboundQCTask;
-    private javax.swing.JButton btnEditInboundQCTask;
+    private javax.swing.JButton btnRefresh;
     private javax.swing.JButton btnRemoveAssetFromTheList;
-    private javax.swing.JButton btnRemoveInboundQCTask;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -681,6 +713,5 @@ public class MainUI extends javax.swing.JFrame {
     private javax.swing.JList listUserProjectsList;
     private javax.swing.JTextField txtClientRep;
     private javax.swing.JTextField txtPriority;
-    private javax.swing.JTextField txtRootComponent;
     // End of variables declaration//GEN-END:variables
 }

@@ -114,4 +114,31 @@ public class ElementTest {
         Object result = instance.getSetOfAssets();
         assertEquals(assets, result);       
     }
+    
+     /**
+     * Test of testGetName method, of class Element.
+     */
+    @Test
+    public void testGetApproved() {
+        System.out.println("getApproved");
+        Element instance = new Element(1, "element name", true);
+        boolean expResult = true;
+        boolean result = instance.getApproved();
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of testSetName method, of class Element.
+     */
+    @Test
+    public void testSetApproved() {
+        System.out.println("setApproved");
+        boolean approved = false;
+        Element instance = new Element(1, "element name", true);
+        instance.setApproved(approved);
+        boolean expResult = true;
+        boolean result = instance.getApproved();
+        assertEquals(expResult, result);
+    }    
+    
 }

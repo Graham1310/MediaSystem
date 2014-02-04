@@ -129,6 +129,25 @@ public class LogInUI2 extends javax.swing.JFrame {
         
         return role;
     }
+    private boolean checkIfCLientRep(int userID){
+        boolean clientRep=false;
+        try{
+            ResultSet userResults = null;
+            Statement user;
+            
+            user = connection.createStatement();
+            userResults = user.executeQuery("SELECT clientRepID FROM ClientRep WHERE clientRepID="+userID+";");
+           
+            while(userResults.next())
+            {
+               clientRep = true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(LogInUI2.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return clientRep;
+    }
     
     /**
      * 
@@ -163,18 +182,22 @@ public class LogInUI2 extends javax.swing.JFrame {
                     {
                         newInstance.addUserLogedIn(UserLoggedIn);
                         int userID = UserLoggedIn.getUserID();
-                        String role = getUserRole(userID);
+                        String role;
+                        if (checkIfCLientRep(userID))
+                            role = "Client Representative";
+                        else
+                            role = getUserRole(userID);
                         switch(role){ // load different starting frame depending on role
 
                             case "Manager": new ManagerUI().setVisible(true);
                                 break;
                             case "QC Team Lead": new MainUI(userID).setVisible(true);
                                 break;
-                            case "QC Member":new MainUI(userID).setVisible(true); //TO DO: add ui or modiffy main ui
+                            case "QC Member":new MainUI(userID).setVisible(true);
                                 break;
-                            case "Product Architect":new MainUI(userID).setVisible(true);//TO DO: add ui
+                            case "Product Architect":new MainUI(userID).setVisible(true);
                                 break; 
-                            case "Client Representative":new MainUI(userID).setVisible(true);// TO DO: add ui
+                            case "Client Representative":new ClientRepUI(userID).setVisible(true);
                                 break;     
                         }
                         this.setVisible(false);
@@ -228,33 +251,7 @@ public class LogInUI2 extends javax.swing.JFrame {
 		}
   
     }
-
-    
-    
-    
-
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+  
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

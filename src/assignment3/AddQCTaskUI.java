@@ -162,6 +162,7 @@ public class AddQCTaskUI extends javax.swing.JFrame {
 
         btnFinish.setText("Finish");
         btnFinish.setEnabled(false);
+        btnFinish.setPreferredSize(new java.awt.Dimension(167, 23));
         btnFinish.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnFinishActionPerformed(evt);
@@ -193,7 +194,7 @@ public class AddQCTaskUI extends javax.swing.JFrame {
                                 .addComponent(taskPriorityCbo, javax.swing.GroupLayout.Alignment.LEADING, 0, 202, Short.MAX_VALUE)
                                 .addComponent(staffCbo, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGroup(layout.createSequentialGroup()
-                            .addComponent(btnSubmitAndNext)
+                            .addComponent(btnSubmitAndNext, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGap(18, 18, 18)
                             .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)))
                     .addComponent(btnFinish, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -227,7 +228,7 @@ public class AddQCTaskUI extends javax.swing.JFrame {
                     .addComponent(btnSubmitAndNext)
                     .addComponent(jButton5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnFinish)
+                .addComponent(btnFinish, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(86, Short.MAX_VALUE))
         );
 

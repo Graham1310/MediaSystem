@@ -21,7 +21,15 @@ public class TasksListCellRenderer extends DefaultListCellRenderer{
         super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
         if (value instanceof Task) {
             Task task = (Task)value;
-            setText(task.getTaskName() + "   Status:" + task.getStatus());
+            
+           
+         
+                                   setText(task.getTaskName() + " - Type:"+ task.getType() + "   Status:" + task.getStatus());
+                  
+            
+            
+           
+            // setIcon(ingredient.getIcon());
         }
         
        

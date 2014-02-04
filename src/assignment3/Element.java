@@ -22,12 +22,14 @@ public class Element {
         this.name = name;
         this.setOfAssets = setOfAssets;
     }
+    
     /**
      * Defines variables required
      */
     private int elementID;
     private String name;
     private SetOfAssets setOfAssets;
+    private boolean approved;
 
     /**
      *
@@ -43,8 +45,20 @@ public class Element {
      * @param ElName
      */
     public Element(int elID, String ElName) {
-        elementID = elID;
-        name = ElName;       
+        this.elementID = elID;
+        this.name = ElName; 
+    }
+    
+        /**
+     *
+     * @param elID
+     * @param ElName
+     * @param approved
+     */
+    public Element(int elID, String ElName, boolean approved) {
+        this.elementID = elID;
+        this.name = ElName; 
+        this.approved = approved;
     }
 
     /**
@@ -94,5 +108,21 @@ public class Element {
     public void SetOfAssets (SetOfAssets setOfAssets) {
         this.setOfAssets = setOfAssets;
     }
+    
+    /**
+     *
+     * @return
+     */
+    public boolean getApproved() {
+        return approved;
+    }
+
+    /**
+     *
+     * @param approved
+     */
+    public void setApproved(boolean approved) {
+        this.approved = approved;
+    }    
         
 }
