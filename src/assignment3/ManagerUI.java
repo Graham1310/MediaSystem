@@ -327,6 +327,7 @@ public class ManagerUI extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         btnRemoveAsset = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        contentHeirachyBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -476,6 +477,13 @@ public class ManagerUI extends javax.swing.JFrame {
             }
         });
 
+        contentHeirachyBtn.setText("Content Heriachy");
+        contentHeirachyBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                contentHeirachyBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -488,7 +496,8 @@ public class ManagerUI extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(btnDeleteProject, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnRefresh, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(contentHeirachyBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(7, 7, 7)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel3)
@@ -564,7 +573,9 @@ public class ManagerUI extends javax.swing.JFrame {
                                 .addGap(9, 9, 9)
                                 .addComponent(btnDeleteProject)
                                 .addGap(7, 7, 7)
-                                .addComponent(jButton1))
+                                .addComponent(jButton1)
+                                .addGap(9, 9, 9)
+                                .addComponent(contentHeirachyBtn))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(26, 26, 26)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -812,6 +823,10 @@ public class ManagerUI extends javax.swing.JFrame {
         new ProjectOverview(selectedProject.getProjectID()).setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void contentHeirachyBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contentHeirachyBtnActionPerformed
+        new ContentHeirachy(selectedProject, listOfProjects).setVisible(true);
+    }//GEN-LAST:event_contentHeirachyBtnActionPerformed
+
     /**
      * @param args the command line arguments
      * Create and display the form
@@ -839,6 +854,7 @@ public class ManagerUI extends javax.swing.JFrame {
     private javax.swing.JButton btnRemoveElementsOnProject;
     private javax.swing.JButton btnRemoveStaffFromProject;
     private javax.swing.JButton btnRemoveTaskFromProject;
+    private javax.swing.JButton contentHeirachyBtn;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
